@@ -8,39 +8,37 @@ const suggestions = [
 const quickLinks = [
   { icon: (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.5"/>
-        <rect x="7" y="9" width="10" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/>
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="1.5"/>
       </svg>
-    ), label: "Shop Surface devices", href: "#surface" },
-  { icon: (
-      <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 3l7 4v10l-7 4-7-4V7l7-4z" stroke="currentColor" strokeWidth="1.5"/>
-        <circle cx="12" cy="12" r="2" stroke="currentColor" strokeWidth="1.5"/>
-      </svg>
-    ), label: "Shop Xbox games and consoles", href: "#xbox" },
+    ), label: "Web Development", href: "/services/web-development" },
   { icon: (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="6" y="3" width="12" height="18" rx="2" stroke="currentColor" strokeWidth="1.5"/>
-        <path d="M8 17h8" stroke="currentColor" strokeWidth="1.5"/>
+        <path d="M9 9h6M9 15h6M9 12h6" stroke="currentColor" strokeWidth="1.5"/>
       </svg>
-    ), label: "Shop for accessories", href: "#accessories" },
+    ), label: "Mobile App Development", href: "/services/mobile-app-development" },
   { icon: (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 7h18M3 12h12M3 17h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        <rect x="17" y="10" width="4" height="4" rx="1" stroke="currentColor" strokeWidth="1.5"/>
+        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" strokeWidth="1.5"/>
       </svg>
-    ), label: "Shop for your business", href: "#business" },
+    ), label: "M-Pesa Integration", href: "/services/mpesa-integration" },
   { icon: (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 3l7 7-7 11-7-11 7-7z" stroke="currentColor" strokeWidth="1.5"/>
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" strokeWidth="1.5"/>
+        <polyline points="3.27,6.96 12,12.01 20.73,6.96" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" strokeWidth="1.5"/>
       </svg>
-    ), label: "Find your next PC", href: "#next-pc" },
+    ), label: "System Revamp", href: "/services/system-revamp" },
   { icon: (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" strokeWidth="1.5"/>
-        <path d="M8 12h8" stroke="currentColor" strokeWidth="1.5"/>
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" strokeWidth="1.5"/>
       </svg>
-    ), label: "Choose your Microsoft 365", href: "#m365" },
+    ), label: "SEO Services", href: "/services/seo-services" },
+  { icon: (
+      <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14.828 14.828a4 4 0 0 1-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" strokeWidth="1.5"/>
+      </svg>
+    ), label: "IT Solutions & Support", href: "/services/it-solutions-support" },
 ]
 
 const HelpPanel: React.FC = () => {

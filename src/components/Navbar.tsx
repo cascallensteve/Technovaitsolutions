@@ -48,14 +48,14 @@ const Navbar = () => {
       <div className="w-full bg-microsoft-purple text-white">
         <div className="px-4 md:px-6 lg:px-8 flex h-10 items-center justify-between text-xs">
           <p className="truncate">
-            <span className="hidden sm:inline">Get up to 40% off selected Surface devices. </span>
-            Shop now
+            <span className="hidden sm:inline">Transform your business with cutting-edge technology solutions. </span>
+            Get started today
           </p>
           <a
-            href="#"
+            href="/contact"
             className="inline-flex items-center rounded-full bg-white text-microsoft-purple px-3 py-1 text-xs font-medium hover:bg-white/90 transition"
           >
-            Shop Deals
+            Free Consultation
           </a>
         </div>
       </div>
@@ -75,6 +75,7 @@ const Navbar = () => {
             <a href="/services" className="text-neutral-700 hover:text-neutral-900">Services</a>
             <a href="/portfolio" className="text-neutral-700 hover:text-neutral-900">Portfolio</a>
             <a href="/team" className="text-neutral-700 hover:text-neutral-900">Team</a>
+            <a href="/blog" className="text-neutral-700 hover:text-neutral-900">Blog</a>
             <a href="/contact" className="text-neutral-700 hover:text-neutral-900">Contact</a>
           </div>
         </div>
@@ -175,6 +176,13 @@ const Navbar = () => {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Team
+            </a>
+            <a 
+              href="/blog" 
+              className="block text-neutral-700 hover:text-neutral-900 py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Blog
             </a>
             <a 
               href="/contact" 
