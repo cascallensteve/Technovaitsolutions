@@ -1,11 +1,46 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+
+const services = [
+  { id: 1, title: 'System Revamp', slug: 'system-revamp' },
+  { id: 2, title: 'Web Development', slug: 'web-development' },
+  { id: 3, title: 'M-Pesa Integration', slug: 'mpesa-integration' },
+  { id: 4, title: 'Mobile App Development', slug: 'mobile-app-development' },
+  { id: 5, title: 'Search Engine Optimization', slug: 'seo-services' },
+  { id: 6, title: 'IT Solutions & Support', slug: 'it-solutions-support' }
+]
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false)
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
+    setIsServicesDropdownOpen(false)
   }
+
+  const toggleServicesDropdown = () => {
+    setIsServicesDropdownOpen(!isServicesDropdownOpen)
+  }
+
+  const toggleMobileServices = () => {
+    setIsMobileServicesOpen(!isMobileServicesOpen)
+  }
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsServicesDropdownOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   return (
     <header className="w-full bg-white shadow-sm">
@@ -39,18 +74,57 @@ const Navbar = () => {
             <a href="/" className="text-neutral-700 hover:text-neutral-900">Home</a>
             <a href="/services" className="text-neutral-700 hover:text-neutral-900">Services</a>
             <a href="/portfolio" className="text-neutral-700 hover:text-neutral-900">Portfolio</a>
+            <a href="/team" className="text-neutral-700 hover:text-neutral-900">Team</a>
             <a href="/contact" className="text-neutral-700 hover:text-neutral-900">Contact</a>
           </div>
         </div>
         
         {/* Right: utilities and mobile menu button */}
         <div className="flex items-center gap-4 text-sm">
-          <button className={`${isMobileMenuOpen ? 'hidden' : 'hidden sm:flex'} items-center gap-1 text-neutral-700 hover:underline`}>
-            <span>What we offer</span>
-            <svg className="h-3 w-3" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          </button>
+          <div ref={dropdownRef} className={`${isMobileMenuOpen ? 'hidden' : 'hidden sm:block'} relative`}>
+            <button 
+              onClick={toggleServicesDropdown}
+              className="flex items-center gap-1 text-neutral-700 hover:underline"
+            >
+              <span>What we offer</span>
+              <svg 
+                className={`h-3 w-3 transition-transform ${isServicesDropdownOpen ? 'rotate-180' : ''}`} 
+                viewBox="0 0 10 6" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+            </button>
+            
+            {/* Services Dropdown */}
+            {isServicesDropdownOpen && (
+              <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-neutral-200 py-2 z-50">
+                <div className="px-4 py-2 text-xs font-semibold text-neutral-500 uppercase tracking-wide">
+                  Our Services
+                </div>
+                {services.map((service) => (
+                  <a
+                    key={service.id}
+                    href={`/services/${service.slug}`}
+                    className="block px-4 py-3 text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 transition-colors"
+                    onClick={() => setIsServicesDropdownOpen(false)}
+                  >
+                    {service.title}
+                  </a>
+                ))}
+                <div className="border-t border-neutral-200 mt-2 pt-2">
+                  <a
+                    href="/services"
+                    className="block px-4 py-3 text-blue-600 hover:bg-blue-50 font-medium transition-colors"
+                    onClick={() => setIsServicesDropdownOpen(false)}
+                  >
+                    View All Services →
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
           <button className={`${isMobileMenuOpen ? 'hidden' : 'hidden sm:inline'} text-neutral-700 hover:underline`}>Sign in</button>
           
           {/* Mobile menu button */}
@@ -96,6 +170,13 @@ const Navbar = () => {
               Portfolio
             </a>
             <a 
+              href="/team" 
+              className="block text-neutral-700 hover:text-neutral-900 py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Team
+            </a>
+            <a 
               href="/contact" 
               className="block text-neutral-700 hover:text-neutral-900 py-2"
               onClick={() => setIsMobileMenuOpen(false)}
@@ -103,9 +184,40 @@ const Navbar = () => {
               Contact
             </a>
             <div className="border-t border-neutral-200 pt-3 mt-3">
-              <button className="block text-neutral-700 hover:text-neutral-900 py-2 w-full text-left">
-                What we offer
+              <button 
+                onClick={toggleMobileServices}
+                className="flex items-center justify-between text-neutral-700 hover:text-neutral-900 py-2 w-full text-left"
+              >
+                <span>What we offer</span>
+                <svg 
+                  className={`h-4 w-4 transition-transform ${isMobileServicesOpen ? 'rotate-180' : ''}`} 
+                  viewBox="0 0 10 6" 
+                  fill="none" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
               </button>
+              
+              {/* Mobile Services Submenu */}
+              {isMobileServicesOpen && (
+                <div className="ml-4 mt-2 space-y-2">
+                  {services.map((service) => (
+                    <a
+                      key={service.id}
+                      href={`/services/${service.slug}`}
+                      className="block text-neutral-600 hover:text-neutral-900 py-2 text-sm"
+                      onClick={() => {
+                        setIsMobileMenuOpen(false)
+                        setIsMobileServicesOpen(false)
+                      }}
+                    >
+                      {service.title}
+                    </a>
+                  ))}
+                </div>
+              )}
+              
               <button className="block text-neutral-700 hover:text-neutral-900 py-2 w-full text-left">
                 Sign in
               </button>

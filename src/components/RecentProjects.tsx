@@ -63,36 +63,78 @@ const RecentProjects = () => {
   const [index, setIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
+  // Duplicate projects for infinite scroll effect
+  const duplicatedProjects = [...projects, ...projects]
+
+  const smoothScrollTo = useCallback((position: number) => {
+    const el = trackRef.current
+    if (!el) return
+    
+    el.scrollTo({ left: position, behavior: 'smooth' })
+  }, [])
+
   const scrollTo = useCallback((i: number) => {
     const el = trackRef.current
     if (!el) return
-    const item = el.children[i] as HTMLElement
-    if (!item) return
     
-    // Simple scroll to item position
-    const scrollLeft = item.offsetLeft - 16 // Account for padding
+    const cardWidth = 440 + 8 // Card width + gap
+    const targetPosition = i * cardWidth
     
-    el.scrollTo({ left: Math.max(0, scrollLeft), behavior: 'smooth' })
-    setIndex(i)
+    smoothScrollTo(targetPosition)
+    setIndex(i % projects.length)
   }, [])
 
   const next = useCallback(() => {
-    const newIndex = index === projects.length - 1 ? 0 : index + 1
-    scrollTo(newIndex)
-  }, [index, scrollTo])
+    const el = trackRef.current
+    if (!el) return
+    
+    const cardWidth = 440 + 8 // Card width + gap
+    const maxScroll = el.scrollWidth - el.clientWidth
+    const currentScroll = el.scrollLeft
+    
+    // If we're near the end, reset to beginning seamlessly
+    if (currentScroll >= maxScroll - cardWidth) {
+      el.scrollTo({ left: 0, behavior: 'auto' })
+      setIndex(0)
+      // Small delay then continue scrolling
+      setTimeout(() => {
+        const newPosition = cardWidth
+        smoothScrollTo(newPosition)
+        setIndex(1)
+      }, 50)
+    } else {
+      const newIndex = index + 1
+      scrollTo(newIndex)
+    }
+  }, [index, scrollTo, smoothScrollTo])
   
   const prev = useCallback(() => {
-    const newIndex = index === 0 ? projects.length - 1 : index - 1
-    scrollTo(newIndex)
+    const el = trackRef.current
+    if (!el) return
+    
+    const cardWidth = 440 + 8 // Card width + gap
+    
+    if (index === 0) {
+      // Jump to the end of first set, then scroll to last item
+      const jumpPosition = projects.length * cardWidth
+      el.scrollTo({ left: jumpPosition, behavior: 'auto' })
+      setTimeout(() => {
+        const newIndex = projects.length - 1
+        scrollTo(newIndex)
+      }, 50)
+    } else {
+      const newIndex = index - 1
+      scrollTo(newIndex)
+    }
   }, [index, scrollTo])
 
-  // Auto-play functionality
+  // Enhanced auto-play with continuous smooth scrolling
   useEffect(() => {
     if (!isAutoPlaying) return
     
     const interval = setInterval(() => {
       next()
-    }, 4000) // Change slide every 4 seconds
+    }, 3500) // Slightly faster transitions for smoother feel
     
     return () => clearInterval(interval)
   }, [next, isAutoPlaying])
@@ -100,8 +142,6 @@ const RecentProjects = () => {
   // Pause auto-play on hover
   const handleMouseEnter = () => setIsAutoPlaying(false)
   const handleMouseLeave = () => setIsAutoPlaying(true)
-
-  useEffect(() => { scrollTo(index) }, [index])
 
   const progress = ((index + 1) / projects.length) * 100
 
@@ -127,15 +167,20 @@ const RecentProjects = () => {
             <div className="relative">
               <div
                 ref={trackRef}
-                className="flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 scrollbar-hide"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
+                style={{ 
+                  scrollbarWidth: 'none', 
+                  msOverflowStyle: 'none',
+                  scrollBehavior: 'smooth',
+                  transition: 'scroll-left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                {projects.map((p) => (
+                {duplicatedProjects.map((p, projectIndex) => (
                   <article
-                    key={p.id}
-                    className="flex-shrink-0 w-[320px] sm:w-[360px] md:w-[400px] lg:w-[440px] snap-start rounded-3xl bg-white shadow-sm border border-black/10 overflow-hidden group"
+                    key={`${p.id}-${projectIndex}`}
+                    className="flex-shrink-0 w-[320px] sm:w-[360px] md:w-[400px] lg:w-[440px] snap-start rounded-3xl bg-white shadow-sm border border-black/10 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-out"
                   >
                     <div className="p-4">
                       <div className="rounded-2xl overflow-hidden ring-1 ring-black/5 relative">

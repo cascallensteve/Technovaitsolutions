@@ -68,6 +68,21 @@ const services = [
   },
   {
     id: 5,
+    title: 'Search Engine Optimization',
+    description: 'Boost your online visibility and drive organic traffic with our comprehensive SEO strategies.',
+    features: [
+      'Keyword research and analysis',
+      'On-page SEO optimization',
+      'Technical SEO audits',
+      'Content optimization',
+      'Local SEO services',
+      'Performance tracking and reporting'
+    ],
+    image: '/images/TECHNOVA3.png',
+    timeline: '3-6 months'
+  },
+  {
+    id: 6,
     title: 'IT Solutions & Support',
     description: 'Your trusted partner for innovative, reliable, and affordable tech solutions.',
     features: [
@@ -312,6 +327,56 @@ const Services = () => {
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action Section */}
+      <section className="w-full py-20 bg-gradient-to-r from-neutral-900 via-blue-900 to-neutral-900">
+        <div className="px-4 md:px-6 lg:px-16 max-w-6xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              Ready to Elevate Your Business?
+            </h2>
+            <p className="text-xl md:text-2xl text-neutral-200 mb-8 leading-relaxed">
+              Join hundreds of satisfied clients who've transformed their operations with our cutting-edge solutions.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6 mb-10">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                <div className="text-3xl font-bold text-blue-300 mb-2">150+</div>
+                <div className="text-white">Projects Completed</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                <div className="text-3xl font-bold text-blue-300 mb-2">98%</div>
+                <div className="text-white">Client Satisfaction</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                <div className="text-3xl font-bold text-blue-300 mb-2">24/7</div>
+                <div className="text-white">Support Available</div>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="/contact"
+                className="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.013 8.013 0 01-7-4L3 20l4-4a8.014 8.014 0 01-4-7c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
+                </svg>
+                Start Your Project
+              </a>
+              <a
+                href="https://calendly.com/technova-solutions"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-neutral-900 transition-colors"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Book Free Consultation
+              </a>
+            </div>
           </div>
         </div>
       </section>
