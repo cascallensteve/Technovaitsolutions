@@ -1,4 +1,3 @@
-import React from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import HelpPanel from '../components/HelpPanel'
@@ -8,7 +7,7 @@ import WhyChoose from '../components/WhyChoose'
 import Testimonials from '../components/Testimonials'
 import Footer from '../components/Footer'
 
-const Home: React.FC = () => {
+const Home = () => {
   return (
     <div className="min-h-screen bg-white text-neutral-900">
       <Navbar />

@@ -1,4 +1,5 @@
-import React from 'react';
+
+import { useState, useRef, useCallback, useEffect } from 'react'
 
 const slides = [
   {
@@ -48,19 +49,19 @@ const slides = [
   },
 ];
 
-const Hero: React.FC = () => {
-  const [index, setIndex] = React.useState(0);
-  const timeoutRef = React.useRef<number | null>(null);
-  const [isPlaying, setIsPlaying] = React.useState(true);
+const Hero = () => {
+  const [index, setIndex] = useState(0);
+  const timeoutRef = useRef<number | null>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
 
-  const next = React.useCallback(() => {
+  const next = useCallback(() => {
     setIndex((i) => (i + 1) % slides.length);
   }, []);
-  const prev = React.useCallback(() => {
+  const prev = useCallback(() => {
     setIndex((i) => (i - 1 + slides.length) % slides.length);
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isPlaying) return;
     if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
     timeoutRef.current = window.setTimeout(next, 5000);

@@ -1,9 +1,9 @@
-import React from 'react'
+import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
-const Contact: React.FC = () => {
-  const [formData, setFormData] = React.useState({
+const Contact = () => {
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
     company: '',

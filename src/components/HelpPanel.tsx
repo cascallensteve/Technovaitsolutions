@@ -1,4 +1,3 @@
-import React from 'react'
 
 const suggestions = [
   { label: "Build a web suite", href: "#start-project" },

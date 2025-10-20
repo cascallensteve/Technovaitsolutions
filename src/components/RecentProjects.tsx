@@ -1,4 +1,5 @@
-import React from 'react'
+
+import { useRef, useState, useEffect } from 'react'
 
 type Project = {
   id: number
@@ -43,9 +44,9 @@ const projects: Project[] = [
   },
 ]
 
-const RecentProjects: React.FC = () => {
-  const trackRef = React.useRef<HTMLDivElement | null>(null)
-  const [index, setIndex] = React.useState(0)
+const RecentProjects = () => {
+  const trackRef = useRef<HTMLDivElement | null>(null)
+  const [index, setIndex] = useState(0)
 
   const scrollTo = (i: number) => {
     const el = trackRef.current
@@ -66,7 +67,7 @@ const RecentProjects: React.FC = () => {
     scrollTo(newIndex)
   }
 
-  React.useEffect(() => { scrollTo(index) }, [index])
+  useEffect(() => { scrollTo(index) }, [index])
 
   const progress = ((index + 1) / projects.length) * 100
 
@@ -93,7 +94,7 @@ const RecentProjects: React.FC = () => {
               <div
                 ref={trackRef}
                 className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2"
-                style={{ scrollbarWidth: 'none' } as React.CSSProperties}
+                style={{ scrollbarWidth: 'none' }}
               >
                 {projects.map((p) => (
                   <article

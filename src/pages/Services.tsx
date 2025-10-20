@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
@@ -82,8 +82,8 @@ const services = [
   }
 ]
 
-const Services: React.FC = () => {
-  const [selectedService, setSelectedService] = React.useState(services[0])
+const Services = () => {
+  const [selectedService, setSelectedService] = useState(services[0])
 
   return (
     <div className="min-h-screen bg-white text-neutral-900">

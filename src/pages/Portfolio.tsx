@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
@@ -109,9 +109,9 @@ const projects = [
 
 const categories = ['All', 'Web Development', 'Mobile App Development', 'System Revamp', 'System Integration']
 
-const Portfolio: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = React.useState('All')
-  const [selectedProject, setSelectedProject] = React.useState(projects[0])
+const Portfolio = () => {
+  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [selectedProject, setSelectedProject] = useState(projects[0])
 
   const filteredProjects = selectedCategory === 'All' 
     ? projects 
