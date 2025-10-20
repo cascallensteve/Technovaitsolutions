@@ -1,5 +1,5 @@
 @import "tailwindcss";
- 
- /* Optional: keep only safe base rules without @apply */
- html, body, #root { height: 100%; }
- body { margin: 0; }
+
+/* Optional: keep only safe base rules without @apply */
+html, body, #root { height: 100%; }
+body { margin: 0; }
