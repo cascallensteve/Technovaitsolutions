@@ -1,14 +1,49 @@
 import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import WhatsAppButton from '../components/WhatsAppButton'
 
 const projects = [
   {
     id: 1,
+    title: 'Brand Decor Interior Design Platform',
+    category: 'Web Development',
+    description: 'Modern interior design showcase platform with responsive design, featuring beautiful collections and seamless user experience across desktop and mobile devices.',
+    image: '/images/brand decor interior.png',
+    technologies: ['React', 'Tailwind CSS', 'TypeScript', 'Responsive Design'],
+    features: [
+      'Responsive design showcase',
+      'Interior design collections',
+      'Modern UI/UX',
+      'Mobile-first approach',
+      'Interactive galleries'
+    ],
+    timeline: '6 weeks',
+    client: 'Brand Decor Interior'
+  },
+  {
+    id: 2,
+    title: 'Empower Ministry Digital Platform',
+    category: 'Web Development',
+    description: 'Digital portfolio support system with contact management and communication tools, empowering ministries with modern web presence.',
+    image: '/images/rpl system.png',
+    technologies: ['React', 'Node.js', 'Contact Forms', 'Digital Portfolio'],
+    features: [
+      'Digital portfolio management',
+      'Contact form integration',
+      'Ministry communication tools',
+      'Modern web presence',
+      'Mobile-responsive design'
+    ],
+    timeline: '8 weeks',
+    client: 'Empower Ministry'
+  },
+  {
+    id: 3,
     title: 'E-Commerce Platform',
     category: 'Web Development',
     description: 'A modern e-commerce platform built with React and Node.js, featuring real-time inventory management and secure payment processing.',
-    image: '/images/TECHNOVA3.png',
+    image: '/images/gems.png',
     technologies: ['React', 'Node.js', 'MongoDB', 'Stripe API'],
     features: [
       'Real-time inventory tracking',
@@ -21,7 +56,7 @@ const projects = [
     client: 'RetailCorp Kenya'
   },
   {
-    id: 2,
+    id: 4,
     title: 'Mobile Banking App',
     category: 'Mobile App Development',
     description: 'A secure mobile banking application with M-Pesa integration, biometric authentication, and real-time transaction monitoring.',
@@ -38,11 +73,11 @@ const projects = [
     client: 'FinanceFirst Bank'
   },
   {
-    id: 3,
+    id: 5,
     title: 'Hospital Management System',
     category: 'System Revamp',
     description: 'Complete modernization of legacy hospital management system with patient records, appointment scheduling, and billing integration.',
-    image: '/images/NOVATECH.png',
+    image: '/images/extern .png',
     technologies: ['Vue.js', 'Laravel', 'MySQL', 'Docker'],
     features: [
       'Patient record management',
@@ -55,7 +90,7 @@ const projects = [
     client: 'Nairobi General Hospital'
   },
   {
-    id: 4,
+    id: 6,
     title: 'School Management Portal',
     category: 'Web Development',
     description: 'Comprehensive school management system with student portals, grade tracking, and parent communication features.',
@@ -72,7 +107,7 @@ const projects = [
     client: 'Greenfield Academy'
   },
   {
-    id: 5,
+    id: 7,
     title: 'Logistics Tracking App',
     category: 'Mobile App Development',
     description: 'Real-time logistics tracking application with GPS integration, delivery notifications, and route optimization.',
@@ -89,7 +124,7 @@ const projects = [
     client: 'SwiftDelivery Ltd'
   },
   {
-    id: 6,
+    id: 8,
     title: 'Restaurant POS System',
     category: 'System Integration',
     description: 'Modern point-of-sale system with inventory management, staff scheduling, and integrated payment processing.',
@@ -126,15 +161,17 @@ const Portfolio = () => {
         <div className="relative w-full min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh]">
           {/* Background */}
           <div className="absolute inset-0">
-            <div
-              className="absolute inset-0 w-full h-full bg-cover bg-center"
-              style={{
-                backgroundImage: `url('${selectedProject.image}')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }}
-            />
+            <video
+              className="absolute inset-0 w-full h-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+            >
+              <source src="/vedio/vedio.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
             <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-purple-800/60 to-transparent" />
           </div>
 
@@ -337,6 +374,7 @@ const Portfolio = () => {
       </section>
 
       <Footer />
+      <WhatsAppButton />
     </div>
   )
 }

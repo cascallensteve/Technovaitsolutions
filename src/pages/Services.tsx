@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import WhatsAppButton from '../components/WhatsAppButton'
 
 const services = [
   {
@@ -316,6 +317,7 @@ const Services = () => {
       </section>
 
       <Footer />
+      <WhatsAppButton />
     </div>
   )
 }

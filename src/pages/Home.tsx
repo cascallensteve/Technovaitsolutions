@@ -6,6 +6,7 @@ import RecentProjects from '../components/RecentProjects'
 import WhyChoose from '../components/WhyChoose'
 import Testimonials from '../components/Testimonials'
 import Footer from '../components/Footer'
+import WhatsAppButton from '../components/WhatsAppButton'
 
 const Home = () => {
   return (
@@ -20,6 +21,7 @@ const Home = () => {
         <Testimonials />
       </main>
       <Footer />
+      <WhatsAppButton />
     </div>
   )
 }

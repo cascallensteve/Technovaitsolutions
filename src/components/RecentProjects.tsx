@@ -1,5 +1,5 @@
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 
 type Project = {
   id: number
@@ -7,65 +7,99 @@ type Project = {
   blurb: string
   image: string
   cta: { label: string; href: string }
+  techStack: string[]
 }
 
 const projects: Project[] = [
   {
     id: 1,
-    title: 'An app for anything',
+    title: 'Brand Decor Interior',
     blurb:
-      'Make your product feel fast and delightful with modern UI and thoughtful UX. We ship to app stores and the web.',
-    image: '/images/TECHNOVA3.png',
+      'Modern interior design platform with responsive design, showcasing beautiful collections and seamless user experience across all devices.',
+    image: '/images/brand decor interior.png',
     cta: { label: 'Explore case study', href: '#case-1' },
+    techStack: ['Django', 'React', 'Tailwind CSS', 'PostgreSQL'],
   },
   {
     id: 2,
-    title: 'Tap, talk, write',
+    title: 'Healthcare & Wellness Platform',
     blurb:
-      'Voice, touch, or pen—your users choose. We craft multimodal experiences that work the way people do.',
-    image: '/images/NOVATECH.png',
-    cta: { label: 'Learn more', href: '#case-2' },
+      'Professional healthcare and wellness services platform with mental health support, outpatient services, and wellness programs.',
+    image: '/images/extern .png',
+    cta: { label: 'View healthcare project', href: '#case-2' },
+    techStack: ['Django', 'React', 'Tailwind CSS', 'PostgreSQL'],
   },
   {
     id: 3,
+    title: 'Gems of Insight Classes',
+    blurb:
+      'Educational platform offering natural treatments and insight classes with interactive learning features and comprehensive course management.',
+    image: '/images/gems.png',
+    cta: { label: 'Explore education platform', href: '#case-3' },
+    techStack: ['Django', 'React', 'Tailwind CSS', 'PostgreSQL'],
+  },
+  {
+    id: 4,
+    title: 'Empower Ministry Platform',
+    blurb:
+      'Digital portfolio support system with contact management, empowering ministries with modern web presence and communication tools.',
+    image: '/images/rpl system.png',
+    cta: { label: 'Learn more', href: '#case-4' },
+    techStack: ['Django', 'React', 'Tailwind CSS', 'PostgreSQL'],
+  },
+  {
+    id: 5,
     title: 'Super. Speed',
     blurb:
       'Performance-focused builds that scale—from prototype to millions of users with confidence.',
     image: '/images/Technova1.png',
-    cta: { label: 'Explore performance work', href: '#case-3' },
-  },
-  {
-    id: 4,
-    title: 'Payments that work',
-    blurb:
-      'Seamless integrations (e.g., M-Pesa) with reliable reconciliation and clear reporting dashboards.',
-    image: '/images/MPESA.png',
-    cta: { label: 'See payments project', href: '#case-4' },
+    cta: { label: 'Explore performance work', href: '#case-5' },
+    techStack: ['Django', 'React', 'Tailwind CSS', 'PostgreSQL'],
   },
 ]
 
 const RecentProjects = () => {
   const trackRef = useRef<HTMLDivElement | null>(null)
   const [index, setIndex] = useState(0)
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
-  const scrollTo = (i: number) => {
+  const scrollTo = useCallback((i: number) => {
     const el = trackRef.current
     if (!el) return
     const item = el.children[i] as HTMLElement
     if (!item) return
-    el.scrollTo({ left: item.offsetLeft - 16, behavior: 'smooth' })
+    
+    // Simple scroll to item position
+    const scrollLeft = item.offsetLeft - 16 // Account for padding
+    
+    el.scrollTo({ left: Math.max(0, scrollLeft), behavior: 'smooth' })
     setIndex(i)
-  }
+  }, [])
 
-  const next = () => {
-    const newIndex = Math.min(index + 1, projects.length - 1)
+  const next = useCallback(() => {
+    const newIndex = index === projects.length - 1 ? 0 : index + 1
     scrollTo(newIndex)
-  }
+  }, [index, scrollTo])
   
-  const prev = () => {
-    const newIndex = Math.max(index - 1, 0)
+  const prev = useCallback(() => {
+    const newIndex = index === 0 ? projects.length - 1 : index - 1
     scrollTo(newIndex)
-  }
+  }, [index, scrollTo])
+
+  // Auto-play functionality
+  useEffect(() => {
+    if (!isAutoPlaying) return
+    
+    const interval = setInterval(() => {
+      next()
+    }, 4000) // Change slide every 4 seconds
+    
+    return () => clearInterval(interval)
+  }, [next, isAutoPlaying])
+
+  // Pause auto-play on hover
+  const handleMouseEnter = () => setIsAutoPlaying(false)
+  const handleMouseLeave = () => setIsAutoPlaying(true)
 
   useEffect(() => { scrollTo(index) }, [index])
 
@@ -93,21 +127,38 @@ const RecentProjects = () => {
             <div className="relative">
               <div
                 ref={trackRef}
-                className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2"
-                style={{ scrollbarWidth: 'none' }}
+                className="flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 scrollbar-hide"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
               >
                 {projects.map((p) => (
                   <article
                     key={p.id}
-                    className="min-w-[320px] sm:min-w-[360px] md:min-w-[400px] lg:min-w-[440px] snap-start rounded-3xl bg-white shadow-sm border border-black/10 overflow-hidden"
+                    className="flex-shrink-0 w-[320px] sm:w-[360px] md:w-[400px] lg:w-[440px] snap-start rounded-3xl bg-white shadow-sm border border-black/10 overflow-hidden group"
                   >
                     <div className="p-4">
-                      <div className="rounded-2xl overflow-hidden ring-1 ring-black/5">
+                      <div className="rounded-2xl overflow-hidden ring-1 ring-black/5 relative">
                         <div
-                          className="aspect-[4/3] bg-cover bg-center"
+                          className="aspect-[4/3] bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
                           style={{ backgroundImage: `url('${p.image}')` }}
                           aria-hidden="true"
                         />
+                        {/* Tech Stack Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                          <div className="p-4 w-full">
+                            <div className="flex flex-wrap gap-2 justify-center">
+                              {p.techStack.map((tech, techIndex) => (
+                                <span
+                                  key={techIndex}
+                                  className="px-3 py-1 bg-white/90 text-neutral-800 text-xs font-medium rounded-full backdrop-blur-sm shadow-sm"
+                                >
+                                  {tech}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div className="px-5 pb-5">
@@ -131,17 +182,30 @@ const RecentProjects = () => {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={prev}
-                    disabled={index === 0}
-                    className="h-10 w-10 flex items-center justify-center rounded-xl bg-white text-neutral-800 shadow-sm ring-1 ring-black/10 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-neutral-50 transition-colors"
+                    className="h-10 w-10 flex items-center justify-center rounded-xl bg-white text-neutral-800 shadow-sm ring-1 ring-black/10 hover:bg-neutral-50 transition-colors"
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </button>
                   <button
+                    onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+                    className="h-10 w-10 flex items-center justify-center rounded-xl bg-white text-neutral-800 shadow-sm ring-1 ring-black/10 hover:bg-neutral-50 transition-colors"
+                    title={isAutoPlaying ? 'Pause autoplay' : 'Resume autoplay'}
+                  >
+                    {isAutoPlaying ? (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 4h4v16H6V4zM14 4h4v16h-4V4z" fill="currentColor"/>
+                      </svg>
+                    ) : (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 5v14l11-7L8 5z" fill="currentColor"/>
+                      </svg>
+                    )}
+                  </button>
+                  <button
                     onClick={next}
-                    disabled={index === projects.length - 1}
-                    className="h-10 w-10 flex items-center justify-center rounded-xl bg-white text-neutral-800 shadow-sm ring-1 ring-black/10 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-neutral-50 transition-colors"
+                    className="h-10 w-10 flex items-center justify-center rounded-xl bg-white text-neutral-800 shadow-sm ring-1 ring-black/10 hover:bg-neutral-50 transition-colors"
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
