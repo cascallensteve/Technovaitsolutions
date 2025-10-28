@@ -2,12 +2,12 @@
  * Email Verification Service
  * This service handles email verification with 6-digit codes
  * 
- * It calls the backend API endpoints:
+ * Currently uses local code generation and validation
+ * When backend endpoints are ready, update to call:
  * - POST /auth/verify-email/ - Verify code
  * - POST /auth/resend-verification-email/ - Resend code
+ * - POST /auth/send-verification-email/ - Send code
  */
-
-const API_BASE_URL = 'https://technova-backend-seven.vercel.app'
 
 interface VerificationCode {
   code: string
@@ -32,41 +32,11 @@ const isCodeExpired = (expiresAt: number): boolean => {
 export const verificationService = {
   /**
    * Send verification code to email
-   * Calls backend API to send email with code
+   * Uses local generation for now (backend endpoint not yet implemented)
    */
   async sendVerificationCode(email: string): Promise<{ success: boolean; message: string; code?: string }> {
     try {
-      // Call backend to send verification email
-      const response = await fetch(`${API_BASE_URL}/auth/send-verification-email/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      })
-
-      const responseData = await response.json()
-
-      if (!response.ok) {
-        console.error('Backend verification error:', responseData)
-        return {
-          success: false,
-          message: responseData.message || 'Failed to send verification code',
-        }
-      }
-
-      // Log success
-      console.log(`✓ Verification code sent to ${email}`)
-      console.log('Response:', responseData)
-
-      return {
-        success: true,
-        message: responseData.message || `Verification code sent to ${email}`,
-      }
-    } catch (error) {
-      console.error('Error sending verification code:', error)
-      
-      // Fallback: Generate code locally for development
+      // Generate code locally
       const code = generateCode()
       const expiresAt = Date.now() + 15 * 60 * 1000
 
@@ -81,26 +51,34 @@ export const verificationService = {
 
       console.log(`
         ╔════════════════════════════════════════╗
-        ║   EMAIL VERIFICATION CODE (FALLBACK)   ║
+        ║   EMAIL VERIFICATION CODE (DEV MODE)   ║
         ╠════════════════════════════════════════╣
         ║ Email: ${email}
         ║ Code:  ${code}
         ║ Expires in: 15 minutes
-        ║ (Backend not responding - using local)
+        ║
+        ║ NOTE: Backend endpoint not yet ready
+        ║ Using local code generation
         ╚════════════════════════════════════════╝
       `)
 
       return {
         success: true,
-        message: `Verification code generated. Check console for code (backend not responding).`,
+        message: `✓ Verification code generated. Check browser console for code.`,
         code,
+      }
+    } catch (error) {
+      console.error('Error generating verification code:', error)
+      return {
+        success: false,
+        message: 'Failed to generate verification code',
       }
     }
   },
 
   /**
    * Verify the code submitted by user
-   * Calls backend API to verify token
+   * Uses local validation for now (backend endpoint not yet implemented)
    */
   async verifyCode(email: string, code: string): Promise<{ success: boolean; message: string }> {
     try {
@@ -112,41 +90,7 @@ export const verificationService = {
         }
       }
 
-      // Call backend to verify token
-      const response = await fetch(`${API_BASE_URL}/auth/verify-email/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token: code }),
-      })
-
-      const responseData = await response.json()
-
-      if (!response.ok) {
-        const errorMsg = responseData.errors?.token || responseData.message || 'Verification failed'
-        console.error('Backend verification error:', errorMsg)
-        return {
-          success: false,
-          message: errorMsg,
-        }
-      }
-
-      // Success
-      console.log('✓ Email verified successfully')
-      
-      // Clear local code if it exists
-      verificationCodes.delete(email)
-      localStorage.removeItem(`verificationCode_${email}`)
-
-      return {
-        success: true,
-        message: responseData.message || 'Email verified successfully',
-      }
-    } catch (error) {
-      console.error('Error verifying code:', error)
-      
-      // Fallback: Check local code for development
+      // Check local code
       const storedData = verificationCodes.get(email)
       if (!storedData) {
         return {
@@ -157,6 +101,7 @@ export const verificationService = {
 
       if (isCodeExpired(storedData.expiresAt)) {
         verificationCodes.delete(email)
+        localStorage.removeItem(`verificationCode_${email}`)
         return {
           success: false,
           message: 'Verification code has expired. Please request a new one.',
@@ -170,56 +115,68 @@ export const verificationService = {
         }
       }
 
+      // Success - clear code
       verificationCodes.delete(email)
       localStorage.removeItem(`verificationCode_${email}`)
+
+      console.log(`✓ Email verified successfully for ${email}`)
 
       return {
         success: true,
         message: 'Email verified successfully',
+      }
+    } catch (error) {
+      console.error('Error verifying code:', error)
+      return {
+        success: false,
+        message: 'Verification failed. Please try again.',
       }
     }
   },
 
   /**
    * Resend verification code
-   * Calls backend API to resend email
+   * Uses local generation for now (backend endpoint not yet implemented)
    */
   async resendCode(email: string): Promise<{ success: boolean; message: string; code?: string }> {
     try {
-      // Call backend to resend verification email
-      const response = await fetch(`${API_BASE_URL}/auth/resend-verification-email/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
+      // Generate new code locally
+      verificationCodes.delete(email)
+      localStorage.removeItem(`verificationCode_${email}`)
+      
+      const code = generateCode()
+      const expiresAt = Date.now() + 15 * 60 * 1000
+
+      verificationCodes.set(email, {
+        code,
+        email,
+        createdAt: Date.now(),
+        expiresAt,
       })
 
-      const responseData = await response.json()
+      localStorage.setItem(`verificationCode_${email}`, code)
 
-      if (!response.ok) {
-        console.error('Backend resend error:', responseData)
-        return {
-          success: false,
-          message: responseData.message || 'Failed to resend verification code',
-        }
-      }
-
-      // Log success
-      console.log(`✓ Verification code resent to ${email}`)
-      console.log('Response:', responseData)
+      console.log(`
+        ╔════════════════════════════════════════╗
+        ║   VERIFICATION CODE RESENT (DEV MODE)  ║
+        ╠════════════════════════════════════════╣
+        ║ Email: ${email}
+        ║ Code:  ${code}
+        ║ Expires in: 15 minutes
+        ╚════════════════════════════════════════╝
+      `)
 
       return {
         success: true,
-        message: responseData.message || `Verification code resent to ${email}`,
+        message: `✓ New verification code generated. Check browser console.`,
+        code,
       }
     } catch (error) {
       console.error('Error resending code:', error)
-      
-      // Fallback: Generate new code locally
-      verificationCodes.delete(email)
-      localStorage.removeItem(`verificationCode_${email}`)
-      return this.sendVerificationCode(email)
+      return {
+        success: false,
+        message: 'Failed to resend verification code',
+      }
     }
   },
 
