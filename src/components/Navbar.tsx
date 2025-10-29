@@ -55,7 +55,7 @@ const Navbar = () => {
   }, [])
 
   return (
-    <header className="w-full bg-white shadow-sm">
+    <header className="w-full bg-white shadow-sm sticky top-0 z-40">
       {/* Top banner */}
       <div className="w-full bg-microsoft-purple text-white">
         <div className="px-4 md:px-6 lg:px-8 flex h-10 items-center justify-between text-xs">

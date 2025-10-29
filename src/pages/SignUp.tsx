@@ -3,17 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { authService } from '../services/authService'
-import { verificationService } from '../services/verificationService'
 
 const SignUp = () => {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    username: '',
     email: '',
     password: '',
     confirmPassword: '',
-    company: '',
     agreeToTerms: false
   })
   const [isLoading, setIsLoading] = useState(false)
@@ -45,8 +42,20 @@ const SignUp = () => {
 
     try {
       // Validation
-      if (!formData.firstName || !formData.lastName || !formData.email || !formData.password || !formData.confirmPassword) {
+      if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
         setError('Please fill in all required fields')
+        setIsLoading(false)
+        return
+      }
+
+      if (formData.username.length < 3) {
+        setError('Username must be at least 3 characters long')
+        setIsLoading(false)
+        return
+      }
+
+      if (!/^[a-zA-Z0-9_-]+$/.test(formData.username)) {
+        setError('Username can only contain letters, numbers, underscores, and hyphens')
         setIsLoading(false)
         return
       }
@@ -75,27 +84,28 @@ const SignUp = () => {
         return
       }
 
-      // Create username from first and last name
-      const username = `${formData.firstName.toLowerCase()}${formData.lastName.toLowerCase()}`.replace(/\s+/g, '')
-
       // Call the signup API
       const response = await authService.signUp({
-        username,
+        username: formData.username,
         email: formData.email,
         password: formData.password,
         password_confirm: formData.confirmPassword,
       })
 
       if (response.success) {
-        // Send verification code
-        const verificationResult = await verificationService.sendVerificationCode(formData.email)
+        // Send verification email via backend
+        try {
+          await authService.sendVerificationEmail(formData.email)
+        } catch (verificationError) {
+          console.error('Failed to send verification email:', verificationError)
+        }
         
         // Redirect to email verification page
         setTimeout(() => {
           navigate('/verify-email', { 
             state: { 
               email: formData.email,
-              message: verificationResult.message || 'Sign up successful! Please check your email to verify your account.'
+              message: 'Sign up successful! Please check your email to verify your account.'
             } 
           })
         }, 500)
@@ -125,11 +135,80 @@ const SignUp = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
       
       <div className="flex-1 flex items-center justify-center px-4 py-8 overflow-y-auto">
-        <div className="w-full max-w-md my-auto">
+        <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 my-auto items-center">
+          {/* Right: Welcome Image (appears first on mobile, second on desktop) */}
+          <div className="hidden lg:flex items-center justify-center order-2 lg:order-2">
+            <div className="relative w-full max-w-md">
+              {/* Decorative circles */}
+              <div className="absolute -top-8 -right-8 w-32 h-32 bg-green-100 rounded-full opacity-50"></div>
+              <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-blue-100 rounded-full opacity-50"></div>
+              
+              {/* Main card */}
+              <div className="relative bg-white rounded-2xl shadow-xl p-8 border border-neutral-100">
+                {/* Header */}
+                <div className="text-center mb-6">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 mb-4">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-2xl font-bold text-neutral-900 mb-2">Join Our Community</h2>
+                  <p className="text-neutral-600 text-sm">Start your journey with Technova today</p>
+                </div>
+
+                {/* Stats */}
+                <div className="grid grid-cols-3 gap-4 mb-6 py-6 border-y border-neutral-200">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-blue-600">500+</p>
+                    <p className="text-xs text-neutral-600">Happy Clients</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-green-600">10+</p>
+                    <p className="text-xs text-neutral-600">Years Active</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-purple-600">24/7</p>
+                    <p className="text-xs text-neutral-600">Support</p>
+                  </div>
+                </div>
+
+                {/* Benefits */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <p className="text-sm text-neutral-700">Instant account setup</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <p className="text-sm text-neutral-700">Full access to services</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <p className="text-sm text-neutral-700">Premium support included</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Left: Form */}
+          <div className="w-full max-w-md mx-auto lg:mx-0 order-1 lg:order-1">
           {/* Card */}
           <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
             {/* Header */}
@@ -147,36 +226,21 @@ const SignUp = () => {
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-3">
-              {/* First Name and Last Name */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-neutral-700 mb-1">
-                    First Name
-                  </label>
-                  <input
-                    id="firstName"
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    placeholder="John"
-                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-microsoft-purple focus:border-transparent transition"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-neutral-700 mb-1">
-                    Last Name
-                  </label>
-                  <input
-                    id="lastName"
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    placeholder="Doe"
-                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-microsoft-purple focus:border-transparent transition"
-                  />
-                </div>
+              {/* Username Field */}
+              <div>
+                <label htmlFor="username" className="block text-sm font-medium text-neutral-700 mb-1">
+                  Username
+                </label>
+                <input
+                  id="username"
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  placeholder="john_doe"
+                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                />
+                <p className="text-xs text-neutral-500 mt-1">Letters, numbers, underscores, and hyphens only</p>
               </div>
 
               {/* Email Field */}
@@ -195,21 +259,6 @@ const SignUp = () => {
                 />
               </div>
 
-              {/* Company Field */}
-              <div>
-                <label htmlFor="company" className="block text-sm font-medium text-neutral-700 mb-1">
-                  Company (Optional)
-                </label>
-                <input
-                  id="company"
-                  type="text"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  placeholder="Your company name"
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-microsoft-purple focus:border-transparent transition"
-                />
-              </div>
 
               {/* Password Field */}
               <div>
@@ -325,6 +374,7 @@ const SignUp = () => {
                 Sign in
               </a>
             </p>
+          </div>
           </div>
         </div>
       </div>

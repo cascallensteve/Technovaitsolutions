@@ -7,7 +7,7 @@ import { authService } from '../services/authService'
 const SignIn = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -17,8 +17,8 @@ const SignIn = () => {
     // Check if there's a success message from signup redirect
     if (location.state?.message) {
       setSuccessMessage(location.state.message)
-      if (location.state?.username) {
-        setUsername(location.state.username)
+      if (location.state?.email) {
+        setEmail(location.state.email)
       }
     }
   }, [location.state])
@@ -31,21 +31,21 @@ const SignIn = () => {
 
     try {
       // Validation
-      if (!username || !password) {
+      if (!email || !password) {
         setError('Please fill in all fields')
         setIsLoading(false)
         return
       }
       
-      if (username.trim().length < 3) {
-        setError('Username must be at least 3 characters long')
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setError('Please enter a valid email address')
         setIsLoading(false)
         return
       }
 
-      // Call the signin API
+      // Call the signin API with email instead of username
       const response = await authService.signIn({
-        username,
+        email,
         password,
       })
 
@@ -64,11 +64,13 @@ const SignIn = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
       
       <div className="flex-1 flex items-center justify-center px-4 py-8 overflow-y-auto">
-        <div className="w-full max-w-md my-auto">
+        <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 my-auto items-center">
+          {/* Left: Form */}
+          <div className="w-full max-w-md mx-auto lg:mx-0">
           {/* Card */}
           <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
             {/* Header */}
@@ -93,17 +95,17 @@ const SignIn = () => {
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Username Field */}
+              {/* Email Field */}
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-neutral-700 mb-1">
-                  Username
+                <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-1">
+                  Email Address
                 </label>
                 <input
-                  id="username"
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="your_username"
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
                   className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
                 />
               </div>
@@ -184,6 +186,77 @@ const SignIn = () => {
                 Sign up
               </a>
             </p>
+          </div>
+          </div>
+
+          {/* Right: Welcome Image */}
+          <div className="hidden lg:flex items-center justify-center">
+            <div className="relative w-full max-w-md">
+              {/* Background gradient circle */}
+              <div className="absolute inset-0 bg-gradient-to-br from-green-100 to-green-50 rounded-3xl transform rotate-6"></div>
+              
+              {/* Main content box */}
+              <div className="relative bg-gradient-to-br from-green-50 to-white rounded-3xl p-8 shadow-xl">
+                {/* Icon */}
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+
+                {/* Text */}
+                <h2 className="text-2xl font-bold text-neutral-900 text-center mb-3">Welcome Back!</h2>
+                <p className="text-neutral-600 text-center mb-6">
+                  Access your Technova account and unlock powerful business solutions. Transform your ideas into reality.
+                </p>
+
+                {/* Features */}
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-neutral-900 text-sm">Secure Access</p>
+                      <p className="text-neutral-600 text-xs">Your data is protected</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-neutral-900 text-sm">Fast Performance</p>
+                      <p className="text-neutral-600 text-xs">Lightning quick access</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-neutral-900 text-sm">24/7 Support</p>
+                      <p className="text-neutral-600 text-xs">Always here to help</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom accent */}
+                <div className="mt-6 pt-6 border-t border-green-200">
+                  <p className="text-center text-xs text-neutral-600">
+                    Join thousands of businesses using Technova
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

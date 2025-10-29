@@ -22,7 +22,7 @@ interface SignUpResponse {
 }
 
 interface SignInRequest {
-  username: string
+  email: string
   password: string
 }
 
@@ -165,5 +165,95 @@ export const authService = {
    */
   isAuthenticated(): boolean {
     return !!this.getToken()
+  },
+
+  /**
+   * Send verification email
+   */
+  async sendVerificationEmail(email: string): Promise<{ success: boolean; message: string }> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/send-verification-email/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      const responseData = await response.json()
+
+      if (!response.ok) {
+        console.error('Send verification email error:', responseData)
+        throw new Error(responseData.message || 'Failed to send verification email')
+      }
+
+      return {
+        success: true,
+        message: responseData.message || 'Verification email sent successfully',
+      }
+    } catch (error) {
+      console.error('Error sending verification email:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Verify email with token
+   */
+  async verifyEmail(token: string): Promise<{ success: boolean; message: string }> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/verify-email/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
+      })
+
+      const responseData = await response.json()
+
+      if (!response.ok) {
+        const errorMsg = responseData.errors?.token || responseData.message || 'Verification failed'
+        throw new Error(errorMsg)
+      }
+
+      return {
+        success: true,
+        message: responseData.message || 'Email verified successfully',
+      }
+    } catch (error) {
+      console.error('Error verifying email:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Resend verification email
+   */
+  async resendVerificationEmail(email: string): Promise<{ success: boolean; message: string }> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/resend-verification-email/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      const responseData = await response.json()
+
+      if (!response.ok) {
+        console.error('Resend verification email error:', responseData)
+        throw new Error(responseData.message || 'Failed to resend verification email')
+      }
+
+      return {
+        success: true,
+        message: responseData.message || 'Verification email resent successfully',
+      }
+    } catch (error) {
+      console.error('Error resending verification email:', error)
+      throw error
+    }
   },
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { verificationService } from '../services/verificationService'
+import { authService } from '../services/authService'
 
 const EmailVerification = () => {
   const navigate = useNavigate()
@@ -56,8 +56,8 @@ const EmailVerification = () => {
         return
       }
 
-      // Verify token using verification service
-      const result = await verificationService.verifyCode(email, token)
+      // Verify token using backend API
+      const result = await authService.verifyEmail(token)
 
       if (!result.success) {
         setError(result.message)
@@ -78,8 +78,9 @@ const EmailVerification = () => {
           }
         })
       }, 2000)
-    } catch (err) {
-      setError('An error occurred. Please try again.')
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred. Please try again.'
+      setError(errorMessage)
     } finally {
       setIsLoading(false)
     }
@@ -92,11 +93,12 @@ const EmailVerification = () => {
     setResendCount(resendCount + 1)
 
     try {
-      // Resend verification code
-      const result = await verificationService.resendCode(email)
+      // Resend verification email via backend
+      const result = await authService.resendVerificationEmail(email)
       setMessage(result.message)
-    } catch (err) {
-      setMessage('Failed to resend email. Please try again.')
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to resend email. Please try again.'
+      setMessage(errorMessage)
     } finally {
       setIsLoading(false)
     }

@@ -6,10 +6,11 @@ const slides = [
     id: 0,
     image: "/images/TECHNOVA3.png",
     video: "/vedio/vedio.mp4",
-    title: "System Revamp",
-    subtitle: "Upgrade your old systems with modern, efficient, and scalable solutions.",
-    cta: { label: "Learn more", href: "#services" },
+    title: "Empower Your Business with Digital Excellence",
+    subtitle: "Unlock unlimited potential with cutting-edge technology, strategic innovation, and expert solutions designed to accelerate your growth and transform your vision into reality.",
+    cta: { label: "Get Started", href: "#contact" },
     align: "left" as const,
+    gradient: "linear-gradient(135deg, rgba(15, 118, 110, 0.8) 0%, rgba(5, 150, 105, 0.6) 50%, rgba(16, 185, 129, 0.4) 100%)",
   },
   {
     id: 1,
@@ -133,7 +134,12 @@ const Hero = () => {
                     }}
                   />
                 )}
-                <div className={`absolute inset-0 ${(s as any).video ? 'bg-gradient-to-r from-green-600/30 via-green-400/15 to-transparent' : 'bg-gradient-to-t from-black/40 via-black/10 to-transparent'}`} />
+                <div 
+                  className="absolute inset-0"
+                  style={{
+                    background: (s as any).gradient || ((s as any).video ? 'linear-gradient(to right, rgba(5, 107, 107, 0.3) 0%, rgba(5, 150, 105, 0.15) 100%)' : 'linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.1), transparent)'),
+                  }}
+                />
               </>
             )}
           </div>
@@ -170,20 +176,49 @@ const Hero = () => {
               </div>
             </div>
           ) : (
-            <div className="text-white text-left">
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight drop-shadow-md break-words">
-                {slides[index].title}
-              </h1>
-              <p className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl text-white/90 max-w-3xl drop-shadow">
-                {slides[index].subtitle}
-              </p>
-              <div className="mt-8 flex">
-                <a
-                  href={slides[index].cta.href}
-                  className="inline-flex items-center rounded-md bg-white px-5 py-2.5 text-sm font-medium text-neutral-900 shadow-sm hover:bg-neutral-100 transition"
-                >
-                  {slides[index].cta.label}
-                </a>
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              {/* Left content */}
+              <div className="text-white text-left">
+                <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight drop-shadow-md break-words">
+                  {slides[index].title}
+                </h1>
+                <p className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl text-white/90 max-w-3xl drop-shadow">
+                  {slides[index].subtitle}
+                </p>
+                
+                {/* Stats */}
+                <div className="mt-8 grid grid-cols-3 gap-6 max-w-md">
+                  <div>
+                    <p className="text-2xl sm:text-3xl font-bold text-white">200+</p>
+                    <p className="text-xs sm:text-sm text-white/80 mt-1">Projects Completed</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl sm:text-3xl font-bold text-white">50+</p>
+                    <p className="text-xs sm:text-sm text-white/80 mt-1">Team Members</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl sm:text-3xl font-bold text-white">98%</p>
+                    <p className="text-xs sm:text-sm text-white/80 mt-1">Client Satisfaction</p>
+                  </div>
+                </div>
+
+                <div className="mt-8 flex">
+                  <a
+                    href={slides[index].cta.href}
+                    className="inline-flex items-center rounded-md bg-white px-5 py-2.5 text-sm font-medium text-neutral-900 shadow-sm hover:bg-neutral-100 transition"
+                  >
+                    {slides[index].cta.label}
+                  </a>
+                </div>
+              </div>
+
+              {/* Right image (optional for hero slides) */}
+              <div className="hidden md:flex justify-center md:justify-end">
+                <div className="relative w-full max-w-md h-80 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
+                  <svg className="w-24 h-24 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
               </div>
             </div>
           )}
