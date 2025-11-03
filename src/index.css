@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+/* Optional: keep only safe base rules without @apply */
+html, body, #root { height: 100%; }
+body { margin: 0; }
+
+/* Hide scrollbars for carousel */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
