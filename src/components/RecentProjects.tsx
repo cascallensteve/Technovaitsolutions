@@ -165,9 +165,9 @@ const RecentProjects = () => {
                     className="flex-shrink-0 w-[calc(100%-0px)] sm:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)] snap-start rounded-3xl bg-white shadow-sm border border-black/10 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-out"
                   >
                     <div className="p-4">
-                      <div className="rounded-2xl overflow-hidden ring-1 ring-black/5 relative">
+                      <div className="rounded-2xl overflow-hidden ring-1 ring-black/5 relative p-2">
                         <div
-                          className="aspect-[4/3] bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
+                          className="aspect-[4/3] bg-contain bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-102"
                           style={{ backgroundImage: `url('${p.image}')` }}
                           aria-hidden="true"
                         />
@@ -191,14 +191,6 @@ const RecentProjects = () => {
                     <div className="px-5 pb-5">
                       <h3 className="text-lg font-semibold text-neutral-900">{p.title}</h3>
                       <p className="mt-2 text-sm text-neutral-700 leading-relaxed">{p.blurb}</p>
-                      <div className="mt-4">
-                        <a
-                          href={p.cta.href}
-                          className="inline-flex items-center rounded-md bg-blue-600 text-white px-4 py-2 text-sm font-medium hover:bg-blue-700 transition-colors"
-                        >
-                          {p.cta.label}
-                        </a>
-                      </div>
                     </div>
                   </article>
                 ))}

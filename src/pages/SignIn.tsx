@@ -50,9 +50,10 @@ const SignIn = () => {
       })
 
       if (response.success) {
-        // Redirect to profile page
+        // Redirect based on role
+        const isAdmin = response.data?.is_admin || response.data?.user_type === 'admin' || response.data?.is_staff
         setTimeout(() => {
-          navigate('/profile')
+          navigate(isAdmin ? '/admin' : '/profile')
         }, 500)
       }
     } catch (err: unknown) {

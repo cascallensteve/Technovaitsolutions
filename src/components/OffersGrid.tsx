@@ -32,13 +32,6 @@ const cards: Card[] = [
     primary: { label: 'Build Your App', href: '/services/mobile-app-development' },
     secondary: { label: 'View our portfolio', href: '/portfolio' },
   },
-  {
-    id: 4,
-    image: '/images/MPESA.png',
-    title: 'M-Pesa Integration Made Easy',
-    body: 'Seamlessly integrate M-Pesa payments into your business. Increase sales with secure, fast mobile money solutions.',
-    primary: { label: 'Integrate Now', href: '/services/mpesa-integration' },
-  },
 ]
 
 const OffersGrid: React.FC = () => {

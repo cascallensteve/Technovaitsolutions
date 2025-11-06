@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
@@ -8,7 +9,7 @@ const teamMembers = [
     name: 'Billy Josiah Illa',
     role: 'Backend Engineer',
     bio: 'Passionate backend engineer specializing in building robust, scalable server-side solutions. Expert in creating secure APIs, optimizing database performance, and implementing modern cloud infrastructure.',
-    image: '/images/team/billy.jpg',
+    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762434173/WhatsApp_Image_2025-11-06_at_15.55.38_cf32b20d_fzma3d.jpg',
     skills: ['Node.js', 'Python', 'PostgreSQL', 'MongoDB', 'Docker', 'AWS/Azure'],
     techStack: {
       languages: ['JavaScript', 'TypeScript', 'Python', 'SQL'],
@@ -46,6 +47,8 @@ const teamMembers = [
 ]
 
 const Team = () => {
+  const [showNoPositions, setShowNoPositions] = useState(false)
+  const [showResumeInfo, setShowResumeInfo] = useState(false)
   return (
     <div className="min-h-screen bg-white text-neutral-900">
       <Navbar />
@@ -135,29 +138,14 @@ const Team = () => {
             {teamMembers.map((member) => (
               <div key={member.id} className="bg-white rounded-3xl shadow-lg border border-neutral-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                 {/* Profile Image */}
-                <div className="h-64 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 flex items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-transparent"></div>
-                  {member.image.startsWith('http') ? (
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-48 h-48 rounded-full object-cover border-4 border-white/30 relative z-10"
-                      onError={(e) => {
-                        // Fallback to SVG if image fails to load
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                        const fallback = target.nextElementSibling as HTMLElement;
-                        if (fallback) fallback.style.display = 'flex';
-                      }}
-                    />
-                  ) : null}
-                  <div className="w-48 h-48 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white/30 relative z-10" style={{ display: member.image.startsWith('http') ? 'none' : 'flex' }}>
-                    <svg className="w-20 h-20 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                  </div>
-                  <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-                    <span className="text-white text-sm font-medium">{member.role.split(' ')[0]}</span>
+                <div className={`relative overflow-hidden mx-auto w-[92%] md:w-[90%] ${member.id === 1 ? 'h-64 sm:h-72 md:h-80' : 'h-72 md:h-80'}`}>
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="absolute inset-0 w-full h-full object-cover object-center"
+                  />
+                  <div className="absolute top-4 right-4 bg-white/60 backdrop-blur-sm px-3 py-1 rounded-full">
+                    <span className="text-neutral-800 text-sm font-medium">{member.role.split(' ')[0]}</span>
                   </div>
                 </div>
 
@@ -289,27 +277,48 @@ const Team = () => {
             Let's collaborate and bring your digital vision to life with our combined expertise in frontend and backend development.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/contact"
+            <button
+              type="button"
+              onClick={() => setShowNoPositions(true)}
               className="inline-flex items-center justify-center bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2h8z" />
               </svg>
               View Open Positions
-            </a>
-            <a
-              href="mailto:careers@technova.com"
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowResumeInfo(true)}
               className="inline-flex items-center justify-center border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               Send Your Resume
-            </a>
+            </button>
           </div>
         </div>
       </section>
+      {/* Simple Modals */}
+      {showNoPositions && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4" role="dialog" aria-modal="true" onClick={() => setShowNoPositions(false)}>
+          <div className="w-full max-w-md rounded-2xl bg-white shadow-xl border border-neutral-200 p-6 text-center" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-xl font-semibold text-neutral-900 mb-2">No open positions</h3>
+            <p className="text-neutral-600">There are currently no open positions. Please check back later.</p>
+            <button type="button" onClick={() => setShowNoPositions(false)} className="mt-5 inline-flex items-center justify-center rounded-md bg-blue-600 px-5 py-2 text-white font-medium hover:bg-blue-700">OK</button>
+          </div>
+        </div>
+      )}
+      {showResumeInfo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4" role="dialog" aria-modal="true" onClick={() => setShowResumeInfo(false)}>
+          <div className="w-full max-w-md rounded-2xl bg-white shadow-xl border border-neutral-200 p-6 text-center" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-xl font-semibold text-neutral-900 mb-2">Application portal closed</h3>
+            <p className="text-neutral-600">We will accept applications once the portal is opened.</p>
+            <button type="button" onClick={() => setShowResumeInfo(false)} className="mt-5 inline-flex items-center justify-center rounded-md bg-blue-600 px-5 py-2 text-white font-medium hover:bg-blue-700">Got it</button>
+          </div>
+        </div>
+      )}
 
       <Footer />
       <WhatsAppButton />

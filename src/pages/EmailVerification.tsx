@@ -16,6 +16,7 @@ const EmailVerification = () => {
   const [canResend, setCanResend] = useState(true)
   const [countdown, setCountdown] = useState(0)
   const [isVerified, setIsVerified] = useState(false)
+  const redirectTo = (location.state as any)?.redirectTo || '/admin/signin'
 
   useEffect(() => {
     // Get email from navigation state
@@ -23,8 +24,8 @@ const EmailVerification = () => {
       setEmail(location.state.email)
       setMessage(location.state.message || 'Verification email sent! Please check your inbox.')
     } else {
-      // Redirect to signup if no email provided
-      navigate('/signup')
+      // Redirect to admin signup if no email provided
+      navigate('/admin/signup')
     }
   }, [location.state, navigate])
 
@@ -71,7 +72,7 @@ const EmailVerification = () => {
       
       // Redirect to signin after 2 seconds
       setTimeout(() => {
-        navigate('/signin', {
+        navigate(redirectTo, {
           state: {
             email: email,
             message: 'Email verified! You can now sign in.'
@@ -105,7 +106,7 @@ const EmailVerification = () => {
   }
 
   const handleContinueToLogin = () => {
-    navigate('/signin', {
+    navigate(redirectTo, {
       state: {
         email: email,
         message: 'Please verify your email first by clicking the link in your inbox, then sign in.'

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { authService } from '../services/authService'
+import logo from '../assets/logo.png'
 
 const services = [
   { id: 1, title: 'System Revamp', slug: 'system-revamp' },
@@ -15,7 +16,7 @@ const Navbar = () => {
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false)
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [user, setUser] = useState<{ username: string } | null>(null)
+  const [user, setUser] = useState<Record<string, any> | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const Navbar = () => {
     const userData = authService.getUser()
     if (userData) {
       setIsAuthenticated(true)
-      setUser(userData)
+      setUser(userData as any)
     }
   }, [])
 
@@ -62,11 +63,15 @@ const Navbar = () => {
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.classList.add('overflow-hidden')
+      // Also prevent scroll on the root html element for full freeze
+      document.documentElement.style.overflow = 'hidden'
     } else {
       document.body.classList.remove('overflow-hidden')
+      document.documentElement.style.overflow = ''
     }
     return () => {
       document.body.classList.remove('overflow-hidden')
+      document.documentElement.style.overflow = ''
     }
   }, [isMobileMenuOpen])
 
@@ -75,20 +80,20 @@ const Navbar = () => {
     <>
     <header className="w-full bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 border-b border-neutral-200 fixed top-0 inset-x-0 z-[9999]">
       {/* Navigation */}
-      <nav className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex items-center justify-between gap-4 py-1 md:py-2">
+      <nav className="w-full max-w-7xl mx-auto px-1 md:px-2 lg:px-4 flex items-center justify-between gap-4 py-1 md:py-2">
         {/* Left: brand and primary links */}
         <div className="flex items-center gap-5">
           <a href="/" className="flex items-center gap-2">
             <img
-              src="https://res.cloudinary.com/djksfayfu/image/upload/v1761826048/a_logo_for__Technova__using_blue_and_white_colors__with_a_stylized__TS__abbreviation_on_the_left__se-removebg-preview_z1j5j6.png"
+              src={logo}
               alt="Technova logo"
-              className="h-10 md:h-12 lg:h-14 w-auto object-contain select-none"
+              className="h-12 md:h-14 lg:h-16 w-auto object-contain select-none transform origin-left scale-175"
               draggable="false"
             />
 
             <span className="sr-only">Technova</span>
           </a>
-          <div className={`${isMobileMenuOpen ? 'hidden' : 'hidden md:flex'} items-center gap-6 text-[16px] md:text-[17px] ml-6 md:ml-10 lg:ml-12` }>
+          <div className={`${isMobileMenuOpen ? 'hidden' : 'hidden md:flex'} md:flex-none items-center justify-end gap-4 text-[16px] md:text-[17px] ml-12 md:ml-16 lg:ml-20` }>
             <a href="/" className="px-3 py-2 rounded-full text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100/70 hover:ring-1 hover:ring-neutral-200 transition">Home</a>
             <a href="/services" className="px-3 py-2 rounded-full text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100/70 hover:ring-1 hover:ring-neutral-200 transition">Services</a>
             <a href="/portfolio" className="px-3 py-2 rounded-full text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100/70 hover:ring-1 hover:ring-neutral-200 transition">Portfolio</a>
@@ -149,11 +154,9 @@ const Navbar = () => {
           </div>
           {isAuthenticated && user ? (
             <a href="/profile" className={`${isMobileMenuOpen ? 'hidden' : 'hidden sm:inline'} px-4 py-2 rounded-full border border-emerald-600 text-emerald-700 hover:bg-emerald-50 transition font-medium` }>
-              Welcome {user.username}
+              Welcome {user?.username}
             </a>
-          ) : (
-            <a href="/signin" className={`${isMobileMenuOpen ? 'hidden' : 'hidden sm:inline'} px-4 py-2 rounded-full border border-blue-600 text-blue-700 hover:bg-blue-50 transition font-semibold`}>Sign in</a>
-          )}
+          ) : null}
           
           {/* Mobile menu button */}
           <button
@@ -174,11 +177,11 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-[10000] bg-white" role="dialog" aria-modal="true">
+        <div className="md:hidden fixed inset-0 z-[999999] bg-white" role="dialog" aria-modal="true">
           {/* Overlay top bar with logo + close */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-200">
             <a href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2">
-              <img src="https://res.cloudinary.com/djksfayfu/image/upload/v1761826048/a_logo_for__Technova__using_blue_and_white_colors__with_a_stylized__TS__abbreviation_on_the_left__se-removebg-preview_z1j5j6.png" alt="Technova logo" className="h-8 w-auto object-contain" />
+              <img src={logo} alt="Technova logo" className="h-10 w-auto object-contain transform origin-left scale-200" />
               <span className="sr-only">Technova</span>
             </a>
             <button onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu" className="p-2 rounded-full hover:bg-neutral-100">
@@ -270,17 +273,9 @@ const Navbar = () => {
                   className="block text-green-600 hover:text-green-700 py-3 w-full text-left font-semibold"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  👤 Welcome {user.username}
+                  👤 Welcome {user?.username}
                 </a>
-              ) : (
-                <a 
-                  href="/signin" 
-                  className="block text-neutral-700 hover:text-neutral-900 py-3 w-full text-left"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Sign in
-                </a>
-              )}
+              ) : null}
             </div>
           </div>
         </div>

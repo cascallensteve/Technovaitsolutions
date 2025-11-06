@@ -19,17 +19,17 @@ const Profile = () => {
     // Check if user is authenticated
     const userData = authService.getUser()
     if (!userData) {
-      // Redirect to signin if not authenticated
-      navigate('/signin')
+      // Redirect to admin signin if not authenticated
+      navigate('/admin/signin')
       return
     }
-    setUser(userData)
+    setUser(userData as UserData)
     setIsLoading(false)
   }, [navigate])
 
   const handleSignOut = () => {
     authService.signOut()
-    navigate('/signin')
+    navigate('/admin/signin')
   }
 
   if (isLoading) {

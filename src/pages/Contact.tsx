@@ -5,24 +5,67 @@ import WhatsAppButton from '../components/WhatsAppButton'
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
+    first_name: '',
+    last_name: '',
     email: '',
     company: '',
-    service: '',
     message: ''
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [submitSuccess, setSubmitSuccess] = useState('')
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log('Form submitted:', formData)
+    setSubmitError('')
+    setSubmitSuccess('')
+    setIsSubmitting(true)
+
+    try {
+      // Basic validation
+      if (!formData.first_name.trim() || !formData.last_name.trim() || !formData.email.trim() || !formData.message.trim()) {
+        setSubmitError('Please fill in First name, Last name, Email Address, and Project Details.')
+        setIsSubmitting(false)
+        return
+      }
+
+      const response = await fetch('http://localhost:8000/api/contact/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          email: formData.email,
+          company: formData.company || '',
+          message: formData.message,
+        }),
+      })
+
+      const data = await response.json().catch(() => ({}))
+
+      if (!response.ok) {
+        const msg = (data && (data.message || data.error)) || 'Failed to send your message. Please try again.'
+        throw new Error(msg)
+      }
+
+      setSubmitSuccess('Thanks! Your message has been sent. We will get back to you shortly.')
+      // Optionally reset form
+      setFormData({ first_name: '', last_name: '', email: '', company: '', message: '' })
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'An unexpected error occurred.'
+      setSubmitError(msg)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -130,37 +173,59 @@ const Contact = () => {
             {/* Right: Contact Form */}
             <div className="bg-white rounded-2xl shadow-sm border border-black/10 p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
+                {submitSuccess && (
+                  <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-sm">{submitSuccess}</div>
+                )}
+                {submitError && (
+                  <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">{submitError}</div>
+                )}
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-neutral-900 mb-2">
-                      Full Name *
+                    <label htmlFor="first_name" className="block text-sm font-medium text-neutral-900 mb-2">
+                      First name *
                     </label>
                     <input
                       type="text"
-                      id="name"
-                      name="name"
+                      id="first_name"
+                      name="first_name"
                       required
-                      value={formData.name}
+                      value={formData.first_name}
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Your full name"
+                      placeholder="First name"
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-neutral-900 mb-2">
-                      Email Address *
+                    <label htmlFor="last_name" className="block text-sm font-medium text-neutral-900 mb-2">
+                      Last name *
                     </label>
                     <input
-                      type="email"
-                      id="email"
-                      name="email"
+                      type="text"
+                      id="last_name"
+                      name="last_name"
                       required
-                      value={formData.email}
+                      value={formData.last_name}
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="your@email.com"
+                      placeholder="Last name"
                     />
                   </div>
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-neutral-900 mb-2">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="your@email.com"
+                  />
                 </div>
 
                 <div>
@@ -178,26 +243,7 @@ const Contact = () => {
                   />
                 </div>
 
-                <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-neutral-900 mb-2">
-                    Service Interested In
-                  </label>
-                  <select
-                    id="service"
-                    name="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    <option value="">Select a service</option>
-                    <option value="web-development">Web Development</option>
-                    <option value="mobile-app">Mobile App Development</option>
-                    <option value="system-revamp">System Revamp</option>
-                    <option value="mpesa-integration">M-Pesa Integration</option>
-                    <option value="it-consulting">IT Consulting</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
+                {/* Removed service selection as per new required payload */}
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-neutral-900 mb-2">
@@ -217,9 +263,10 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                  disabled={isSubmitting}
+                  className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
                 >
-                  Send Message
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             </div>
@@ -241,7 +288,7 @@ const Contact = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
-                  href="https://calendly.com/technova-solutions"
+                  href="https://calendly.com/technova446/30min"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"

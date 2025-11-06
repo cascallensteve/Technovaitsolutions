@@ -100,6 +100,7 @@ const services = [
 
 const Services = () => {
   const [selectedService, setSelectedService] = useState(services[0])
+  const [showStartChoices, setShowStartChoices] = useState(false)
 
   return (
     <div className="min-h-screen bg-white text-neutral-900">
@@ -166,12 +167,13 @@ const Services = () => {
                 Comprehensive technology solutions designed to transform your business and drive growth.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <a
-                  href="/contact"
+                <button
+                  type="button"
+                  onClick={() => setShowStartChoices(true)}
                   className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium text-neutral-900 shadow-sm hover:bg-neutral-100 transition"
                 >
                   Get Started
-                </a>
+                </button>
                 <a
                   href="#services-list"
                   className="inline-flex items-center justify-center rounded-md border-2 border-white bg-transparent px-6 py-3 text-base font-medium text-white hover:bg-white hover:text-neutral-900 transition"
@@ -183,6 +185,47 @@ const Services = () => {
           </div>
         </div>
       </section>
+      {showStartChoices && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setShowStartChoices(false)}
+        >
+          <div
+            className="w-full max-w-md rounded-2xl bg-white shadow-xl border border-neutral-200 p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-4">
+              <h3 className="text-xl font-semibold text-neutral-900">How would you like to get started?</h3>
+              <p className="mt-1 text-sm text-neutral-600">Choose an option below and we’ll take you there.</p>
+            </div>
+            <div className="space-y-3">
+              <a
+                href="https://calendly.com/technova446/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center w-full rounded-md bg-blue-600 text-white px-4 py-3 text-sm font-medium hover:bg-blue-700 transition"
+              >
+                Schedule a Call
+              </a>
+              <a
+                href="/contact"
+                className="flex items-center justify-center w-full rounded-md border border-neutral-300 bg-white px-4 py-3 text-sm font-medium text-neutral-800 hover:bg-neutral-50 transition"
+              >
+                Contact Us
+              </a>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowStartChoices(false)}
+              className="mt-5 w-full text-sm text-neutral-500 hover:text-neutral-700"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Services List */}
       <section id="services-list" className="w-full py-16 bg-neutral-50">
