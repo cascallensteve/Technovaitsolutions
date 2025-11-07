@@ -12,3 +12,18 @@ body { margin: 0; }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Hide any direct body children outside #root (e.g., widget portals) */
+body.mobile-menu-open > *:not(header):not(#root) {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Global white overlay to occlude content when mobile menu is open */
+body.mobile-menu-open::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  z-index: 9999999000; /* below Navbar/menu z-index (9999999999) */
+}

@@ -13,6 +13,7 @@ const services = [
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false)
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -29,7 +30,15 @@ const Navbar = () => {
   }, [])
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
+    if (isMobileMenuOpen) {
+      setIsClosing(true)
+      setTimeout(() => {
+        setIsMobileMenuOpen(false)
+        setIsClosing(false)
+      }, 300)
+    } else {
+      setIsMobileMenuOpen(true)
+    }
     setIsServicesDropdownOpen(false)
   }
 
@@ -63,14 +72,17 @@ const Navbar = () => {
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.classList.add('overflow-hidden')
+      document.body.classList.add('mobile-menu-open')
       // Also prevent scroll on the root html element for full freeze
       document.documentElement.style.overflow = 'hidden'
     } else {
       document.body.classList.remove('overflow-hidden')
+      document.body.classList.remove('mobile-menu-open')
       document.documentElement.style.overflow = ''
     }
     return () => {
       document.body.classList.remove('overflow-hidden')
+      document.body.classList.remove('mobile-menu-open')
       document.documentElement.style.overflow = ''
     }
   }, [isMobileMenuOpen])
@@ -78,7 +90,7 @@ const Navbar = () => {
 
   return (
     <>
-    <header className="w-full bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 border-b border-neutral-200 fixed top-0 inset-x-0 z-[9999]">
+    <header className="w-full bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 border-b border-neutral-200 fixed top-0 inset-x-0 z-[9999999999]">
       {/* Navigation */}
       <nav className="w-full max-w-7xl mx-auto px-1 md:px-2 lg:px-4 flex items-center justify-between gap-4 py-1 md:py-2">
         {/* Left: brand and primary links */}
@@ -176,106 +188,122 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-[999999] bg-white" role="dialog" aria-modal="true">
-          {/* Overlay top bar with logo + close */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-200">
-            <a href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2">
-              <img src={logo} alt="Technova logo" className="h-10 w-auto object-contain transform origin-left scale-200" />
-              <span className="sr-only">Technova</span>
-            </a>
-            <button onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu" className="p-2 rounded-full hover:bg-neutral-100">
-              <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-          </div>
+      {(isMobileMenuOpen || isClosing) && (
+        <div className="md:hidden fixed inset-0 z-[9999999999]" role="dialog" aria-modal="true">
+          {/* Overlay */}
+          <div
+            className={`absolute inset-0 transition-opacity duration-300 ease-out ${
+              isMobileMenuOpen && !isClosing ? 'opacity-100 bg-white' : 'opacity-0 bg-white'
+            }`}
+            onClick={toggleMobileMenu}
+          />
 
-          <div className="px-4 py-4 space-y-1 overflow-y-auto h-[calc(100vh-4rem)] pb-10">
-            <a 
-              href="/" 
-              className="block text-lg text-neutral-800 hover:text-neutral-900 py-3 rounded-lg hover:bg-neutral-100 px-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Home
-            </a>
-            <a 
-              href="/services" 
-              className="block text-lg text-neutral-800 hover:text-neutral-900 py-3 rounded-lg hover:bg-neutral-100 px-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Services
-            </a>
-            <a 
-              href="/portfolio" 
-              className="block text-lg text-neutral-800 hover:text-neutral-900 py-3 rounded-lg hover:bg-neutral-100 px-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Portfolio
-            </a>
-            <a 
-              href="/team" 
-              className="block text-lg text-neutral-800 hover:text-neutral-900 py-3 rounded-lg hover:bg-neutral-100 px-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Team
-            </a>
-            <a 
-              href="/blog" 
-              className="block text-lg text-neutral-800 hover:text-neutral-900 py-3 rounded-lg hover:bg-neutral-100 px-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Blog
-            </a>
-            <a 
-              href="/contact" 
-              className="block text-lg text-neutral-800 hover:text-neutral-900 py-3 rounded-lg hover:bg-neutral-100 px-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Contact
-            </a>
-            <div className="border-t border-neutral-200 pt-2 mt-2">
-              <button 
-                onClick={toggleMobileServices}
-                className="flex items-center justify-between text-lg text-neutral-800 hover:text-neutral-900 py-3 w-full text-left rounded-lg hover:bg-neutral-100 px-2"
-              >
-                <span>What we offer</span>
-                <svg 
-                  className={`h-4 w-4 transition-transform ${isMobileServicesOpen ? 'rotate-180' : ''}`} 
-                  viewBox="0 0 10 6" 
-                  fill="none" 
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
+          {/* Sliding Panel */}
+          <div
+            className={`absolute inset-x-0 top-0 h-full bg-white transform transition-transform duration-300 ease-out z-[10000000000] ${
+              isMobileMenuOpen && !isClosing ? 'translate-y-0' : '-translate-y-full'
+            }`}
+          >
+            {/* Top bar */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-200 bg-[#007bff]">
+              <a href="/" onClick={toggleMobileMenu} className="flex items-center gap-2">
+                <img src={logo} alt="Technova logo" className="h-10 w-auto object-contain" />
+                <span className="sr-only">Technova</span>
+              </a>
+              <button onClick={toggleMobileMenu} aria-label="Close menu" className="p-2 rounded-full hover:bg-white/10 text-white">
+                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
               </button>
-              
-              {/* Mobile Services Submenu */}
-              {isMobileServicesOpen && (
-                <div className="ml-2 mt-1 space-y-1">
-                  {services.map((service) => (
-                    <a
-                      key={service.id}
-                      href={`/services/${service.slug}`}
-                      className="block text-neutral-700 hover:text-neutral-900 py-2 text-base rounded-md hover:bg-neutral-100 pl-4"
-                      onClick={() => {
-                        setIsMobileMenuOpen(false)
-                        setIsMobileServicesOpen(false)
-                      }}
-                    >
-                      {service.title}
-                    </a>
-                  ))}
-                </div>
-              )}
-              
-              {isAuthenticated && user ? (
-                <a 
-                  href="/profile" 
-                  className="block text-green-600 hover:text-green-700 py-3 w-full text-left font-semibold"
-                  onClick={() => setIsMobileMenuOpen(false)}
+            </div>
+
+            <div className="px-4 py-4 space-y-1 overflow-y-auto h-[calc(100vh-4rem)] pb-10">
+              <a 
+                href="/" 
+                className="block text-[clamp(1rem,2.8vw,1.25rem)] text-[#007bff] hover:text-[#005fcc] py-3 rounded-lg hover:bg-neutral-100 px-2 font-medium"
+                onClick={toggleMobileMenu}
+              >
+                Home
+              </a>
+              <a 
+                href="/services" 
+                className="block text-[clamp(1rem,2.8vw,1.25rem)] text-neutral-800 hover:text-[#007bff] py-3 rounded-lg hover:bg-neutral-100 px-2"
+                onClick={toggleMobileMenu}
+              >
+                Services
+              </a>
+              <a 
+                href="/portfolio" 
+                className="block text-[clamp(1rem,2.8vw,1.25rem)] text-neutral-800 hover:text-[#007bff] py-3 rounded-lg hover:bg-neutral-100 px-2"
+                onClick={toggleMobileMenu}
+              >
+                Portfolio
+              </a>
+              <a 
+                href="/team" 
+                className="block text-[clamp(1rem,2.8vw,1.25rem)] text-neutral-800 hover:text-[#007bff] py-3 rounded-lg hover:bg-neutral-100 px-2"
+                onClick={toggleMobileMenu}
+              >
+                Team
+              </a>
+              <a 
+                href="/blog" 
+                className="block text-[clamp(1rem,2.8vw,1.25rem)] text-neutral-800 hover:text-[#007bff] py-3 rounded-lg hover:bg-neutral-100 px-2"
+                onClick={toggleMobileMenu}
+              >
+                Blog
+              </a>
+              <a 
+                href="/contact" 
+                className="block text-[clamp(1rem,2.8vw,1.25rem)] text-neutral-800 hover:text-[#007bff] py-3 rounded-lg hover:bg-neutral-100 px-2"
+                onClick={toggleMobileMenu}
+              >
+                Contact
+              </a>
+
+              <div className="border-t border-neutral-200 pt-2 mt-2">
+                <button 
+                  onClick={toggleMobileServices}
+                  className="flex items-center justify-between text-[clamp(1rem,2.8vw,1.25rem)] text-neutral-800 hover:text-[#007bff] py-3 w-full text-left rounded-lg hover:bg-neutral-100 px-2"
                 >
-                  👤 Welcome {user?.username}
-                </a>
-              ) : null}
+                  <span>What we offer</span>
+                  <svg 
+                    className={`h-4 w-4 transition-transform ${isMobileServicesOpen ? 'rotate-180' : ''}`} 
+                    viewBox="0 0 10 6" 
+                    fill="none" 
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                </button>
+                
+                {/* Mobile Services Submenu */}
+                {isMobileServicesOpen && (
+                  <div className="ml-2 mt-1 space-y-1">
+                    {services.map((service) => (
+                      <a
+                        key={service.id}
+                        href={`/services/${service.slug}`}
+                        className="block text-neutral-700 hover:text-[#007bff] py-2 text-base rounded-md hover:bg-neutral-100 pl-4"
+                        onClick={() => {
+                          toggleMobileMenu()
+                          setIsMobileServicesOpen(false)
+                        }}
+                      >
+                        {service.title}
+                      </a>
+                    ))}
+                  </div>
+                )}
+                
+                {isAuthenticated && user ? (
+                  <a 
+                    href="/profile" 
+                    className="block text-[#007bff] hover:text-[#005fcc] py-3 w-full text-left font-semibold"
+                    onClick={toggleMobileMenu}
+                  >
+                    👤 Welcome {user?.username}
+                  </a>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>

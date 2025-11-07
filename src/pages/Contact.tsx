@@ -106,7 +106,7 @@ const Contact = () => {
                   Start Your Project
                 </a>
                 <a
-                  href="tel:+254700000000"
+                  href="tel:+254712665257"
                   className="inline-flex items-center justify-center rounded-md border-2 border-white bg-transparent px-6 py-3 text-base font-medium text-white hover:bg-white hover:text-neutral-900 transition"
                 >
                   Call Us Now
@@ -139,7 +139,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-neutral-900 mb-1">Phone</h3>
-                    <p className="text-neutral-700">+254 700 000 000</p>
+                    <p className="text-neutral-700">+254 712 665 257</p>
                   </div>
                 </div>
 
@@ -151,7 +151,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-neutral-900 mb-1">Email</h3>
-                    <p className="text-neutral-700">hello@technova.com</p>
+                    <p className="text-neutral-700">technova446@gmail.com</p>
                   </div>
                 </div>
 
@@ -163,7 +163,7 @@ const Contact = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-neutral-900 mb-1">Office</h3>
+                    <h3 className="font-semibold text-neutral-900 mb-1">Get Us</h3>
                     <p className="text-neutral-700">Nairobi, Kenya</p>
                   </div>
                 </div>
@@ -296,7 +296,7 @@ const Contact = () => {
                   Book Consultation
                 </a>
                 <a
-                  href="tel:+254700000000"
+                  href="tel:+254712665257"
                   className="inline-flex items-center justify-center border border-neutral-600 text-neutral-300 px-6 py-3 rounded-lg font-medium hover:bg-neutral-800 transition-colors"
                 >
                   Call Now
