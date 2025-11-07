@@ -24,7 +24,7 @@ const AdminInquiries = () => {
       setError('')
       try {
         const data = await fetchInquiriesApi()
-        const list = Array.isArray(data) ? data : (data?.results || [])
+        const list = Array.isArray(data) ? data : []
         setItems(list)
       } catch (e: unknown) {
         setError(e instanceof Error ? e.message : 'Failed to load inquiries')
