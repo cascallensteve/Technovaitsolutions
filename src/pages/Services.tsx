@@ -108,52 +108,18 @@ const Services = () => {
       
       {/* Hero Section */}
       <section className="relative w-full overflow-hidden">
-        <div className="relative w-full min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh]">
-          {/* Background */}
+        <div className="relative w-full min-h-[50vh] sm:min-h-[60vh] md:min-h-[70vh]">
+          {/* Background (fixed image for Services hero) */}
           <div className="absolute inset-0">
-            {selectedService.video ? (
-              <>
-                <video
-                  key={selectedService.video}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
-                  onLoadedData={(e) => {
-                    const video = e.target as HTMLVideoElement;
-                    video.currentTime = 0;
-                    video.play().catch(console.log);
-                  }}
-                  onCanPlay={(e) => {
-                    const video = e.target as HTMLVideoElement;
-                    video.play().catch(console.log);
-                  }}
-                >
-                  <source src={selectedService.video} type="video/mp4" />
-                </video>
-                <div
-                  className="absolute inset-0 w-full h-full bg-cover bg-center opacity-0"
-                  style={{
-                    backgroundImage: `url('${selectedService.image}')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                  }}
-                />
-              </>
-            ) : (
-              <div
-                className="absolute inset-0 w-full h-full bg-cover bg-center"
-                style={{
-                  backgroundImage: `url('${selectedService.image}')`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
-                }}
-              />
-            )}
+            <div
+              className="absolute inset-0 w-full h-full bg-cover bg-center"
+              style={{
+                backgroundImage: `url('https://res.cloudinary.com/djksfayfu/image/upload/v1762519562/2570113_jafqpg.jpg')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            />
             <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/60 to-transparent" />
           </div>
 

@@ -31,11 +31,11 @@ const Footer = () => {
             <div>
               <h4 className="font-semibold mb-4">Services</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">Web Development</a></li>
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">Mobile Apps</a></li>
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">System Integration</a></li>
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">M-Pesa Integration</a></li>
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">IT Consulting</a></li>
+                <li><a href="/services/web-development" className="text-neutral-400 hover:text-white transition">Web Development</a></li>
+                <li><a href="/services/mobile-app-development" className="text-neutral-400 hover:text-white transition">Mobile Apps</a></li>
+                <li><a href="/services/system-revamp" className="text-neutral-400 hover:text-white transition">System Integration</a></li>
+                <li><a href="/services/mpesa-integration" className="text-neutral-400 hover:text-white transition">M-Pesa Integration</a></li>
+                <li><a href="/services/it-solutions-support" className="text-neutral-400 hover:text-white transition">IT Consulting</a></li>
               </ul>
             </div>
 
@@ -43,11 +43,11 @@ const Footer = () => {
             <div>
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">About Us</a></li>
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">Our Team</a></li>
+                <li><a href="/" className="text-neutral-400 hover:text-white transition">About Us</a></li>
+                <li><a href="/team" className="text-neutral-400 hover:text-white transition">Our Team</a></li>
                 <li><a href="#" className="text-neutral-400 hover:text-white transition">Careers</a></li>
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">Case Studies</a></li>
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">Blog</a></li>
+                <li><a href="/portfolio" className="text-neutral-400 hover:text-white transition">Case Studies</a></li>
+                <li><a href="/blog" className="text-neutral-400 hover:text-white transition">Blog</a></li>
               </ul>
             </div>
 
@@ -55,7 +55,7 @@ const Footer = () => {
             <div>
               <h4 className="font-semibold mb-4">Get in Touch</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">Contact Us</a></li>
+                <li><a href="/contact" className="text-neutral-400 hover:text-white transition">Contact Us</a></li>
                 <li><a href="#" className="text-neutral-400 hover:text-white transition">Support</a></li>
                 <li><a href="#" className="text-neutral-400 hover:text-white transition">Privacy Policy</a></li>
                 <li><a href="#" className="text-neutral-400 hover:text-white transition">Terms of Service</a></li>

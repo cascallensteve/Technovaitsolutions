@@ -34,10 +34,10 @@ const servicesData = [
       'Deployment & Training',
       'Ongoing Support & Maintenance'
     ],
-    image: '/images/TECHNOVA3.png',
-    video: '/vedio/vedio.mp4',
+    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
+    video: '',
     timeline: '4-8 weeks',
-    pricing: 'Starting from $5,000'
+    pricing: ''
   },
   {
     id: 2,
@@ -68,9 +68,9 @@ const servicesData = [
       'Testing & Optimization',
       'Launch & Maintenance'
     ],
-    image: '/images/NOVATECH.png',
+    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
     timeline: '3-6 weeks',
-    pricing: 'Starting from $3,000'
+    pricing: ''
   },
   {
     id: 3,
@@ -101,9 +101,9 @@ const servicesData = [
       'Testing & Validation',
       'Go-Live & Support'
     ],
-    image: '/images/MPESA.png',
+    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
     timeline: '2-4 weeks',
-    pricing: 'Starting from $2,000'
+    pricing: ''
   },
   {
     id: 4,
@@ -134,10 +134,10 @@ const servicesData = [
       'App Store Submission',
       'Launch & Marketing Support'
     ],
-    image: '/images/NOVATECH.png',
-    video: '/vedio/vedio2.mp4',
+    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
+    video: '',
     timeline: '6-12 weeks',
-    pricing: 'Starting from $8,000'
+    pricing: ''
   },
   {
     id: 5,
@@ -168,9 +168,9 @@ const servicesData = [
       'Content Creation & Optimization',
       'Monitoring & Reporting'
     ],
-    image: '/images/TECHNOVA3.png',
+    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
     timeline: '3-6 months',
-    pricing: 'Starting from $1,500/month'
+    pricing: ''
   },
   {
     id: 6,
@@ -201,9 +201,9 @@ const servicesData = [
       'Training & Documentation',
       'Ongoing Support'
     ],
-    image: '/images/TECHNOVA3.png',
+    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
     timeline: 'Ongoing support',
-    pricing: 'Starting from $500/month'
+    pricing: ''
   }
 ]
 
@@ -244,7 +244,7 @@ const ServiceDetail = () => {
       
       {/* Hero Section */}
       <section className="relative w-full overflow-hidden">
-        <div className="relative w-full min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh]">
+        <div className="relative w-full min-h-[40vh] sm:min-h-[50vh] md:min-h-[60vh]">
           {/* Background */}
           <div className="absolute inset-0">
             {service.video ? (
@@ -285,27 +285,34 @@ const ServiceDetail = () => {
           </div>
 
           {/* Content */}
-          <div className="relative z-10 w-full h-full flex items-center py-16 px-4 md:px-6 lg:px-16">
-            <div className="text-white text-left max-w-4xl">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight drop-shadow-md leading-tight">
-                {service.title}
-              </h1>
-              <p className="mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl drop-shadow leading-relaxed">
-                {service.longDescription}
-              </p>
-              <div className="mt-8 flex flex-row flex-wrap gap-3">
-                <a
-                  href="/contact"
-                  className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium text-neutral-900 shadow-sm hover:bg-neutral-100 transition flex-1 basis-1/2"
-                >
-                  Get Started
-                </a>
-                <a
-                  href="#service-details"
-                  className="inline-flex items-center justify-center rounded-md border-2 border-white bg-transparent px-6 py-3 text-base font-medium text-white hover:bg-white hover:text-neutral-900 transition flex-1 basis-1/2"
-                >
-                  Learn More
-                </a>
+          <div className="relative z-10 w-full h-full flex items-end md:items-center justify-center md:justify-start py-8 md:py-12 px-4 md:px-6 lg:px-16">
+            <div className="text-white w-full max-w-4xl md:max-w-3xl lg:max-w-4xl">
+              <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-5 md:p-6 lg:p-8 shadow-lg ring-1 ring-white/10">
+                <div className="mb-4 flex justify-center md:justify-start">
+                  <span className="inline-flex items-center rounded-full bg-white/10 backdrop-blur px-3 py-1 text-xs font-semibold ring-1 ring-white/30">
+                    Professional Service
+                  </span>
+                </div>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight drop-shadow-md leading-tight text-center md:text-left">
+                  {service.title}
+                </h1>
+                <p className="mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto md:mx-0 drop-shadow leading-relaxed text-center md:text-left">
+                  {service.longDescription}
+                </p>
+                <div className="mt-6 md:mt-8 flex flex-row flex-wrap gap-3 justify-center md:justify-start">
+                  <a
+                    href="/contact"
+                    className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium text-neutral-900 shadow-sm hover:bg-neutral-100 transition flex-1 basis-1/2 md:flex-none md:basis-auto"
+                  >
+                    Get Started
+                  </a>
+                  <a
+                    href="#service-details"
+                    className="inline-flex items-center justify-center rounded-md border-2 border-white bg-transparent px-6 py-3 text-base font-medium text-white hover:bg-white hover:text-neutral-900 transition flex-1 basis-1/2 md:flex-none md:basis-auto"
+                  >
+                    Learn More
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -322,7 +329,7 @@ const ServiceDetail = () => {
               { id: 'features', label: 'Features' },
               { id: 'benefits', label: 'Benefits' },
               { id: 'process', label: 'Process' },
-              { id: 'pricing', label: 'Pricing' }
+              ...(service?.pricing ? [{ id: 'pricing', label: 'Pricing' }] : [])
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -351,10 +358,12 @@ const ServiceDetail = () => {
                     <h4 className="text-lg font-semibold text-neutral-900 mb-3">Timeline</h4>
                     <p className="text-neutral-700">{service.timeline}</p>
                   </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-neutral-900 mb-3">Starting Price</h4>
-                    <p className="text-neutral-700">{service.pricing}</p>
-                  </div>
+                  {service.pricing && (
+                    <div>
+                      <h4 className="text-lg font-semibold text-neutral-900 mb-3">Starting Price</h4>
+                      <p className="text-neutral-700">{service.pricing}</p>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -416,7 +425,7 @@ const ServiceDetail = () => {
               </div>
             )}
 
-            {activeTab === 'pricing' && (
+            {service.pricing && activeTab === 'pricing' && (
               <div>
                 <h3 className="text-2xl font-bold text-neutral-900 mb-6">Pricing Information</h3>
                 <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-6 mb-6">

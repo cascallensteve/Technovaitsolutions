@@ -23,11 +23,11 @@ type BlogPost = {
 const blogPosts: BlogPost[] = [
   {
     id: 1,
-    title: 'The Future of Web Development: Trends to Watch in 2024',
-    slug: 'future-web-development-trends-2024',
+    title: 'The Future of Web Development: Trends to Watch in 2025',
+    slug: 'future-web-development-trends-2025',
     excerpt: 'Explore the latest trends shaping the future of web development, from AI integration to progressive web apps and beyond.',
     content: `
-      <p>The web development landscape is constantly evolving, and 2024 promises to bring exciting new trends that will reshape how we build and interact with websites. As technology advances, developers must stay ahead of the curve to create engaging, efficient, and user-friendly digital experiences.</p>
+      <p>The web development landscape is constantly evolving, and 2025 promises to bring exciting new trends that will reshape how we build and interact with websites. As technology advances, developers must stay ahead of the curve to create engaging, efficient, and user-friendly digital experiences.</p>
       
       <h3>1. AI-Powered Development Tools</h3>
       <p>Artificial Intelligence is revolutionizing web development with tools that can generate code, optimize performance, and even design user interfaces. From GitHub Copilot to AI-powered testing frameworks, developers are becoming more productive than ever.</p>
@@ -43,14 +43,14 @@ const blogPosts: BlogPost[] = [
       
       <p>At Technova, we stay at the forefront of these trends to deliver cutting-edge solutions that drive business growth and user satisfaction.</p>
     `,
-    author: 'Cascallen Steve Cascallen',
+    author: 'Steve Cascallen',
     authorRole: 'Frontend Engineer',
     authorImage: 'https://res.cloudinary.com/dqvsjtkqw/image/upload/v1752050555/WhatsApp_Image_2024-06-16_at_00.57.23_a2952eba_1_pokuj5.jpg',
     publishDate: '2024-01-15',
     readTime: '5 min read',
     category: 'Web Development',
     tags: ['Web Development', 'AI', 'PWA', 'Serverless', 'Security'],
-    image: '/images/NOVATECH.png',
+    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762521547/representations-user-experience-interface-design_yvdw9r.webp',
     featured: true
   },
   {
@@ -79,21 +79,21 @@ const blogPosts: BlogPost[] = [
     `,
     author: 'Billy Josiah Illa',
     authorRole: 'Backend Engineer',
-    authorImage: '/images/team/billy.jpg',
+    authorImage: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762518416/WhatsApp_Image_2025-11-06_at_15.55.38_cf32b20d_e0g7rj.jpg',
     publishDate: '2024-01-10',
     readTime: '4 min read',
     category: 'Fintech',
     tags: ['M-Pesa', 'Payment Integration', 'Fintech', 'ROI', 'Business Growth'],
-    image: '/images/MPESA.png',
+    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762521943/person-office-analyzing-checking-finance-graphs_xqxnek.webp',
     featured: true
   },
   {
     id: 3,
-    title: 'SEO Best Practices for Modern Websites in 2024',
-    slug: 'seo-best-practices-modern-websites-2024',
+    title: 'SEO Best Practices for Modern Websites in 2025',
+    slug: 'seo-best-practices-modern-websites-2025',
     excerpt: 'Discover the latest SEO strategies and techniques that will help your website rank higher and attract more organic traffic.',
     content: `
-      <p>Search Engine Optimization continues to evolve with changing algorithms and user behaviors. In 2024, successful SEO requires a holistic approach that combines technical excellence with user-focused content strategy.</p>
+      <p>Search Engine Optimization continues to evolve with changing algorithms and user behaviors. In 2025, successful SEO requires a holistic approach that combines technical excellence with user-focused content strategy.</p>
       
       <h3>Core Web Vitals and Page Experience</h3>
       <p>Google's emphasis on page experience signals means that technical performance is more important than ever. Focus on optimizing Largest Contentful Paint (LCP), First Input Delay (FID), and Cumulative Layout Shift (CLS).</p>
@@ -109,14 +109,14 @@ const blogPosts: BlogPost[] = [
       
       <p>Our SEO services at Technova combine these best practices with data-driven strategies to help your business achieve sustainable organic growth.</p>
     `,
-    author: 'Cascallen Steve Cascallen',
+    author: 'Steve Cascallen',
     authorRole: 'Frontend Engineer',
     authorImage: 'https://res.cloudinary.com/dqvsjtkqw/image/upload/v1752050555/WhatsApp_Image_2024-06-16_at_00.57.23_a2952eba_1_pokuj5.jpg',
     publishDate: '2024-01-08',
     readTime: '6 min read',
     category: 'SEO',
     tags: ['SEO', 'Core Web Vitals', 'Content Strategy', 'Local SEO', 'Mobile Optimization'],
-    image: '/images/TECHNOVA3.png',
+    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762522584/seo-website-development-data-network-concept_1_kopzoa.webp',
     featured: false
   },
   {
@@ -145,7 +145,7 @@ const blogPosts: BlogPost[] = [
     readTime: '7 min read',
     category: 'Mobile Development',
     tags: ['React Native', 'Native Development', 'Mobile Apps', 'Cross-Platform', 'Performance'],
-    image: '/images/NOVATECH.png',
+    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762522162/representations-user-experience-interface-design_1_1_dxypj8.webp',
     featured: false
   },
   {
@@ -175,8 +175,8 @@ const blogPosts: BlogPost[] = [
     `,
     author: 'Billy Josiah Illa',
     authorRole: 'Backend Engineer',
-    authorImage: '/images/team/billy.jpg',
-    publishDate: '2024-01-03',
+    authorImage: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762518416/WhatsApp_Image_2025-11-06_at_15.55.38_cf32b20d_e0g7rj.jpg',
+    publishDate: '2025-01-11',
     readTime: '5 min read',
     category: 'System Modernization',
     tags: ['Legacy Systems', 'Modernization', 'Migration', 'System Upgrade', 'Digital Transformation'],
@@ -207,7 +207,7 @@ const Blog = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="w-full py-12 md:py-16 bg-gradient-to-r from-neutral-50 to-blue-50">
+      <section className="w-full py-8 md:py-10 bg-gradient-to-r from-neutral-50 to-blue-50">
         <div className="px-4 md:px-6 lg:px-16 max-w-6xl mx-auto">
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-blue-100 rounded-full px-4 py-2 mb-6">
@@ -251,9 +251,9 @@ const Blog = () => {
 
       {/* Featured Posts */}
       {featuredPosts.length > 0 && (
-        <section className="w-full py-20 bg-gradient-to-b from-neutral-50 to-white">
+        <section className="w-full py-12 bg-gradient-to-b from-neutral-50 to-white">
           <div className="px-4 md:px-6 lg:px-16 max-w-7xl mx-auto">
-            <div className="text-center mb-16">
+            <div className="text-center mb-8">
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full px-4 py-2 mb-6">
                 <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
