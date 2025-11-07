@@ -80,7 +80,7 @@ const Contact = () => {
             <div
               className="absolute inset-0 w-full h-full bg-cover bg-center"
               style={{
-                backgroundImage: `url('/images/TECHNOVA3.png')`,
+                backgroundImage: `url('https://res.cloudinary.com/djksfayfu/image/upload/v1762517470/modern-brick-wall-textured-background_gsjaqw.webp')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -98,7 +98,7 @@ const Contact = () => {
               <p className="mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl drop-shadow leading-relaxed">
                 Ready to transform your ideas into powerful digital solutions? Get in touch with our team of experts.
               </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+              <div className="mt-8 flex flex-row-reverse sm:flex-row gap-4">
                 <a
                   href="#contact-form"
                   className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium text-neutral-900 shadow-sm hover:bg-neutral-100 transition"

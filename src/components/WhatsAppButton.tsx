@@ -5,7 +5,7 @@ const WhatsAppButton = () => {
   
   // WhatsApp number with Kenya country code
   const phoneNumber = "254712665257" // Kenya: +254 712 665 257
-  const message = "Hello! I'm interested in your services. Can we discuss my project?"
+  const message = "Hello! Technova I'm interested in your services. Can we discuss my project?"
   
   const handleWhatsAppClick = () => {
     const encodedMessage = encodeURIComponent(message)
