@@ -1,20 +1,26 @@
 import { useState } from 'react'
+import { sendChat, type ChatMessage } from '../services/aiChat'
 
 const SupportButton = () => {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState('')
+  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [sending, setSending] = useState(false)
 
-  // Configure your GitHub repo for support issues
-  const GITHUB_OWNER = 'YOUR_GITHUB_OWNER'
-  const GITHUB_REPO = 'YOUR_GITHUB_REPO'
 
-  const openGithubIssue = () => {
-    if (!message.trim()) return
-    const title = encodeURIComponent('Customer Support Request')
-    const body = encodeURIComponent(`Message:\n\n${message}\n\n— Sent from Technova website support panel`)
-    const labels = encodeURIComponent('customer support')
-    const url = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/issues/new?title=${title}&body=${body}&labels=${labels}`
-    window.open(url, '_blank', 'noopener,noreferrer')
+  const sendMessage = async () => {
+    if (!message.trim() || sending) return
+    const userMsg: ChatMessage = { role: 'user', content: message.trim() }
+    setMessages((prev) => [...prev, userMsg])
+    setMessage('')
+    setSending(true)
+    try {
+      const res = await sendChat({ message: userMsg.content, history: [...messages, userMsg] })
+      const reply = res.success && res.data?.reply ? res.data.reply : (res.message || 'Sorry, something went wrong.')
+      setMessages((prev) => [...prev, { role: 'assistant', content: reply }])
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -74,8 +80,26 @@ const SupportButton = () => {
               <div className="h-6" />
 
               {/* Placeholder for assistant (you can plug your widget/iframe here) */}
-              <div className="rounded-xl border border-dashed border-neutral-300 bg-white p-4 text-sm text-neutral-600">
-                This is your assistant area. Plug in your chat widget or assistant here.
+              <div className="rounded-xl border border-dashed border-neutral-300 bg-white p-3 text-sm text-neutral-700 space-y-3 max-h-[46vh] overflow-y-auto">
+                {messages.length === 0 && (
+                  <div className="text-neutral-500">Ask us anything to get started.</div>
+                )}
+                {messages.map((m, idx) => (
+                  <div key={idx} className={m.role === 'assistant' ? 'max-w-[85%]' : 'max-w-[85%] ml-auto'}>
+                    <div className={
+                      m.role === 'assistant'
+                        ? 'bg-indigo-600 text-white rounded-2xl rounded-tl-sm px-4 py-2 shadow'
+                        : 'bg-neutral-100 text-neutral-800 rounded-2xl rounded-tr-sm px-4 py-2 shadow'
+                    }>
+                      {m.content}
+                    </div>
+                    <div className={
+                      'mt-1 flex items-center gap-2 text-[10px] ' + (m.role === 'assistant' ? 'text-neutral-500' : 'text-neutral-400 justify-end')
+                    }>
+                      {m.role === 'assistant' ? 'Assistant' : 'You'}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -90,23 +114,21 @@ const SupportButton = () => {
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
-                      openGithubIssue()
-                      setMessage('')
+                      e.preventDefault()
+                      sendMessage()
                     }
                   }}
                 />
                 <button
-                  onClick={() => {
-                    openGithubIssue()
-                    setMessage('')
-                  }}
-                  className="rounded-full bg-indigo-600 text-white px-3 py-1.5 text-xs hover:bg-indigo-700"
+                  onClick={sendMessage}
+                  disabled={sending}
+                  className="rounded-full bg-indigo-600 text-white px-3 py-1.5 text-xs hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Send
+                  {sending ? 'Sending...' : 'Send'}
                 </button>
               </div>
               <p className="mt-2 text-[11px] text-neutral-500">
-                Opens a prefilled GitHub issue in a new tab.
+                Messages are sent to the Technova AI assistant.
               </p>
             </div>
           </div>
@@ -117,3 +139,4 @@ const SupportButton = () => {
 }
 
 export default SupportButton
+
