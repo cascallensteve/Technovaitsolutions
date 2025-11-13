@@ -1,7 +1,7 @@
 // Agreements service: list, get, create, update status, delete
 // Mirrors patterns from authService.ts and contact.js
 
-const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'http://localhost:8000'
+const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'https://technova-backend-drab.vercel.app/'
 
 export interface Agreement {
   id: number

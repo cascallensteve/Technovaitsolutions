@@ -1,5 +1,5 @@
 import { authService } from './authService'
-const API_BASE = (import.meta && import.meta.env && import.meta.env.VITE_API_BASE) || 'http://localhost:8000'
+const API_BASE = (import.meta && import.meta.env && import.meta.env.VITE_API_BASE) || 'https://technova-backend-drab.vercel.app/'
 
 async function parseJsonSafe(res) {
   const ct = res.headers.get('content-type') || ''

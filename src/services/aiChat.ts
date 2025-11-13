@@ -1,4 +1,4 @@
-const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'http://localhost:8000'
+const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'https://technova-backend-drab.vercel.app/'
 
 export type ChatMessage = {
   role: 'user' | 'assistant' | 'system'
