@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'http://localhost:8000'
+const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'https://technova-backend-drab.vercel.app/'
 
 type Profile = {
   user_id?: number

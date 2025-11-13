@@ -4,6 +4,7 @@ import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
 
 const Contact = () => {
+  const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'https://technova-backend-drab.vercel.app/'
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -36,7 +37,7 @@ const Contact = () => {
         return
       }
 
-      const response = await fetch('http://localhost:8000/api/contact/', {
+      const response = await fetch(`${API_BASE}/api/contact/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

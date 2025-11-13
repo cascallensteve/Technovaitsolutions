@@ -5,7 +5,7 @@ import Footer from '../components/Footer'
 import { authService } from '../services/authService'
 
 const AdminSignUp = () => {
-  const API_BASE_URL = (import.meta as any)?.env?.VITE_API_BASE || (import.meta as any)?.env?.VITE_API_URL || 'http://localhost:8000'
+  const API_BASE_URL = (import.meta as any)?.env?.VITE_API_BASE || (import.meta as any)?.env?.VITE_API_URL || 'https://technova-backend-drab.vercel.app'
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: '',
