@@ -47,6 +47,8 @@ export const verificationService = {
         expiresAt,
       })
 
+
+
       localStorage.setItem(`verificationCode_${email}`, code)
 
       console.log(`

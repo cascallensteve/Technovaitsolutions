@@ -1,5 +1,5 @@
 // Backend API base (token flow)
-const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'https://technova-backend-drab.vercel.app/'
+const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'https://technova-backend-drab.vercel.app/api'
 
 // Auth namespace
 const AUTH_BASE = `${API_BASE}/auth`

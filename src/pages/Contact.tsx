@@ -4,7 +4,7 @@ import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
 
 const Contact = () => {
-  const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'https://technova-backend-drab.vercel.app/'
+  const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'https://technova-backend-drab.vercel.app/api'
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -15,6 +15,7 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [submitSuccess, setSubmitSuccess] = useState('')
+  const [submitted, setSubmitted] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -37,7 +38,7 @@ const Contact = () => {
         return
       }
 
-      const response = await fetch(`${API_BASE}/api/contact/`, {
+      const response = await fetch(`${API_BASE}/contact/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,6 +62,7 @@ const Contact = () => {
       setSubmitSuccess('Thanks! Your message has been sent. We will get back to you shortly.')
       // Optionally reset form
       setFormData({ first_name: '', last_name: '', email: '', company: '', message: '' })
+      setSubmitted(true)
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'An unexpected error occurred.'
       setSubmitError(msg)
@@ -171,15 +173,39 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Right: Contact Form */}
+            {/* Right: Contact Form / Success State */}
             <div className="bg-white rounded-2xl shadow-sm border border-black/10 p-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {submitSuccess && (
-                  <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-sm">{submitSuccess}</div>
-                )}
-                {submitError && (
-                  <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">{submitError}</div>
-                )}
+              {submitted ? (
+                <div className="space-y-6 text-center">
+                  {submitSuccess && (
+                    <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-sm">
+                      {submitSuccess}
+                    </div>
+                  )}
+                  <p className="text-neutral-700 text-sm md:text-base">
+                    We&apos;ve received your message and our team will get back to you as soon as possible.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubmitted(false)
+                      setSubmitSuccess('')
+                      setSubmitError('')
+                      setFormData({ first_name: '', last_name: '', email: '', company: '', message: '' })
+                    }}
+                    className="inline-flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                  >
+                    Send Another Message
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {submitSuccess && (
+                    <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-sm">{submitSuccess}</div>
+                  )}
+                  {submitError && (
+                    <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">{submitError}</div>
+                  )}
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div>
                     <label htmlFor="first_name" className="block text-sm font-medium text-neutral-900 mb-2">
@@ -262,14 +288,15 @@ const Contact = () => {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
-                >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
-                </button>
-              </form>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  >
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>

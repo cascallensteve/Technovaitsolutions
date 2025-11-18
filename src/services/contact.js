@@ -1,5 +1,5 @@
 import { authService } from './authService'
-const API_BASE = (import.meta && import.meta.env && import.meta.env.VITE_API_BASE) || 'https://technova-backend-drab.vercel.app/'
+const API_BASE = (import.meta && import.meta.env && import.meta.env.VITE_API_BASE) || 'https://technova-backend-drab.vercel.app/api'
 
 async function parseJsonSafe(res) {
   const ct = res.headers.get('content-type') || ''
@@ -7,7 +7,7 @@ async function parseJsonSafe(res) {
 }
 
 export async function createInquiry(payload) {
-  const res = await fetch(`${API_BASE}/api/contact/`, {
+  const res = await fetch(`${API_BASE}/contact/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -22,7 +22,7 @@ export async function createInquiry(payload) {
 
 export async function listInquiries() {
   const token = (typeof window !== 'undefined') ? localStorage.getItem('adminToken') : null
-  const res = await fetch(`${API_BASE}/api/contact/list/`, {
+  const res = await fetch(`${API_BASE}/contact/list/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
