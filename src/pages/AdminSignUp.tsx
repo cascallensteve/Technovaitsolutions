@@ -119,11 +119,6 @@ const AdminSignUp = () => {
           is_staff: payload.is_staff,
         }))
 
-        // Optionally fetch verified profile to sync any flags
-        try {
-          await authService.fetchAndStoreProfile(payload.token)
-        } catch {}
-
         navigate('/admin')
         return
       }

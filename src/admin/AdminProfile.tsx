@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 
-const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'https://technova-backend-drab.vercel.app/'
-
 type Profile = {
   user_id?: number
   username?: string
@@ -17,32 +15,21 @@ export default function AdminProfile() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    const load = async () => {
-      setLoading(true)
-      setError('')
-      try {
-        const token = (typeof window !== 'undefined') ? localStorage.getItem('adminToken') : null
-        const res = await fetch(`${API_BASE}/auth/profile/`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(token ? { Authorization: `Token ${token}` } : {}),
-          },
-        })
-        const ct = res.headers.get('content-type') || ''
-        const data = ct.includes('application/json') ? await res.json() : {}
-        if (!res.ok) {
-          const msg = (data && (data.message || data.error)) || 'Failed to load profile'
-          throw new Error(msg)
-        }
-        setProfile(data)
-      } catch (e: any) {
-        setError(e?.message || 'Failed to load profile')
-      } finally {
-        setLoading(false)
+    setLoading(true)
+    setError('')
+    try {
+      if (typeof window === 'undefined') {
+        setProfile(null)
+      } else {
+        const stored = localStorage.getItem('user')
+        const parsed = stored ? JSON.parse(stored) : null
+        setProfile(parsed)
       }
+    } catch (e: any) {
+      setError(e?.message || 'Failed to load profile')
+    } finally {
+      setLoading(false)
     }
-    load()
   }, [])
 
   const token = (typeof window !== 'undefined') ? localStorage.getItem('adminToken') : null

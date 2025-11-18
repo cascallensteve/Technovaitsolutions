@@ -1,5 +1,5 @@
 // Backend API base (token flow)
-const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'https://technova-backend-drab.vercel.app/api'
+const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'https://technova-backend-drab.vercel.app'
 
 // Auth namespace
 const AUTH_BASE = `${API_BASE}/auth`
@@ -152,9 +152,6 @@ export const authService = {
         )
       }
 
-      // --- Fetch verified profile for consistency ---
-      await this.fetchAndStoreProfile(result?.data?.token)
-
       return result
     } catch (error) {
       console.error('Sign in error:', error)
@@ -213,7 +210,7 @@ export const authService = {
   signOut(): void {
     localStorage.removeItem('authToken')
     localStorage.removeItem('adminToken')
-    
+    localStorage.removeItem('user')
   },
 
   /**
