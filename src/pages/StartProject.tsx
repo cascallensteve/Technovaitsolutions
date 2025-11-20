@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
 import { useState } from 'react'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 const projectTypeLabels: Record<string, string> = {
   'web-suite': 'Build a web suite',
@@ -23,6 +24,8 @@ const StartProject = () => {
     details: '',
   })
   const [submitted, setSubmitted] = useState(false)
+
+  useDocumentTitle('Start a Project | Technova IT Solutions')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target

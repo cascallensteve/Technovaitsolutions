@@ -6,9 +6,11 @@ import WhyChoose from '../components/WhyChoose'
 import Testimonials from '../components/Testimonials'
 import Footer from '../components/Footer'
 import BookingSection from '../components/BookingSection'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 
 const Home = () => {
+  useDocumentTitle('Technova IT Solutions | Web & Mobile Development, Payments & Branding')
   return (
     <div className="min-h-screen bg-white text-neutral-900 overflow-x-hidden">
       <Navbar />

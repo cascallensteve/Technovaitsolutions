@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { authService } from '../services/authService'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 interface UserData {
   user_id: number
@@ -12,6 +13,7 @@ interface UserData {
 
 const Profile = () => {
   const navigate = useNavigate()
+  useDocumentTitle('Client Profile | Technova IT Solutions Account')
   const [user, setUser] = useState<UserData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 

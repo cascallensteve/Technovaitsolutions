@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 type PortfolioProject = {
   id: number
@@ -162,6 +163,7 @@ const projects: PortfolioProject[] = [
 const categories = ['All', 'Web Development', 'Mobile App Development', 'System Revamp', 'System Integration']
 
 const Portfolio = () => {
+  useDocumentTitle('Portfolio | Technova IT Solutions Projects & Case Studies')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedProject, setSelectedProject] = useState(projects[0])
 

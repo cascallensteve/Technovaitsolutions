@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 type BlogPost = {
   id: number
@@ -188,6 +189,7 @@ const blogPosts: BlogPost[] = [
 const categories = ['All', 'Web Development', 'Mobile Development', 'SEO', 'Fintech', 'System Modernization']
 
 const Blog = () => {
+  useDocumentTitle('Blog | Technova IT Solutions Insights & Tutorials')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
 

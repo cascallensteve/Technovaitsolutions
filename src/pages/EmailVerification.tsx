@@ -3,10 +3,12 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { authService } from '../services/authService'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 const EmailVerification = () => {
   const navigate = useNavigate()
   const location = useLocation()
+  useDocumentTitle('Verify Your Email | Technova IT Solutions Admin')
   const [email, setEmail] = useState('')
   const [token, setToken] = useState('')
   const [isLoading, setIsLoading] = useState(false)

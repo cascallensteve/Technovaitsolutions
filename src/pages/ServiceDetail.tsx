@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 const servicesData = [
   {
@@ -212,6 +213,8 @@ const ServiceDetail = () => {
   const [activeTab, setActiveTab] = useState('overview')
 
   const service = servicesData.find((s) => s.slug === slug) || null
+
+  useDocumentTitle(service ? `${service.title} | Technova IT Solutions Services` : 'Service Details | Technova IT Solutions')
 
   if (!service) {
     return (

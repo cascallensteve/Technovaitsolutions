@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 type BlogPost = {
   id: number
@@ -203,6 +204,8 @@ const BlogPost = () => {
       setRelatedPosts(related)
     }
   }, [slug])
+
+  useDocumentTitle(post ? `${post.title} | Technova IT Solutions Blog` : 'Blog Article | Technova IT Solutions')
 
   if (!post) {
     return (

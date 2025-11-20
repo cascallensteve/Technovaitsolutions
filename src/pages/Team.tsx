@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 const teamMembers = [
   {
@@ -47,6 +48,7 @@ const teamMembers = [
 ]
 
 const Team = () => {
+  useDocumentTitle('Our Team | Technova IT Solutions Engineers & Designers')
   const [showNoPositions, setShowNoPositions] = useState(false)
   const [showResumeInfo, setShowResumeInfo] = useState(false)
   return (

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 const services = [
   {
@@ -99,6 +100,7 @@ const services = [
 ]
 
 const Services = () => {
+  useDocumentTitle('IT & Software Development Services | Technova IT Solutions')
   const [selectedService, setSelectedService] = useState(services[0])
   const [showStartChoices, setShowStartChoices] = useState(false)
 

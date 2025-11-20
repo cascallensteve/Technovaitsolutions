@@ -2,8 +2,10 @@ import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 const Contact = () => {
+  useDocumentTitle('Contact Technova IT Solutions | Request a Quote or Consultation')
   const API_BASE = (import.meta as any)?.env?.VITE_API_BASE || 'https://technova-backend-drab.vercel.app/api'
   const [formData, setFormData] = useState({
     first_name: '',
