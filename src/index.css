@@ -1,8 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
 @import "tailwindcss";
 
 /* Optional: keep only safe base rules without @apply */
 html, body, #root { height: 100%; }
 body { margin: 0; }
+
+/* Navbar font: Montserrat Bold */
+.nav-font {
+  font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 700;
+}
+
+/* Simple slide-in animations for featured cards */
+@keyframes slide-in-left-soft {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right-soft {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-left-soft {
+  animation: slide-in-left-soft 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-slide-in-right-soft {
+  animation: slide-in-right-soft 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
 
 /* Hide scrollbars for carousel */
 .scrollbar-hide {

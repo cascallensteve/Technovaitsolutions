@@ -18,7 +18,7 @@ const services = [
     ],
     image: '/images/TECHNOVA3.png',
     video: '/vedio/vedio.mp4',
-    timeline: '4-8 weeks'
+    timeline: '5-12 weeks'
   },
   {
     id: 2,
@@ -33,22 +33,22 @@ const services = [
       'Mobile-responsive design'
     ],
     image: '/images/NOVATECH.png',
-    timeline: '3-6 weeks'
+    timeline: '4-10 weeks'
   },
   {
     id: 3,
-    title: 'M-Pesa Integration',
-    description: 'Seamless payment integration to power your business with mobile money solutions.',
+    title: 'Payment Integration',
+    description: 'Unified payment integration covering KCB, M-Pesa, Jenga, Buni, Paystack and more, so your customers can pay easily and securely.',
     features: [
-      'M-Pesa API integration',
-      'Payment gateway setup',
-      'Transaction monitoring',
-      'Automated reconciliation',
-      'Multi-currency support',
-      'Fraud detection systems'
+      'KCB payment integration',
+      'M-Pesa API & STK push integration',
+      'Jenga payment API integration',
+      'Buni and Paystack gateway setup',
+      'Real-time transaction monitoring & reconciliation',
+      'Multi-currency support and fraud protection'
     ],
     image: '/images/MPESA.png',
-    timeline: '2-4 weeks'
+    timeline: '3-6 weeks'
   },
   {
     id: 4,
@@ -64,7 +64,7 @@ const services = [
     ],
     image: '/images/NOVATECH.png',
     video: '/vedio/vedio2.mp4',
-    timeline: '6-12 weeks'
+    timeline: '6-14 weeks'
   },
   {
     id: 5,
@@ -79,7 +79,7 @@ const services = [
       'Performance tracking and reporting'
     ],
     image: '/images/TECHNOVA3.png',
-    timeline: '3-6 months'
+    timeline: '1-2 weeks'
   },
   {
     id: 6,
@@ -114,7 +114,7 @@ const Services = () => {
             <div
               className="absolute inset-0 w-full h-full bg-cover bg-center"
               style={{
-                backgroundImage: `url('https://res.cloudinary.com/djksfayfu/image/upload/v1762519562/2570113_jafqpg.jpg')`,
+                backgroundImage: `url('https://res.cloudinary.com/djksfayfu/image/upload/v1750423764/blake-connally-B3l0g6HLxr8-unsplash_evasva.jpg')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -352,7 +352,7 @@ const Services = () => {
             </p>
             <div className="grid md:grid-cols-3 gap-6 mb-10">
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <div className="text-3xl font-bold text-blue-300 mb-2">150+</div>
+                <div className="text-3xl font-bold text-blue-300 mb-2">10+</div>
                 <div className="text-white">Projects Completed</div>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">

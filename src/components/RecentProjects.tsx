@@ -6,6 +6,7 @@ type Project = {
   title: string
   blurb: string
   image: string
+  url?: string
   cta: { label: string; href: string }
   techStack: string[]
 }
@@ -17,6 +18,7 @@ const projects: Project[] = [
     blurb:
       'Modern interior design platform with responsive design, showcasing beautiful collections and seamless user experience across all devices.',
     image: '/images/brand decor interior.png',
+    url: 'https://brand-decor-interior-ten.vercel.app/',
     cta: { label: 'Explore case study', href: '#case-1' },
     techStack: ['Django', 'React', 'Tailwind CSS', 'PostgreSQL'],
   },
@@ -26,6 +28,7 @@ const projects: Project[] = [
     blurb:
       'Professional healthcare and wellness services platform with mental health support, outpatient services, and wellness programs.',
     image: '/images/extern .png',
+    url: 'https://well-path.vercel.app/',
     cta: { label: 'View healthcare project', href: '#case-2' },
     techStack: ['Django', 'React', 'Tailwind CSS', 'PostgreSQL'],
   },
@@ -35,6 +38,7 @@ const projects: Project[] = [
     blurb:
       'Educational platform offering natural treatments and insight classes with interactive learning features and comprehensive course management.',
     image: '/images/gems.png',
+    url: 'https://www.gemsofinsight.com/',
     cta: { label: 'Explore education platform', href: '#case-3' },
     techStack: ['Django', 'React', 'Tailwind CSS', 'PostgreSQL'],
   },
@@ -44,16 +48,8 @@ const projects: Project[] = [
     blurb:
       'Digital portfolio support system with contact management, empowering ministries with modern web presence and communication tools.',
     image: '/images/rpl system.png',
+    url: 'https://rpl-kingdom-equipers-agdo.vercel.app/',
     cta: { label: 'Learn more', href: '#case-4' },
-    techStack: ['Django', 'React', 'Tailwind CSS', 'PostgreSQL'],
-  },
-  {
-    id: 5,
-    title: 'Super. Speed',
-    blurb:
-      'Performance-focused builds that scale—from prototype to millions of users with confidence.',
-    image: '/images/Technova1.png',
-    cta: { label: 'Explore performance work', href: '#case-5' },
     techStack: ['Django', 'React', 'Tailwind CSS', 'PostgreSQL'],
   },
 ]
@@ -162,15 +158,35 @@ const RecentProjects = () => {
                 {projects.map((p: Project, projectIndex: number) => (
                   <article
                     key={`${p.id}-${projectIndex}`}
-                    className="flex-shrink-0 w-[calc(100%-0px)] sm:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)] snap-start rounded-3xl bg-white shadow-sm border border-black/10 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-out"
+                    className="flex-shrink-0 w-[calc(100%-0px)] sm:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)] snap-start rounded-3xl bg-white shadow-sm border border-black/10 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-out cursor-pointer"
+                    onClick={() => {
+                      if (p.url) {
+                        window.open(p.url, '_blank', 'noopener,noreferrer')
+                      }
+                    }}
                   >
                     <div className="p-4">
                       <div className="rounded-2xl overflow-hidden ring-1 ring-black/5 relative p-2">
-                        <div
-                          className="aspect-[4/3] bg-contain bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-102"
-                          style={{ backgroundImage: `url('${p.image}')` }}
-                          aria-hidden="true"
-                        />
+                        {p.url ? (
+                          <a
+                            href={p.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                          >
+                            <div
+                              className="aspect-[4/3] bg-contain bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-102"
+                              style={{ backgroundImage: `url('${p.image}')` }}
+                              aria-hidden="true"
+                            />
+                          </a>
+                        ) : (
+                          <div
+                            className="aspect-[4/3] bg-contain bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-102"
+                            style={{ backgroundImage: `url('${p.image}')` }}
+                            aria-hidden="true"
+                          />
+                        )}
                         {/* Tech Stack Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                           <div className="p-4 w-full">

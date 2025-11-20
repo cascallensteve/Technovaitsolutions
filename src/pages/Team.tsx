@@ -61,7 +61,7 @@ const Team = () => {
             <div
               className="absolute inset-0 w-full h-full bg-cover bg-center"
               style={{
-                backgroundImage: `url('/images/TECHNOVA3.png')`,
+                backgroundImage: `url('https://res.cloudinary.com/djksfayfu/image/upload/v1750423764/blake-connally-B3l0g6HLxr8-unsplash_evasva.jpg')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -111,7 +111,7 @@ const Team = () => {
               <div className="text-neutral-700">Technologies Mastered</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-blue-600 mb-2">50+</div>
+              <div className="text-4xl font-bold text-blue-600 mb-2">10+</div>
               <div className="text-neutral-700">Projects Delivered</div>
             </div>
             <div>

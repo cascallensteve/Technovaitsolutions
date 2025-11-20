@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -36,7 +36,7 @@ const servicesData = [
     ],
     image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
     video: '',
-    timeline: '4-8 weeks',
+    timeline: '5-12 weeks',
     pricing: ''
   },
   {
@@ -69,30 +69,30 @@ const servicesData = [
       'Launch & Maintenance'
     ],
     image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
-    timeline: '3-6 weeks',
+    timeline: '4-10 weeks',
     pricing: ''
   },
   {
     id: 3,
-    title: 'M-Pesa Integration',
+    title: 'Payment Integration',
     slug: 'mpesa-integration',
-    description: 'Seamless payment integration to power your business with mobile money solutions.',
-    longDescription: 'Integrate M-Pesa payment solutions seamlessly into your business operations. Our expertise in mobile money integration ensures secure, reliable, and user-friendly payment experiences for your customers.',
+    description: 'Unified payment integration for KCB, M-Pesa, Jenga, Buni, Paystack and more, giving your customers flexible, secure ways to pay.',
+    longDescription: 'Connect your business to multiple payment providers through one clean integration. Our Payment Integration service covers KCB, M-Pesa, Jenga, Buni, Paystack and other gateways so you can accept payments from your customers wherever they are, with secure processing and clear reporting.',
     features: [
-      'M-Pesa API integration',
-      'Payment gateway setup',
-      'Transaction monitoring',
-      'Automated reconciliation',
-      'Multi-currency support',
-      'Fraud detection systems'
+      'KCB online and mobile banking payment integration',
+      'M-Pesa API & STK push integration',
+      'Jenga payment API integration',
+      'Buni and Paystack gateway configuration',
+      'Real-time transaction monitoring & automated reconciliation',
+      'Multi-currency support and fraud protection rules'
     ],
     benefits: [
-      'Increased payment options',
-      'Faster transaction processing',
-      'Reduced payment friction',
-      'Enhanced security',
-      'Real-time notifications',
-      'Comprehensive reporting'
+      'More payment options for your customers',
+      'Faster and more reliable transaction processing',
+      'Reduced payment friction across web and mobile',
+      'Improved security and compliance',
+      'Real-time notifications and detailed reporting',
+      'Easier scaling as your business and transaction volumes grow'
     ],
     process: [
       'Business Requirements Analysis',
@@ -102,7 +102,7 @@ const servicesData = [
       'Go-Live & Support'
     ],
     image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
-    timeline: '2-4 weeks',
+    timeline: '3-6 weeks',
     pricing: ''
   },
   {
@@ -136,7 +136,7 @@ const servicesData = [
     ],
     image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
     video: '',
-    timeline: '6-12 weeks',
+    timeline: '6-14 weeks',
     pricing: ''
   },
   {
@@ -169,7 +169,7 @@ const servicesData = [
       'Monitoring & Reporting'
     ],
     image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
-    timeline: '3-6 months',
+    timeline: '1-2 weeks',
     pricing: ''
   },
   {
@@ -209,13 +209,9 @@ const servicesData = [
 
 const ServiceDetail = () => {
   const { slug } = useParams<{ slug: string }>()
-  const [service, setService] = useState<typeof servicesData[0] | null>(null)
   const [activeTab, setActiveTab] = useState('overview')
 
-  useEffect(() => {
-    const foundService = servicesData.find(s => s.slug === slug)
-    setService(foundService || null)
-  }, [slug])
+  const service = servicesData.find((s) => s.slug === slug) || null
 
   if (!service) {
     return (
@@ -263,7 +259,8 @@ const ServiceDetail = () => {
                 <div
                   className="absolute inset-0 w-full h-full bg-cover bg-center opacity-0"
                   style={{
-                    backgroundImage: `url('${service.image}')`,
+                    backgroundImage:
+                      "url('https://res.cloudinary.com/djksfayfu/image/upload/v1761824525/a_happy_African_lady_looking_forward__wearing_a_yellow_sweater_with__Technova__written_on_it__holdin_qicwid.webp')",
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
@@ -274,7 +271,8 @@ const ServiceDetail = () => {
               <div
                 className="absolute inset-0 w-full h-full bg-cover bg-center"
                 style={{
-                  backgroundImage: `url('${service.image}')`,
+                  backgroundImage:
+                    "url('https://res.cloudinary.com/djksfayfu/image/upload/v1761824525/a_happy_African_lady_looking_forward__wearing_a_yellow_sweater_with__Technova__written_on_it__holdin_qicwid.webp')",
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',

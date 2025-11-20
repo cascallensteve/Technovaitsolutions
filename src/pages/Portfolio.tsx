@@ -3,13 +3,27 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
 
-const projects = [
+type PortfolioProject = {
+  id: number
+  title: string
+  category: string
+  description: string
+  image: string
+  technologies: string[]
+  features: string[]
+  timeline: string
+  client: string
+  url?: string
+}
+
+const projects: PortfolioProject[] = [
   {
     id: 1,
     title: 'Brand Decor Interior Design Platform',
     category: 'Web Development',
     description: 'Modern interior design showcase platform with responsive design, featuring beautiful collections and seamless user experience across desktop and mobile devices.',
     image: '/images/brand decor interior.png',
+    url: 'https://brand-decor-interior-ten.vercel.app/',
     technologies: ['React', 'Tailwind CSS', 'TypeScript', 'Responsive Design'],
     features: [
       'Responsive design showcase',
@@ -27,6 +41,7 @@ const projects = [
     category: 'Web Development',
     description: 'Digital portfolio support system with contact management and communication tools, empowering ministries with modern web presence.',
     image: '/images/rpl system.png',
+    url: 'https://rpl-kingdom-equipers-agdo.vercel.app/',
     technologies: ['React', 'Node.js', 'Contact Forms', 'Digital Portfolio'],
     features: [
       'Digital portfolio management',
@@ -44,6 +59,7 @@ const projects = [
     category: 'Web Development',
     description: 'A modern e-commerce platform built with React and Node.js, featuring real-time inventory management and secure payment processing.',
     image: '/images/gems.png',
+    url: 'https://www.gemsofinsight.com/',
     technologies: ['React', 'Node.js', 'MongoDB', 'Stripe API'],
     features: [
       'Real-time inventory tracking',
@@ -78,6 +94,7 @@ const projects = [
     category: 'System Revamp',
     description: 'Complete modernization of legacy hospital management system with patient records, appointment scheduling, and billing integration.',
     image: '/images/extern .png',
+    url: 'https://well-path.vercel.app/',
     technologies: ['Vue.js', 'Laravel', 'MySQL', 'Docker'],
     features: [
       'Patient record management',
@@ -278,10 +295,23 @@ const Portfolio = () => {
             {/* Project Details */}
             <div className="bg-white rounded-2xl shadow-sm border border-neutral-200 p-8 sticky top-8">
               <div className="mb-6">
-                <div
-                  className="w-full h-64 bg-cover bg-center rounded-xl mb-4"
-                  style={{ backgroundImage: `url('${selectedProject.image}')` }}
-                />
+                {selectedProject.url ? (
+                  <a
+                    href={selectedProject.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div
+                      className="w-full h-64 bg-cover bg-center rounded-xl mb-4"
+                      style={{ backgroundImage: `url('${selectedProject.image}')` }}
+                    />
+                  </a>
+                ) : (
+                  <div
+                    className="w-full h-64 bg-cover bg-center rounded-xl mb-4"
+                    style={{ backgroundImage: `url('${selectedProject.image}')` }}
+                  />
+                )}
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
                     {selectedProject.category}

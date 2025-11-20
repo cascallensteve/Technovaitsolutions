@@ -8,9 +8,9 @@ import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
 import ServiceDetail from './pages/ServiceDetail'
 import Profile from './pages/Profile'
+import StartProject from './pages/StartProject'
 import EmailVerification from './pages/EmailVerification'
 import WhatsAppButton from './components/WhatsAppButton'
-import SupportButton from './components/SupportButton'
 import './App.css'
 import AdminSignUp from './pages/AdminSignUp'
 import AdminSignIn from './pages/AdminSignIn'
@@ -32,6 +32,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/start-project" element={<StartProject />} />
         <Route path="/services" element={<Services />} />
         <Route path="/services/:slug" element={<ServiceDetail />} />
         <Route path="/portfolio" element={<Portfolio />} />
@@ -56,7 +57,6 @@ function App() {
         </Route>
       </Routes>
       <WhatsAppButton />
-      <SupportButton />
     </Router>
   )
 }

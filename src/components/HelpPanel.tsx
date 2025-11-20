@@ -1,8 +1,7 @@
-
 const suggestions = [
-  { label: "Build a web suite", href: "#start-project" },
-  { label: "Revamp your system", href: "#services" },
-  { label: "Seek consultation", href: "#contact" },
+  { label: "Build your project start here", href: "/start-project?type=web-suite" },
+  { label: "Revamp your system", href: "/start-project?type=system-revamp" },
+  { label: "Seek consultation", href: "/start-project?type=consultation" },
 ]
 
 const quickLinks = [
@@ -21,7 +20,7 @@ const quickLinks = [
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" strokeWidth="1.5"/>
       </svg>
-    ), label: "M-Pesa Integration", href: "/services/mpesa-integration" },
+    ), label: "Payment Integration", href: "/services/mpesa-integration" },
   { icon: (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" strokeWidth="1.5"/>

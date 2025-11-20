@@ -24,8 +24,8 @@ type BlogPost = {
 const blogPosts: BlogPost[] = [
   {
     id: 1,
-    title: 'The Future of Web Development: Trends to Watch in 2024',
-    slug: 'future-web-development-trends-2024',
+    title: 'The Future of Web Development: Trends to Watch in 2025',
+    slug: 'future-web-development-trends-2025',
     excerpt: 'Explore the latest trends shaping the future of web development, from AI integration to progressive web apps and beyond.',
     content: `
       <p>The web development landscape is constantly evolving, and 2024 promises to bring exciting new trends that will reshape how we build and interact with websites. As technology advances, developers must stay ahead of the curve to create engaging, efficient, and user-friendly digital experiences.</p>
@@ -47,7 +47,7 @@ const blogPosts: BlogPost[] = [
     author: 'Cascallen Steve Cascallen',
     authorRole: 'Frontend Engineer',
     authorImage: 'https://res.cloudinary.com/dqvsjtkqw/image/upload/v1752050555/WhatsApp_Image_2024-06-16_at_00.57.23_a2952eba_1_pokuj5.jpg',
-    publishDate: '2024-01-15',
+    publishDate: '2025-11-05',
     readTime: '5 min read',
     category: 'Web Development',
     tags: ['Web Development', 'AI', 'PWA', 'Serverless', 'Security'],
@@ -90,8 +90,8 @@ const blogPosts: BlogPost[] = [
   },
   {
     id: 3,
-    title: 'SEO Best Practices for Modern Websites in 2024',
-    slug: 'seo-best-practices-modern-websites-2024',
+    title: 'SEO Best Practices for Modern Websites in 2025',
+    slug: 'seo-best-practices-modern-websites-2025',
     excerpt: 'Discover the latest SEO strategies and techniques that will help your website rank higher and attract more organic traffic.',
     content: `
       <p>Search Engine Optimization continues to evolve with changing algorithms and user behaviors. In 2024, successful SEO requires a holistic approach that combines technical excellence with user-focused content strategy.</p>
@@ -113,7 +113,7 @@ const blogPosts: BlogPost[] = [
     author: 'Cascallen Steve Cascallen',
     authorRole: 'Frontend Engineer',
     authorImage: 'https://res.cloudinary.com/dqvsjtkqw/image/upload/v1752050555/WhatsApp_Image_2024-06-16_at_00.57.23_a2952eba_1_pokuj5.jpg',
-    publishDate: '2024-01-08',
+    publishDate: '2025-11-10',
     readTime: '6 min read',
     category: 'SEO',
     tags: ['SEO', 'Core Web Vitals', 'Content Strategy', 'Local SEO', 'Mobile Optimization'],
