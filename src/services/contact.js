@@ -22,7 +22,7 @@ export async function createInquiry(payload) {
 
 export async function listInquiries() {
   const token = (typeof window !== 'undefined') ? localStorage.getItem('adminToken') : null
-  const res = await fetch(`${API_BASE}/api/contact/list/`, {
+  const res = await fetch(`${API_BASE}/contact/list/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
