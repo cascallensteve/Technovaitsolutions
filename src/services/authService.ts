@@ -139,6 +139,8 @@ export const authService = {
       // Save token and user info
       if (result.data.token) {
         localStorage.setItem('authToken', result.data.token)
+        // Ensure admin pages see the token
+        localStorage.setItem('adminToken', result.data.token)
         localStorage.setItem(
           'user',
           JSON.stringify({

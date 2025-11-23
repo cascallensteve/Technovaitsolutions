@@ -8,5 +8,7 @@ export function createInquiry(payload: {
 
 export function listInquiries(): Promise<any[]>;
 
-declare const _default: { createInquiry: typeof createInquiry; listInquiries: typeof listInquiries };
+export function deleteInquiry(id: number | string): Promise<any>;
+
+declare const _default: { createInquiry: typeof createInquiry; listInquiries: typeof listInquiries; deleteInquiry: typeof deleteInquiry };
 export default _default;

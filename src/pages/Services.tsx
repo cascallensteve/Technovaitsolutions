@@ -96,6 +96,21 @@ const services = [
     ],
     image: '/images/TECHNOVA3.png',
     timeline: 'Ongoing support'
+  },
+  {
+    id: 7,
+    title: 'AI Automation & Data Analysis',
+    description: 'Automate workflows with AI and turn your data into decisions using modern analytics and dashboards.',
+    features: [
+      'AI chatbots and virtual assistants',
+      'Robotic Process Automation (RPA) for repetitive tasks',
+      'Data pipeline setup and warehousing',
+      'Business intelligence dashboards (Power BI/Metabase)',
+      'Predictive analytics and forecasting',
+      'Integration with existing CRMs/ERPs and third‑party APIs'
+    ],
+    image: '/images/TECHNOVA3.png',
+    timeline: '2-8 weeks'
   }
 ]
 

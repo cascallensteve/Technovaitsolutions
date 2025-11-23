@@ -111,7 +111,7 @@ const Contact = () => {
                   Start Your Project
                 </a>
                 <a
-                  href="tel:+254712665257"
+                  href="tel:+254793515066"
                   className="inline-flex items-center justify-center rounded-md border-2 border-white bg-transparent px-6 py-3 text-base font-medium text-white hover:bg-white hover:text-neutral-900 transition"
                 >
                   Call Us Now
@@ -143,8 +143,8 @@ const Contact = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-neutral-900 mb-1">Phone</h3>
-                    <p className="text-neutral-700">+254 712 665 257</p>
+                    <h3 className="font-semibold text-neutral-900 mb-1">Phone / WhatsApp</h3>
+                    <p className="text-neutral-700">0793515066</p>
                   </div>
                 </div>
 
@@ -326,7 +326,7 @@ const Contact = () => {
                   Book Consultation
                 </a>
                 <a
-                  href="tel:+254712665257"
+                  href="tel:+254793515066"
                   className="inline-flex items-center justify-center border border-neutral-600 text-neutral-300 px-6 py-3 rounded-lg font-medium hover:bg-neutral-800 transition-colors"
                 >
                   Call Now

@@ -5,7 +5,7 @@ const WhatsAppButton = () => {
   const [isOpen, setIsOpen] = useState(false)
   
   // WhatsApp number with Kenya country code
-  const phoneNumber = "254712665257" // Kenya: +254 712 665 257
+  const phoneNumber = "254793515066" // Kenya: +254 793 515 066 (0793515066)
   const message = "Hello! Technova I'm interested in your services. Can we discuss my project?"
   
   const handleWhatsAppClick = () => {
@@ -19,7 +19,7 @@ const WhatsAppButton = () => {
   }
 
   const handleEmailClick = () => {
-    window.location.href = 'mailto:hello@technovaitsolutions.com'
+    window.location.href = 'mailto:technova446@gmail.com'
   }
 
   return (

@@ -127,25 +127,25 @@ const RecentProjects = () => {
     <section className="w-full py-16">
       <div className="px-4 md:px-6 lg:px-8 w-full">
         <div className="grid gap-12 lg:gap-16 lg:grid-cols-[3fr,4fr] items-start">
-          {/* Left copy */}
-          <div className="order-2 lg:order-1 pr-0 lg:pr-8">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-neutral-900 leading-tight mb-6">
+          {/* Heading / copy */}
+          <div className="order-1 lg:order-1 pr-0 lg:pr-8 relative z-10">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-neutral-900 leading-tight mb-4 sm:mb-6">
               The best of our recent work
             </h2>
-            <p className="text-lg sm:text-xl lg:text-2xl text-neutral-700 leading-relaxed max-w-none mb-4">
+            <p className="text-base sm:text-xl lg:text-2xl text-neutral-700 leading-relaxed break-words max-w-none mb-3 sm:mb-4">
               No matter your goals, we craft fast, secure, and beautiful products—
             </p>
-            <p className="text-lg sm:text-xl lg:text-2xl text-neutral-700 leading-relaxed max-w-none">
+            <p className="text-base sm:text-xl lg:text-2xl text-neutral-700 leading-relaxed break-words max-w-none">
               websites, apps, and platforms—that help your business grow.
             </p>
           </div>
 
           {/* Slider viewport */}
-          <div className="order-1 lg:order-2">
-            <div className="relative">
+          <div className="order-2 lg:order-2 relative z-0">
+            <div className="relative mt-4 sm:mt-0">
               <div
                 ref={trackRef}
-                className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
+                className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory"
                 style={{ 
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',
@@ -158,7 +158,7 @@ const RecentProjects = () => {
                 {projects.map((p: Project, projectIndex: number) => (
                   <article
                     key={`${p.id}-${projectIndex}`}
-                    className="flex-shrink-0 w-[calc(100%-0px)] sm:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)] snap-start rounded-3xl bg-white shadow-sm border border-black/10 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-out cursor-pointer"
+                    className="flex-shrink-0 w-[calc(100%-0px)] sm:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)] snap-start rounded-3xl bg-white shadow-sm border border-black/10 overflow-hidden group sm:hover:shadow-xl sm:hover:-translate-y-1 transition-all duration-500 ease-out cursor-pointer"
                     onClick={() => {
                       if (p.url) {
                         window.open(p.url, '_blank', 'noopener,noreferrer')
@@ -166,7 +166,7 @@ const RecentProjects = () => {
                     }}
                   >
                     <div className="p-4">
-                      <div className="rounded-2xl overflow-hidden ring-1 ring-black/5 relative p-2">
+                      <div className="rounded-2xl overflow-hidden ring-1 ring-black/5 relative">
                         {p.url ? (
                           <a
                             href={p.url}
@@ -175,20 +175,20 @@ const RecentProjects = () => {
                             className="block"
                           >
                             <div
-                              className="aspect-[4/3] bg-contain bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-102"
+                              className="aspect-[4/3] bg-cover sm:bg-contain bg-center bg-no-repeat transition-transform duration-300 sm:group-hover:scale-105"
                               style={{ backgroundImage: `url('${p.image}')` }}
                               aria-hidden="true"
                             />
                           </a>
                         ) : (
                           <div
-                            className="aspect-[4/3] bg-contain bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-102"
+                            className="aspect-[4/3] bg-cover sm:bg-contain bg-center bg-no-repeat transition-transform duration-300 sm:group-hover:scale-105"
                             style={{ backgroundImage: `url('${p.image}')` }}
                             aria-hidden="true"
                           />
                         )}
                         {/* Tech Stack Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                        <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                           <div className="p-4 w-full">
                             <div className="flex flex-wrap gap-2 justify-center">
                               {p.techStack.map((tech: string, techIndex: number) => (

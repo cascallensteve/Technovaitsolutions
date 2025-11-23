@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { listInquiries as fetchInquiriesApi } from '../services/contact'
+import { listInquiries as fetchInquiriesApi, deleteInquiry } from '../services/contact'
 
 const AdminInquiries = () => {
   const navigate = useNavigate()
@@ -17,6 +17,7 @@ const AdminInquiries = () => {
     created_at?: string
     status?: string
   }>>([])
+  const [deletingId, setDeletingId] = useState<number | string | null>(null)
 
   useEffect(() => {
     const fetchInquiries = async () => {
@@ -34,6 +35,22 @@ const AdminInquiries = () => {
     }
     fetchInquiries()
   }, [navigate])
+
+  const handleDelete = async (id?: number) => {
+    if (id == null) return
+    const confirmDelete = window.confirm('Are you sure you want to delete this inquiry? This cannot be undone.')
+    if (!confirmDelete) return
+    setError('')
+    setDeletingId(id)
+    try {
+      await deleteInquiry(id)
+      setItems(prev => prev.filter(i => i.id !== id))
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Failed to delete inquiry')
+    } finally {
+      setDeletingId(null)
+    }
+  }
 
   return (
     <div className="space-y-4">
@@ -70,12 +87,13 @@ const AdminInquiries = () => {
                   <th className="text-left py-3 px-4">Company</th>
                   <th className="text-left py-3 px-4">Message</th>
                   <th className="text-left py-3 px-4">Received</th>
+                  <th className="text-left py-3 px-4">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {items.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="py-6 px-4 text-neutral-500 text-center">No inquiries yet.</td>
+                    <td colSpan={6} className="py-6 px-4 text-neutral-500 text-center">No inquiries yet.</td>
                   </tr>
                 )}
                 {items.map((item, idx) => (
@@ -85,6 +103,17 @@ const AdminInquiries = () => {
                     <td className="py-3 px-4 text-neutral-700">{item.company || '-'}</td>
                     <td className="py-3 px-4 text-neutral-700 max-w-[22rem] truncate" title={item.message}>{item.message}</td>
                     <td className="py-3 px-4 text-neutral-600">{item.created_at ? new Date(item.created_at).toLocaleString() : '-'}</td>
+                    <td className="py-3 px-4">
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        disabled={deletingId === item.id || item.id == null}
+                        className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border transition-colors
+                          ${deletingId === item.id ? 'bg-red-200 border-red-300 text-red-700 cursor-not-allowed' : 'bg-white border-red-200 text-red-700 hover:bg-red-50'}`}
+                        title={item.id == null ? 'Cannot delete: missing id' : 'Delete inquiry'}
+                      >
+                        {deletingId === item.id ? 'Deleting...' : 'Delete'}
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

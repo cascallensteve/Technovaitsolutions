@@ -61,7 +61,7 @@ const Hero = () => {
 
   return (
     <section className="relative w-full" aria-label="Hero section">
-      <div className="relative w-full min-h-[280px] sm:min-h-[340px] md:min-h-[420px] lg:min-h-[480px] overflow-hidden">
+      <div className="relative w-full min-h-[400px] sm:min-h-[460px] md:min-h-[540px] lg:min-h-[560px] overflow-hidden">
         {/* Slides track */}
         <div
           className="flex h-full w-full transition-transform duration-700 ease-out"
@@ -74,7 +74,7 @@ const Hero = () => {
             >
               {/* Background image */}
               <div
-                className="w-full h-full min-h-[280px] sm:min-h-[340px] md:min-h-[420px] lg:min-h-[480px] bg-cover bg-center"
+                className="w-full h-full min-h-[400px] sm:min-h-[460px] md:min-h-[540px] lg:min-h-[560px] bg-cover bg-center"
                 style={{ backgroundImage: `url('${slide.image}')` }}
                 aria-hidden="true"
               />

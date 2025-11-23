@@ -51,7 +51,7 @@ const Footer = () => {
                 <li><a href="/" className="text-neutral-400 hover:text-white transition">About Us</a></li>
                 <li><a href="/team" className="text-neutral-400 hover:text-white transition">Our Team</a></li>
                 <li><a href="#" className="text-neutral-400 hover:text-white transition">Careers</a></li>
-                <li><a href="/portfolio" className="text-neutral-400 hover:text-white transition">Case Studies</a></li>
+                <li><a href="/case-studies" className="text-neutral-400 hover:text-white transition">Case Studies</a></li>
                 <li><a href="/blog" className="text-neutral-400 hover:text-white transition">Blog</a></li>
               </ul>
             </div>
@@ -61,13 +61,13 @@ const Footer = () => {
               <h4 className="font-semibold mb-4 text-sm tracking-wide text-neutral-200 uppercase">Get in Touch</h4>
               <ul className="space-y-2 text-sm">
                 <li><a href="/contact" className="text-neutral-400 hover:text-white transition">Contact Us</a></li>
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">Support</a></li>
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">Privacy Policy</a></li>
-                <li><a href="#" className="text-neutral-400 hover:text-white transition">Terms of Service</a></li>
+                <li><a href="/support" className="text-neutral-400 hover:text-white transition">Support</a></li>
+                <li><a href="/privacy" className="text-neutral-400 hover:text-white transition">Privacy Policy</a></li>
+                <li><a href="/terms" className="text-neutral-400 hover:text-white transition">Terms of Service</a></li>
               </ul>
               <div className="mt-4 space-y-1 text-sm">
                 <p className="text-neutral-300">technova446@gmail.com</p>
-                <p className="text-neutral-300">+254 712 665 257</p>
+                <p className="text-neutral-300">0793515066</p>
                 <p className="text-neutral-500 text-xs">Nairobi, Kenya</p>
               </div>
             </div>
@@ -132,11 +132,11 @@ const Footer = () => {
               © {currentYear} Technova. All rights reserved.
             </p>
             <div className="flex items-center gap-4 text-xs sm:text-sm text-neutral-500">
-              <a href="#" className="hover:text-white transition">Privacy</a>
+              <a href="/privacy" className="hover:text-white transition">Privacy</a>
               <span className="opacity-40">•</span>
-              <a href="#" className="hover:text-white transition">Terms</a>
+              <a href="/terms" className="hover:text-white transition">Terms</a>
               <span className="opacity-40">•</span>
-              <a href="#" className="hover:text-white transition">Cookies</a>
+              <a href="/privacy" className="hover:text-white transition">Cookies</a>
             </div>
           </div>
         </div>

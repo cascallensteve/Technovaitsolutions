@@ -38,6 +38,12 @@ const quickLinks = [
         <path d="M14.828 14.828a4 4 0 0 1-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" strokeWidth="1.5"/>
       </svg>
     ), label: "IT Solutions & Support", href: "/services/it-solutions-support" },
+  { icon: (
+      <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" strokeWidth="1.5"/>
+        <path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    ), label: "AI Automation & Data Analysis", href: "/services/ai-automation-data-analysis" },
 ]
 
 const HelpPanel: React.FC = () => {
@@ -54,7 +60,7 @@ const HelpPanel: React.FC = () => {
               <div className="w-full max-w-2xl flex items-center rounded-lg bg-white/95 text-neutral-800 shadow-sm ring-1 ring-black/10">
                 <input
                   className="flex-1 bg-transparent px-4 py-3 placeholder-neutral-500 focus:outline-none"
-                  placeholder="We Technova is here for you"
+                  placeholder="Technova is here for you"
                 />
                 <button aria-label="Ask" className="mx-2 my-1 inline-flex items-center justify-center h-9 w-9 rounded-md bg-sky-600 text-white hover:bg-sky-700">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,17 +83,19 @@ const HelpPanel: React.FC = () => {
       </div>
 
       {/* Quick links */}
-      <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 px-6 md:px-10 lg:px-16">
-        {quickLinks.map((q) => (
-          <a key={q.label} href={q.href} className="group flex flex-col items-center text-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-sky-700 shadow ring-1 ring-black/10 group-hover:shadow-md">
-              {q.icon}
-            </div>
-            <span className="text-sm font-medium text-sky-700 group-hover:underline">
-              {q.label}
-            </span>
-          </a>
-        ))}
+      <div className="mt-10 px-6 md:px-10 lg:px-16">
+        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-6 lg:flex lg:items-stretch lg:gap-8 lg:justify-between w-full">
+          {quickLinks.map((q) => (
+            <a key={q.label} href={q.href} className="group inline-flex flex-col items-center text-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-sky-700 shadow ring-1 ring-black/10 group-hover:shadow-md">
+                {q.icon}
+              </div>
+              <span className="text-sm font-medium text-sky-700 group-hover:underline">
+                {q.label}
+              </span>
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   )

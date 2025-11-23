@@ -205,6 +205,40 @@ const servicesData = [
     image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
     timeline: 'Ongoing support',
     pricing: ''
+  },
+  {
+    id: 7,
+    title: 'AI Automation & Data Analysis',
+    slug: 'ai-automation-data-analysis',
+    description: 'Automate workflows with AI and unlock insights with modern data analytics and dashboards.',
+    longDescription: 'Leverage AI to automate repetitive tasks, enhance customer interactions, and make smarter, data-driven decisions. We design and implement AI assistants, RPA workflows, data pipelines, and business intelligence dashboards that integrate seamlessly with your existing tools.',
+    features: [
+      'AI chatbots and virtual assistants',
+      'Robotic Process Automation (RPA) for repetitive tasks',
+      'Data pipeline setup and warehousing',
+      'Business intelligence dashboards (Power BI/Metabase)',
+      'Predictive analytics and forecasting',
+      'Integration with CRMs/ERPs and third-party APIs'
+    ],
+    benefits: [
+      'Reduced operational costs through automation',
+      'Faster decision-making with real-time analytics',
+      'Improved customer experience via intelligent assistants',
+      'Scalable data infrastructure for growth',
+      'Actionable insights from unified data sources',
+      'Better alignment between business and IT teams'
+    ],
+    process: [
+      'Discovery & Use-Case Mapping',
+      'Data & Systems Assessment',
+      'Solution Design & Prototyping',
+      'Implementation & Integration',
+      'Validation, Training & Handover'
+    ],
+    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762519932/5056412_bmtdqq.jpg',
+    video: '',
+    timeline: '2-8 weeks',
+    pricing: ''
   }
 ]
 

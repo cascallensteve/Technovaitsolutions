@@ -25,6 +25,10 @@ import AdminAppointments from './admin/AdminAppointments'
 import AdminProfile from './admin/AdminProfile'
 import AdminBlog from './admin/AdminBlog'
 import AdminAgreements from './admin/AdminAgreements'
+import Support from './pages/Support'
+import Privacy from './pages/Privacy'
+import Terms from './pages/Terms'
+import CaseStudies from './pages/CaseStudies'
 
 function App() {
   return (
@@ -41,6 +45,10 @@ function App() {
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/verify-email" element={<EmailVerification />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/admin/signup" element={<AdminSignUp />} />
         <Route path="/admin/signin" element={<AdminSignIn />} />
         <Route path="/admin" element={<AdminLayout />}>
