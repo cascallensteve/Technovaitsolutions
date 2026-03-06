@@ -117,22 +117,109 @@ export async function listPosts(params: {
 
 export async function retrievePost(slug: string) {
   if (!slug) throw new Error('Missing slug')
-  const url = `${BLOG_BASE}/posts/${encodeURIComponent(slug)}/`
-  console.debug('[blogService] GET', url)
+  
+  // First try with slug (original approach)
+  let url = `${BLOG_BASE}/posts/${encodeURIComponent(slug)}/`
+  console.debug('[blogService] retrievePost GET (slug)', url, 'slug:', slug)
 
-  const res = await request(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+  try {
+    const res = await request(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
 
-  const data = await parseJsonSafe(res)
-  if (!res.ok) {
-    throw new Error(`${extractErrorMessage(data, 'Failed to load blog post')} (HTTP ${res.status})`)
+    const data = await parseJsonSafe(res)
+    console.debug('[blogService] retrievePost response (slug):', {
+      status: res.status,
+      statusText: res.statusText,
+      ok: res.ok,
+      data: data
+    })
+    
+    if (res.ok) {
+      const maybe: any = data
+      if (maybe?.success && maybe?.data) return maybe.data as BlogPostApi
+      return data as BlogPostApi
+    }
+  } catch (error) {
+    console.log('[blogService] Slug approach failed, trying ID approach')
   }
 
-  return data as BlogPostApi
+  // If slug approach fails, try using slug as numeric ID
+  const id = parseInt(slug, 10)
+  if (!isNaN(id)) {
+    url = `${BLOG_BASE}/posts/${id}/`
+    console.debug('[blogService] retrievePost GET (id)', url, 'id:', id)
+
+    const res = await request(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    const data = await parseJsonSafe(res)
+    console.debug('[blogService] retrievePost response (id):', {
+      status: res.status,
+      statusText: res.statusText,
+      ok: res.ok,
+      data: data
+    })
+    
+    if (res.ok) {
+      const maybe: any = data
+      if (maybe?.success && maybe?.data) return maybe.data as BlogPostApi
+      return data as BlogPostApi
+    }
+    
+    const errorMsg = extractErrorMessage(data, 'Post not found')
+    console.error('[blogService] retrievePost error (id):', errorMsg, 'URL:', url)
+    throw new Error(`${errorMsg} (HTTP ${res.status})`)
+  }
+
+  // If neither approach works, try alternative endpoint patterns
+  const alternativeUrls = [
+    `${BLOG_BASE}/posts?slug=${encodeURIComponent(slug)}`,
+    `${BLOG_BASE}/posts/slug/${encodeURIComponent(slug)}/`,
+  ]
+
+  for (const altUrl of alternativeUrls) {
+    console.debug('[blogService] retrievePost trying alternative URL:', altUrl)
+    try {
+      const res = await request(altUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      const data = await parseJsonSafe(res)
+      console.debug('[blogService] retrievePost alternative response:', {
+        status: res.status,
+        url: altUrl,
+        data: data
+      })
+      
+      if (res.ok) {
+        // Handle array response from filter endpoints
+        if (Array.isArray(data) && data.length > 0) {
+          return data[0] as BlogPostApi
+        }
+        const maybe: any = data
+        if (maybe?.success && maybe?.data) return maybe.data as BlogPostApi
+        if (maybe?.results && Array.isArray(maybe.results) && maybe.results.length > 0) {
+          return maybe.results[0] as BlogPostApi
+        }
+        return data as BlogPostApi
+      }
+    } catch (error) {
+      console.log('[blogService] Alternative URL failed:', altUrl, error)
+    }
+  }
+
+  throw new Error(`Post not found with slug: ${slug}`)
 }
 
 export async function listFeaturedPosts() {
