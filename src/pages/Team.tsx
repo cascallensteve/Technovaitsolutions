@@ -123,7 +123,7 @@ const Team = () => {
         <div className="px-4 md:px-6 lg:px-16 max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-blue-600 mb-2">2</div>
+              <div className="text-4xl font-bold text-blue-600 mb-2">4</div>
               <div className="text-neutral-700">Expert Engineers</div>
             </div>
             <div>
@@ -147,10 +147,10 @@ const Team = () => {
         <div className="px-4 md:px-6 lg:px-16 max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
-              Meet Our Dynamic Duo
+              Meet Our Team
             </h2>
             <p className="text-lg text-neutral-700 max-w-3xl mx-auto">
-              Two passionate engineers combining frontend creativity with backend expertise to deliver exceptional digital solutions. Our complementary skills create the perfect synergy for your projects.
+              A passionate team combining frontend creativity with backend expertise to deliver exceptional digital solutions. Our complementary skills create the perfect synergy for your projects.
             </p>
           </div>
 
