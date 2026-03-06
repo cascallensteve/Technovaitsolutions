@@ -1,24 +1,36 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { authService } from '../services/authService'
 
 const AdminLayout = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [now, setNow] = useState(new Date())
   const [currentUser, setCurrentUser] = useState<any | null>(null)
 
   useEffect(() => {
     // Optional guard (basic): if not authenticated, go to admin signin
-    const user = authService.getUser() as any
-    const token = authService.getToken()
-    const isAdmin = user?.is_admin || user?.is_staff || user?.user_type === 'admin'
-    if (!token || !isAdmin) {
-      // You can relax this if backend session will handle
-      navigate('/admin/signin')
+    let cancelled = false
+
+    const run = async () => {
+      const token = authService.getToken()
+      if (!token) {
+        navigate('/admin/signin', { state: { from: location.pathname } })
+        return
+      }
+
+      if (cancelled) return
+
+      const user = authService.getUser() as any
+      setCurrentUser(user || null)
     }
-    setCurrentUser(user || null)
-  }, [navigate])
+
+    run()
+    return () => {
+      cancelled = true
+    }
+  }, [location.pathname, navigate])
 
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000)
@@ -40,7 +52,7 @@ const AdminLayout = () => {
           <span className="text-lg font-bold text-green-700">Technova Admin</span>
         </div>
         <nav className="p-3 space-y-1">
-          <NavLink to="/admin" end className={({ isActive }) => `group flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium border-l-2 ${isActive ? 'bg-green-50 text-green-700 border-green-600' : 'text-neutral-700 hover:bg-neutral-50 border-transparent'}`}>
+          <NavLink to="/admin/dashboard" end className={({ isActive }) => `group flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium border-l-2 ${isActive ? 'bg-green-50 text-green-700 border-green-600' : 'text-neutral-700 hover:bg-neutral-50 border-transparent'}`}>
             <svg className={`h-5 w-5 ${false ? '' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h7v7H3V3zm0 11h7v7H3v-7zm11-11h7v7h-7V3zm0 11h7v7h-7v-7z"/></svg>
             <span>Dashboard</span>
           </NavLink>
@@ -51,6 +63,10 @@ const AdminLayout = () => {
           <NavLink to="/admin/projects" className={({ isActive }) => `group flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium border-l-2 ${isActive ? 'bg-green-50 text-green-700 border-green-600' : 'text-neutral-700 hover:bg-neutral-50 border-transparent'}`}>
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7l6-4 6 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg>
             <span>Projects</span>
+          </NavLink>
+          <NavLink to="/admin/team" className={({ isActive }) => `group flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium border-l-2 ${isActive ? 'bg-green-50 text-green-700 border-green-600' : 'text-neutral-700 hover:bg-neutral-50 border-transparent'}`}>
+            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2m14-10a4 4 0 1 0-8 0 4 4 0 0 0 8 0zm6 10v-2a4 4 0 0 0-3-3.87"/></svg>
+            <span>Team</span>
           </NavLink>
           <NavLink to="/admin/agreements" className={({ isActive }) => `group flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium border-l-2 ${isActive ? 'bg-green-50 text-green-700 border-green-600' : 'text-neutral-700 hover:bg-neutral-50 border-transparent'}`}>
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h10M7 11h10M7 15h7M5 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10l4 3V7a2 2 0 0 0-2-2H5z"/></svg>

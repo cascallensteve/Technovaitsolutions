@@ -1,56 +1,68 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { listPublicActiveTeamMembers, listTeamMembers, type TeamMember } from '../services/teamService'
 
-const teamMembers = [
-  {
-    id: 1,
-    name: 'Billy Josiah Illa',
-    role: 'Backend Engineer',
-    bio: 'Passionate backend engineer specializing in building robust, scalable server-side solutions. Expert in creating secure APIs, optimizing database performance, and implementing modern cloud infrastructure.',
-    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762518416/WhatsApp_Image_2025-11-06_at_15.55.38_cf32b20d_e0g7rj.jpg',
-    skills: ['Node.js', 'Python', 'PostgreSQL', 'MongoDB', 'Docker', 'AWS/Azure'],
-    techStack: {
-      languages: ['JavaScript', 'TypeScript', 'Python', 'SQL'],
-      frameworks: ['Express.js', 'Fastify', 'Django', 'Flask'],
-      databases: ['PostgreSQL', 'MongoDB', 'Redis', 'MySQL'],
-      tools: ['Docker', 'Git', 'Postman', 'VS Code'],
-      cloud: ['AWS', 'Azure', 'Vercel', 'Railway']
-    },
-    social: {
-      linkedin: 'https://linkedin.com/in/billyjosiahilla',
-      github: 'https://github.com/billyjosiahilla',
-      twitter: 'https://twitter.com/billyjosiahilla'
-    }
-  },
-  {
-    id: 2,
-    name: 'Cascallen Steve',
-    role: 'Frontend Engineer',
-    bio: 'Creative frontend engineer with a passion for crafting beautiful, responsive user interfaces. Specializes in modern JavaScript frameworks and creating seamless user experiences.',
-    image: 'https://res.cloudinary.com/dqvsjtkqw/image/upload/v1752050555/WhatsApp_Image_2024-06-16_at_00.57.23_a2952eba_1_pokuj5.jpg',
-    skills: ['React', 'Vue.js', 'TypeScript', 'Tailwind CSS', 'Next.js', 'Mobile Development'],
-    techStack: {
-      languages: ['JavaScript', 'TypeScript', 'HTML5', 'CSS3'],
-      frameworks: ['React', 'Vue.js', 'Next.js', 'Nuxt.js'],
-      styling: ['Tailwind CSS', 'SCSS', 'Styled Components', 'Material-UI'],
-      tools: ['Vite', 'Webpack', 'Figma', 'Git', 'VS Code'],
-      mobile: ['React Native', 'Progressive Web Apps']
-    },
-    social: {
-      linkedin: 'https://linkedin.com/in/cascallensteve',
-      github: 'https://github.com/cascallensteve',
-      portfolio: 'https://cascallensteve.dev'
-    }
-  }
-]
+type TeamUiMember = {
+  id: number | string
+  name: string
+  role: string
+  bio: string
+  image: string
+  skills: string[]
+}
 
 const Team = () => {
   useDocumentTitle('Our Team | Technova IT Solutions Engineers & Designers')
   const [showNoPositions, setShowNoPositions] = useState(false)
   const [showResumeInfo, setShowResumeInfo] = useState(false)
+  const [teamMembers, setTeamMembers] = useState<TeamUiMember[]>([])
+  const [teamError, setTeamError] = useState('')
+  const [teamLoading, setTeamLoading] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    const run = async () => {
+      try {
+        setTeamLoading(true)
+        setTeamError('')
+        let data = (await listPublicActiveTeamMembers()) as TeamMember[]
+        if (!Array.isArray(data) || data.length === 0) {
+          // If the public endpoint is protected in this environment, retry with admin token when available
+          try {
+            data = (await listTeamMembers()) as TeamMember[]
+          } catch {
+            // ignore
+          }
+        }
+        if (cancelled) return
+        const mapped: TeamUiMember[] = (Array.isArray(data) ? data : [])
+          .filter(m => (m as any)?.is_active !== false)
+          .map((m, idx) => ({
+            id: (m.id ?? `member-${idx}`) as any,
+            name: m.name,
+            role: m.title,
+            bio: (m.headline || m.bio || '').trim(),
+            image: (m.image_url || '').trim(),
+            skills: Array.isArray(m.core_expertise) ? m.core_expertise : [],
+          }))
+        setTeamMembers(mapped)
+      } catch (e: any) {
+        if (cancelled) return
+        setTeamError(e instanceof Error ? e.message : 'Failed to load team members')
+        setTeamMembers([])
+      } finally {
+        if (!cancelled) setTeamLoading(false)
+      }
+    }
+    run()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   return (
     <div className="min-h-screen bg-white text-neutral-900">
       <Navbar />
@@ -71,6 +83,12 @@ const Team = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/60 to-transparent" />
           </div>
+
+          {teamError && (
+            <div className="max-w-4xl mx-auto mb-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-700 text-sm">
+              {teamError}
+            </div>
+          )}
 
           {/* Content */}
           <div className="relative z-10 w-full h-full flex items-center py-16 px-4 md:px-6 lg:px-16">
@@ -137,12 +155,20 @@ const Team = () => {
           </div>
 
           <div className="grid gap-12 lg:grid-cols-2 max-w-6xl mx-auto">
+            {teamLoading && (
+              <div className="lg:col-span-2 flex items-center justify-center py-10">
+                <div className="inline-flex items-center gap-3 text-sm text-neutral-600">
+                  <span className="inline-block h-4 w-4 rounded-full border-2 border-neutral-300 border-t-neutral-700 animate-spin" />
+                  Loading team…
+                </div>
+              </div>
+            )}
             {teamMembers.map((member) => (
               <div key={member.id} className="bg-white rounded-3xl shadow-lg border border-neutral-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                 {/* Profile Image */}
                 <div className={`relative overflow-hidden mx-auto w-[92%] md:w-[90%] ${member.id === 1 ? 'h-64 sm:h-72 md:h-80' : 'h-72 md:h-80'}`}>
                   <img
-                    src={member.image}
+                    src={member.image || 'https://res.cloudinary.com/djksfayfu/image/upload/v1750423764/blake-connally-B3l0g6HLxr8-unsplash_evasva.jpg'}
                     alt={member.name}
                     className="absolute inset-0 w-full h-full object-cover object-center"
                   />
@@ -160,7 +186,7 @@ const Team = () => {
                     {member.role}
                   </p>
                   <p className="text-neutral-700 leading-relaxed mb-6">
-                    {member.bio}
+                    {member.bio || '—'}
                   </p>
 
 
@@ -181,6 +207,11 @@ const Team = () => {
                 </div>
               </div>
             ))}
+            {!teamLoading && !teamError && teamMembers.length === 0 && (
+              <div className="lg:col-span-2 text-center text-neutral-600 py-10">
+                No team members found.
+              </div>
+            )}
           </div>
         </div>
       </section>

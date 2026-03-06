@@ -39,7 +39,14 @@ const AdminSignIn = () => {
       // Reuse existing sign-in flow (backend can assert admin role)
       const response = await authService.signIn({ email, password })
       if (response.success) {
-        navigate('/admin')
+        const storedToken = authService.getToken()
+        if (!storedToken) {
+          setError('Login succeeded but no token was returned by the server. Please contact support to enable JWT token in /auth/sign-in/.')
+          setIsLoading(false)
+          return
+        }
+        const next = (location.state as any)?.from
+        navigate(typeof next === 'string' && next.startsWith('/admin') ? next : '/admin/dashboard')
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'An error occurred. Please try again.'

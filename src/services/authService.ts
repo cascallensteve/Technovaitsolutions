@@ -38,12 +38,23 @@ interface SignInResponse {
     user_id: number
     username: string
     email: string
-    token: string
+    token?: string
+    access?: string
     user_type?: string
     is_admin?: boolean
     is_staff?: boolean
   }
   message: string
+}
+
+function extractToken(payload: any): string | null {
+  const data = payload?.data
+  const token =
+    data?.token ||
+    data?.access ||
+    payload?.token ||
+    payload?.access
+  return typeof token === 'string' && token.length ? token : null
 }
 
 export const authService = {
@@ -80,9 +91,10 @@ export const authService = {
       const result: SignUpResponse = responseData
 
       // Store token + user
-      if (result.data.token) {
-        localStorage.setItem('authToken', result.data.token)
-        localStorage.setItem('adminToken', result.data.token)
+      const token = extractToken(result)
+      if (token) {
+        localStorage.setItem('authToken', token)
+        localStorage.setItem('adminToken', token)
         localStorage.setItem(
           'user',
           JSON.stringify({
@@ -94,7 +106,7 @@ export const authService = {
             is_staff: result.data.is_staff,
           })
         )
-        console.log('Auth token:', result.data.token)
+        console.log('Auth token:', token)
       }
 
       return result
@@ -137,10 +149,11 @@ export const authService = {
       const result: SignInResponse = responseData
 
       // Save token and user info
-      if (result.data.token) {
-        localStorage.setItem('authToken', result.data.token)
+      const token = extractToken(result)
+      if (token) {
+        localStorage.setItem('authToken', token)
         // Ensure admin pages see the token
-        localStorage.setItem('adminToken', result.data.token)
+        localStorage.setItem('adminToken', token)
         localStorage.setItem(
           'user',
           JSON.stringify({
@@ -164,46 +177,8 @@ export const authService = {
   /**
    * Fetch and merge authenticated user profile
    */
-  async fetchAndStoreProfile(token?: string) {
-    const tokenForProfile =
-      token ||
-      localStorage.getItem('authToken') ||
-      localStorage.getItem('adminToken')
-
-    try {
-      const profRes = await fetch(`${AUTH_BASE}/profile/`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(tokenForProfile ? { Authorization: `Bearer ${tokenForProfile}` } : {}),
-        },
-        credentials: 'include', // support cookie/session auth
-      })
-
-      if (profRes.ok) {
-        const pct = profRes.headers.get('content-type') || ''
-        const profile = pct.includes('application/json') ? await profRes.json() : {}
-
-        const stored = localStorage.getItem('user')
-        const current = stored ? JSON.parse(stored) : {}
-
-        const merged = {
-          ...current,
-          user_id: profile.user_id ?? current.user_id,
-          username: profile.username ?? current.username,
-          email: profile.email ?? current.email,
-          user_type: profile.user_type ?? current.user_type,
-          is_admin: profile.is_admin ?? current.is_admin,
-          is_staff: profile.is_staff ?? current.is_staff,
-        }
-
-        localStorage.setItem('user', JSON.stringify(merged))
-      } else {
-        console.warn('Failed to fetch profile:', profRes.status)
-      }
-    } catch (err) {
-      console.warn('Profile fetch failed:', err)
-    }
+  async fetchAndStoreProfile(_token?: string) {
+    return
   },
 // this is the local storage container for string the authentication token 
   /**
@@ -219,7 +194,7 @@ export const authService = {
    * Get stored token
    */
   getToken(): string | null {
-    return localStorage.getItem('authToken')
+    return localStorage.getItem('authToken') || localStorage.getItem('adminToken')
   },
 
   /**

@@ -15,7 +15,8 @@ import './App.css'
 import AdminSignUp from './pages/AdminSignUp'
 import AdminSignIn from './pages/AdminSignIn'
 import AdminLayout from './admin/AdminLayout'
-import AdminHome from './admin/AdminHome'
+import AdminEntry from './admin/AdminEntry'
+import AdminLanding from './admin/AdminLanding.tsx'
 import AdminUsers from './admin/AdminUsers'
 import AdminProjects from './admin/AdminProjects'
 import AdminAnalytics from './admin/AdminAnalytics'
@@ -25,6 +26,7 @@ import AdminAppointments from './admin/AdminAppointments'
 import AdminProfile from './admin/AdminProfile'
 import AdminBlog from './admin/AdminBlog'
 import AdminAgreements from './admin/AdminAgreements'
+import AdminTeam from './admin/AdminTeam'
 import Support from './pages/Support'
 import Privacy from './pages/Privacy'
 import Terms from './pages/Terms'
@@ -51,8 +53,10 @@ function App() {
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/admin/signup" element={<AdminSignUp />} />
         <Route path="/admin/signin" element={<AdminSignIn />} />
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminHome />} />
+        <Route path="/admin" element={<AdminLanding />} />
+        <Route path="/admin/*" element={<AdminLayout />}>
+          <Route path="dashboard" element={<AdminEntry />} />
+          <Route path="team" element={<AdminTeam />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="projects" element={<AdminProjects />} />
           <Route path="agreements" element={<AdminAgreements />} />

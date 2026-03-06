@@ -5,7 +5,6 @@ import Footer from '../components/Footer'
 import { authService } from '../services/authService'
 
 const AdminSignUp = () => {
-  const API_BASE_URL = (import.meta as any)?.env?.VITE_API_BASE || (import.meta as any)?.env?.VITE_API_URL || 'https://technova-backend-drab.vercel.app'
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: '',
@@ -78,60 +77,20 @@ const AdminSignUp = () => {
       }
 
       // Call the admin signup API (respects VITE_API_URL or uses /api proxy in dev)
-      const response = await fetch(`${API_BASE_URL}/auth/admin-sign-up/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          first_name: 'Admin',
-          last_name: 'User',
-          password: formData.password,
-          password_confirm: formData.confirmPassword,
-        }),
+      const result = await authService.signUp({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        password_confirm: formData.confirmPassword,
       })
 
-      const ct = response.headers.get('content-type') || ''
-      const data = ct.includes('application/json') ? await response.json() : { message: await response.text() }
-      if (!response.ok || data?.success === false) {
-        let message = data?.message || 'Admin sign up failed'
-        if (data?.errors && typeof data.errors === 'object') {
-          const list = Object.entries(data.errors).map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(', ') : v}`)
-          if (list.length) message = list.join('\n')
-        }
-        setError(message)
+      if (!result?.success) {
+        setError(result?.message || 'Admin sign up failed')
         setIsLoading(false)
         return
       }
 
-      // If backend returns token and user flags, persist and go to admin area
-      const payload = data?.data || {}
-      if (payload?.token) {
-        localStorage.setItem('authToken', payload.token)
-        localStorage.setItem('adminToken', payload.token)
-        localStorage.setItem('user', JSON.stringify({
-          user_id: payload.user_id,
-          username: payload.username,
-          email: payload.email,
-          user_type: payload.user_type,
-          is_admin: payload.is_admin,
-          is_staff: payload.is_staff,
-        }))
-
-        navigate('/admin')
-        return
-      }
-
-      // Fallback: if no token, keep previous verification flow
-      try { await authService.sendVerificationEmail(formData.email) } catch {}
-      navigate('/verify-email', {
-        state: {
-          email: formData.email,
-          message: 'Admin sign up successful! Please check your email to verify your account.',
-          redirectTo: '/admin',
-        }
-      })
+      navigate('/admin/dashboard')
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred. Please try again.'
       setError(errorMessage)
