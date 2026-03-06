@@ -121,7 +121,7 @@ const BlogPost = () => {
       let element
       if (tag.property) {
         element = document.querySelector(`meta[property="${tag.property}"]`) as HTMLMetaElement
-      } else {
+      } else if (tag.name) {
         element = document.querySelector(`meta[name="${tag.name}"]`) as HTMLMetaElement
       }
       
@@ -129,7 +129,7 @@ const BlogPost = () => {
         element = document.createElement('meta')
         if (tag.property) {
           element.setAttribute('property', tag.property)
-        } else {
+        } else if (tag.name) {
           element.setAttribute('name', tag.name)
         }
         document.head.appendChild(element)
