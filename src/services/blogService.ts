@@ -4,6 +4,7 @@ type BlogPostApi = {
   slug: string
   excerpt: string
   content: string
+  author_member_id?: number
   author?: string
   author_role?: string
   author_image?: string
@@ -14,6 +15,11 @@ type BlogPostApi = {
   image?: string
   featured?: boolean
   is_published?: boolean
+}
+
+function getAdminToken(): string | null {
+  if (typeof window === 'undefined') return null
+  return localStorage.getItem('adminToken') || localStorage.getItem('authToken')
 }
 
 function getApiBase(): string {
@@ -45,9 +51,35 @@ async function request(url: string, options: RequestInit = {}, { timeoutMs = 150
   return fetchWithTimeout(url, options, timeoutMs)
 }
 
+function extractErrorMessage(data: unknown, fallback: string) {
+  if (!data) return fallback
+  if (typeof data === 'string') return data || fallback
+  const maybe: any = data
+  const msg = maybe?.message || maybe?.error || maybe?.detail
+  if (typeof msg === 'string' && msg.trim()) return msg
+  
+  // Extract field validation errors
+  if (maybe?.errors && typeof maybe.errors === 'object') {
+    const errorMessages = Object.entries(maybe.errors)
+      .map(([field, errors]) => {
+        const fieldErrors = Array.isArray(errors) ? errors : [errors]
+        return `${field}: ${fieldErrors.join(', ')}`
+      })
+      .join('; ')
+    if (errorMessages) return errorMessages
+  }
+  
+  try {
+    return JSON.stringify(data)
+  } catch {
+    return fallback
+  }
+}
+
 function normalizeListResponse(data: unknown): BlogPostApi[] {
   if (Array.isArray(data)) return data as BlogPostApi[]
   const maybe = data as any
+  if (maybe?.success && Array.isArray(maybe?.data)) return maybe.data as BlogPostApi[]
   if (Array.isArray(maybe?.results)) return maybe.results as BlogPostApi[]
   if (Array.isArray(maybe?.data)) return maybe.data as BlogPostApi[]
   return []
@@ -77,8 +109,7 @@ export async function listPosts(params: {
 
   const data = await parseJsonSafe(res)
   if (!res.ok) {
-    const msg = (data && ((data as any).message || (data as any).error)) || 'Failed to load blog posts'
-    throw new Error(`${msg} (HTTP ${res.status})`)
+    throw new Error(`${extractErrorMessage(data, 'Failed to load blog posts')} (HTTP ${res.status})`)
   }
 
   return normalizeListResponse(data)
@@ -98,8 +129,7 @@ export async function retrievePost(slug: string) {
 
   const data = await parseJsonSafe(res)
   if (!res.ok) {
-    const msg = (data && ((data as any).message || (data as any).error)) || 'Failed to load blog post'
-    throw new Error(`${msg} (HTTP ${res.status})`)
+    throw new Error(`${extractErrorMessage(data, 'Failed to load blog post')} (HTTP ${res.status})`)
   }
 
   return data as BlogPostApi
@@ -114,8 +144,7 @@ export async function listFeaturedPosts() {
   })
   const data = await parseJsonSafe(res)
   if (!res.ok) {
-    const msg = (data && ((data as any).message || (data as any).error)) || 'Failed to load featured posts'
-    throw new Error(`${msg} (HTTP ${res.status})`)
+    throw new Error(`${extractErrorMessage(data, 'Failed to load featured posts')} (HTTP ${res.status})`)
   }
   return normalizeListResponse(data)
 }
@@ -129,8 +158,7 @@ export async function listRecentPosts(limit = 5) {
   })
   const data = await parseJsonSafe(res)
   if (!res.ok) {
-    const msg = (data && ((data as any).message || (data as any).error)) || 'Failed to load recent posts'
-    throw new Error(`${msg} (HTTP ${res.status})`)
+    throw new Error(`${extractErrorMessage(data, 'Failed to load recent posts')} (HTTP ${res.status})`)
   }
   return normalizeListResponse(data)
 }
@@ -144,10 +172,163 @@ export async function listCategories() {
   })
   const data = await parseJsonSafe(res)
   if (!res.ok) {
-    const msg = (data && ((data as any).message || (data as any).error)) || 'Failed to load categories'
-    throw new Error(`${msg} (HTTP ${res.status})`)
+    throw new Error(`${extractErrorMessage(data, 'Failed to load categories')} (HTTP ${res.status})`)
   }
   return Array.isArray(data) ? (data as string[]) : []
+}
+
+export async function listAdminPosts(params: {
+  category?: string
+  featured?: boolean
+  search?: string
+  tag?: string
+} = {}) {
+  const token = getAdminToken()
+  if (!token) throw new Error('Access denied. Admin session required.')
+
+  const sp = new URLSearchParams()
+  if (params.category) sp.set('category', params.category)
+  if (typeof params.featured === 'boolean') sp.set('featured', params.featured ? 'true' : 'false')
+  if (params.search) sp.set('search', params.search)
+  if (params.tag) sp.set('tag', params.tag)
+
+  const url = `${BLOG_BASE}/posts/${sp.toString() ? `?${sp.toString()}` : ''}`
+  console.debug('[blogService] GET (admin)', url)
+
+  const res = await request(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    credentials: 'include',
+  })
+
+  const data = await parseJsonSafe(res)
+  if (!res.ok) {
+    throw new Error(`${extractErrorMessage(data, 'Failed to load blog posts')} (HTTP ${res.status})`)
+  }
+
+  return normalizeListResponse(data)
+}
+
+export async function createPost(payload: {
+  slug?: string
+  title: string
+  excerpt: string
+  content: string
+  author_member_id?: number
+  author?: string
+  author_role?: string
+  author_image?: string
+  publish_date?: string
+  read_time?: string
+  category?: string
+  tags?: string[]
+  image?: string
+  featured?: boolean
+  is_published?: boolean
+}) {
+  const token = getAdminToken()
+  if (!token) throw new Error('Access denied. Admin session required.')
+
+  // Backend confirmed working create endpoint alias
+  const url = `${BLOG_BASE}/posts/addppost/`
+  console.debug('[blogService] POST', url, payload)
+
+  const res = await request(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+    credentials: 'include',
+  })
+
+  const data = await parseJsonSafe(res)
+  if (!res.ok) {
+    throw new Error(`${extractErrorMessage(data, 'Failed to create post')} (HTTP ${res.status})`)
+  }
+
+  const maybe: any = data
+  if (maybe?.success && maybe?.data) return maybe.data as BlogPostApi
+  return data as BlogPostApi
+}
+
+export async function updatePost(
+  id: number,
+  payload: Partial<{
+    slug?: string
+    title: string
+    excerpt: string
+    content: string
+    author_member_id?: number
+    author?: string
+    author_role?: string
+    author_image?: string
+    publish_date?: string
+    read_time?: string
+    category?: string
+    tags?: string[]
+    image?: string
+    featured?: boolean
+    is_published?: boolean
+  }>
+) {
+  if (!id) throw new Error('Missing post ID')
+  const token = getAdminToken()
+  if (!token) throw new Error('Access denied. Admin session required.')
+
+  const url = `${BLOG_BASE}/posts/${id}/`
+  console.debug('[blogService] PATCH', url, 'payload:', payload)
+  const res = await request(url, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+    credentials: 'include',
+  })
+
+  const data = await parseJsonSafe(res)
+  if (!res.ok) {
+    const errorMsg = extractErrorMessage(data, 'Failed to update post')
+    console.error('[blogService] PATCH error response:', JSON.stringify(data, null, 2))
+    console.error('[blogService] PATCH error details:', {
+      status: res.status,
+      statusText: res.statusText,
+      url: url,
+      payload: payload
+    })
+    throw new Error(`${errorMsg} (HTTP ${res.status})`)
+  }
+
+  return data as BlogPostApi
+}
+
+export async function deletePost(slug: string) {
+  if (!slug) throw new Error('Missing slug')
+  const token = getAdminToken()
+  if (!token) throw new Error('Access denied. Admin session required.')
+
+  const url = `${BLOG_BASE}/posts/${encodeURIComponent(slug)}/`
+  console.debug('[blogService] DELETE', url)
+  const res = await request(url, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    credentials: 'include',
+  })
+
+  const data = await parseJsonSafe(res)
+  if (!res.ok) {
+    throw new Error(`${extractErrorMessage(data, 'Failed to delete post')} (HTTP ${res.status})`)
+  }
+
+  return data
 }
 
 export type { BlogPostApi }

@@ -74,7 +74,7 @@ const Contact = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900">
+    <div className="min-h-screen bg-white text-neutral-900 overflow-x-hidden">
       <Navbar />
       
       {/* Hero Section */}
@@ -127,11 +127,11 @@ const Contact = () => {
         <div className="px-4 md:px-6 lg:px-16 max-w-6xl mx-auto">
           <div className="grid gap-12 lg:grid-cols-2 items-start">
             {/* Left: Contact Info */}
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-6">
+            <div className="min-w-0">
+              <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-6 break-words">
                 Get In Touch
               </h2>
-              <p className="text-lg text-neutral-700 mb-8 leading-relaxed">
+              <p className="text-lg text-neutral-700 mb-8 leading-relaxed break-words">
                 Have a project in mind? We'd love to hear about it. Send us a message and we'll get back to you within 24 hours.
               </p>
 
@@ -142,9 +142,9 @@ const Contact = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-neutral-900 mb-1">Phone / WhatsApp</h3>
-                    <p className="text-neutral-700">0793515066</p>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-neutral-900 mb-1 break-words">Phone / WhatsApp</h3>
+                    <p className="text-neutral-700 break-words">0793515066</p>
                   </div>
                 </div>
 
@@ -154,9 +154,9 @@ const Contact = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-neutral-900 mb-1">Email</h3>
-                    <p className="text-neutral-700">technova446@gmail.com</p>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-neutral-900 mb-1 break-words">Email</h3>
+                    <p className="text-neutral-700 break-words">technova446@gmail.com</p>
                   </div>
                 </div>
 
@@ -167,24 +167,24 @@ const Contact = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-neutral-900 mb-1">Get Us</h3>
-                    <p className="text-neutral-700">Nairobi, Kenya</p>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-neutral-900 mb-1 break-words">Get Us</h3>
+                    <p className="text-neutral-700 break-words">Nairobi, Kenya</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Right: Contact Form / Success State */}
-            <div className="bg-white rounded-2xl shadow-sm border border-black/10 p-8">
+            <div className="bg-white rounded-2xl shadow-sm border border-black/10 p-8 min-w-0">
               {submitted ? (
                 <div className="space-y-6 text-center">
                   {submitSuccess && (
-                    <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-sm">
+                    <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-sm break-words">
                       {submitSuccess}
                     </div>
                   )}
-                  <p className="text-neutral-700 text-sm md:text-base">
+                  <p className="text-neutral-700 text-sm md:text-base break-words">
                     We&apos;ve received your message and our team will get back to you as soon as possible.
                   </p>
                   <button
@@ -203,13 +203,13 @@ const Contact = () => {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {submitSuccess && (
-                    <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-sm">{submitSuccess}</div>
+                    <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-sm break-words">{submitSuccess}</div>
                   )}
                   {submitError && (
-                    <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">{submitError}</div>
+                    <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm break-words">{submitError}</div>
                   )}
                 <div className="grid gap-6 sm:grid-cols-2">
-                  <div>
+                  <div className="min-w-0">
                     <label htmlFor="first_name" className="block text-sm font-medium text-neutral-900 mb-2">
                       First name *
                     </label>
@@ -224,7 +224,7 @@ const Contact = () => {
                       placeholder="First name"
                     />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <label htmlFor="last_name" className="block text-sm font-medium text-neutral-900 mb-2">
                       Last name *
                     </label>
@@ -241,7 +241,7 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="min-w-0">
                   <label htmlFor="email" className="block text-sm font-medium text-neutral-900 mb-2">
                     Email Address *
                   </label>
@@ -257,7 +257,7 @@ const Contact = () => {
                   />
                 </div>
 
-                <div>
+                <div className="min-w-0">
                   <label htmlFor="company" className="block text-sm font-medium text-neutral-900 mb-2">
                     Company Name
                   </label>
@@ -274,7 +274,7 @@ const Contact = () => {
 
                 {/* Removed service selection as per new required payload */}
 
-                <div>
+                <div className="min-w-0">
                   <label htmlFor="message" className="block text-sm font-medium text-neutral-900 mb-2">
                     Project Details *
                   </label>
@@ -308,11 +308,11 @@ const Contact = () => {
       <section className="w-full py-20 bg-neutral-900">
         <div className="px-4 md:px-6 lg:px-16 max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+            <div className="min-w-0">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight break-words">
                 Start Your Digital Journey Today
               </h2>
-              <p className="text-lg text-neutral-300 mb-8 leading-relaxed">
+              <p className="text-lg text-neutral-300 mb-8 leading-relaxed break-words">
                 From concept to completion, we're here to turn your ideas into powerful digital solutions. 
                 Let's explore what's possible for your business.
               </p>
@@ -333,32 +333,32 @@ const Contact = () => {
                 </a>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-8 text-white">
-              <h3 className="text-2xl font-bold mb-4">Why Choose Technova?</h3>
+            <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-8 text-white min-w-0">
+              <h3 className="text-2xl font-bold mb-4 break-words">Why Choose Technova?</h3>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-blue-200 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span>Expert team with 5+ years experience</span>
+                  <span className="break-words">Expert team with 5+ years experience</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-blue-200 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span>24/7 support and maintenance</span>
+                  <span className="break-words">24/7 support and maintenance</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-blue-200 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span>Competitive pricing & flexible packages</span>
+                  <span className="break-words">Competitive pricing & flexible packages</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-blue-200 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span>100% satisfaction guarantee</span>
+                  <span className="break-words">100% satisfaction guarantee</span>
                 </li>
               </ul>
             </div>

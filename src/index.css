@@ -65,3 +65,7 @@ body.mobile-menu-open::before {
   background: #ffffff;
   z-index: 9999999000; /* below Navbar/menu z-index (9999999999) */
 }
+
+body.admin-mode #tawkchat-container {
+  display: none !important;
+}

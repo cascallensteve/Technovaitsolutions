@@ -44,6 +44,27 @@ const AdminLayout = () => {
     try { localStorage.removeItem('theme') } catch {}
   }, [])
 
+  // Hide chat widgets (e.g., Tawk) on admin routes to prevent UI overlap
+  useEffect(() => {
+    const body = document.body
+    body.classList.add('admin-mode')
+
+    const hideNow = () => {
+      const el = document.getElementById('tawkchat-container')
+      if (el) {
+        ;(el as HTMLElement).style.setProperty('display', 'none', 'important')
+      }
+    }
+
+    hideNow()
+    const id = window.setInterval(hideNow, 300)
+
+    return () => {
+      window.clearInterval(id)
+      body.classList.remove('admin-mode')
+    }
+  }, [])
+
   return (
     <div className="min-h-screen bg-neutral-50 flex">
       {/* Sidebar */}

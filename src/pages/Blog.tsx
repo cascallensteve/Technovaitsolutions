@@ -1,8 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import {
+  listCategories,
+  listFeaturedPosts,
+  listPosts,
+  listRecentPosts,
+  type BlogPostApi,
+} from '../services/blogService'
 
 type BlogPost = {
   id: number
@@ -21,188 +28,79 @@ type BlogPost = {
   featured: boolean
 }
 
-const blogPosts: BlogPost[] = [
-  {
-    id: 1,
-    title: 'The Future of Web Development: Trends to Watch in 2025',
-    slug: 'future-web-development-trends-2025',
-    excerpt: 'Explore the latest trends shaping the future of web development, from AI integration to progressive web apps and beyond.',
-    content: `
-      <p>The web development landscape is constantly evolving, and 2025 promises to bring exciting new trends that will reshape how we build and interact with websites. As technology advances, developers must stay ahead of the curve to create engaging, efficient, and user-friendly digital experiences.</p>
-      
-      <h3>1. AI-Powered Development Tools</h3>
-      <p>Artificial Intelligence is revolutionizing web development with tools that can generate code, optimize performance, and even design user interfaces. From GitHub Copilot to AI-powered testing frameworks, developers are becoming more productive than ever.</p>
-      
-      <h3>2. Progressive Web Apps (PWAs)</h3>
-      <p>PWAs continue to bridge the gap between web and mobile applications, offering native app-like experiences through web browsers. With improved offline capabilities and push notifications, PWAs are becoming the preferred choice for businesses looking to reach users across all platforms.</p>
-      
-      <h3>3. Serverless Architecture</h3>
-      <p>Serverless computing is gaining momentum as it allows developers to focus on code rather than infrastructure management. This approach reduces costs, improves scalability, and accelerates development cycles.</p>
-      
-      <h3>4. Enhanced Security Measures</h3>
-      <p>With cyber threats becoming more sophisticated, web security is more critical than ever. Zero-trust architecture, advanced authentication methods, and automated security testing are becoming standard practices.</p>
-      
-      <p>At Technova, we stay at the forefront of these trends to deliver cutting-edge solutions that drive business growth and user satisfaction.</p>
-    `,
-    author: 'Steve Cascallen',
-    authorRole: 'Frontend Engineer',
-    authorImage: 'https://res.cloudinary.com/dqvsjtkqw/image/upload/v1752050555/WhatsApp_Image_2024-06-16_at_00.57.23_a2952eba_1_pokuj5.jpg',
-    publishDate: '2025-11-05',
-    readTime: '5 min read',
-    category: 'Web Development',
-    tags: ['Web Development', 'AI', 'PWA', 'Serverless', 'Security'],
-    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762521547/representations-user-experience-interface-design_yvdw9r.webp',
-    featured: true
-  },
-  {
-    id: 2,
-    title: 'Maximizing ROI with M-Pesa Integration: A Business Guide',
-    slug: 'maximizing-roi-mpesa-integration-guide',
-    excerpt: 'Learn how integrating M-Pesa payments can significantly boost your business revenue and customer satisfaction in the East African market.',
-    content: `
-      <p>Mobile money has revolutionized financial transactions in East Africa, with M-Pesa leading the charge. For businesses operating in this region, integrating M-Pesa payments isn't just an option—it's essential for success.</p>
-      
-      <h3>Why M-Pesa Integration Matters</h3>
-      <p>With over 50 million active users across multiple countries, M-Pesa represents the largest mobile money platform in Africa. By integrating M-Pesa, businesses can tap into this massive user base and provide seamless payment experiences.</p>
-      
-      <h3>Key Benefits for Businesses</h3>
-      <ul>
-        <li><strong>Increased Sales:</strong> Remove payment friction and capture more customers</li>
-        <li><strong>Faster Transactions:</strong> Real-time payment processing</li>
-        <li><strong>Reduced Costs:</strong> Lower transaction fees compared to traditional banking</li>
-        <li><strong>Enhanced Security:</strong> Built-in fraud protection and encryption</li>
-      </ul>
-      
-      <h3>Implementation Best Practices</h3>
-      <p>Successful M-Pesa integration requires careful planning, proper API implementation, and thorough testing. Our team at Technova has helped numerous businesses achieve seamless M-Pesa integration with measurable ROI improvements.</p>
-      
-      <p>Ready to transform your payment system? Contact us to learn how we can help you integrate M-Pesa and boost your business revenue.</p>
-    `,
-    author: 'Billy Josiah Illa',
-    authorRole: 'Backend Engineer',
-    authorImage: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762518416/WhatsApp_Image_2025-11-06_at_15.55.38_cf32b20d_e0g7rj.jpg',
-    publishDate: '2025-11-08',
-    readTime: '4 min read',
-    category: 'Fintech',
-    tags: ['M-Pesa', 'Payment Integration', 'Fintech', 'ROI', 'Business Growth'],
-    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762521943/person-office-analyzing-checking-finance-graphs_xqxnek.webp',
-    featured: true
-  },
-  {
-    id: 3,
-    title: 'SEO Best Practices for Modern Websites in 2025',
-    slug: 'seo-best-practices-modern-websites-2025',
-    excerpt: 'Discover the latest SEO strategies and techniques that will help your website rank higher and attract more organic traffic.',
-    content: `
-      <p>Search Engine Optimization continues to evolve with changing algorithms and user behaviors. In 2025, successful SEO requires a holistic approach that combines technical excellence with user-focused content strategy.</p>
-      
-      <h3>Core Web Vitals and Page Experience</h3>
-      <p>Google's emphasis on page experience signals means that technical performance is more important than ever. Focus on optimizing Largest Contentful Paint (LCP), First Input Delay (FID), and Cumulative Layout Shift (CLS).</p>
-      
-      <h3>Content Quality and E-A-T</h3>
-      <p>Expertise, Authoritativeness, and Trustworthiness (E-A-T) remain crucial ranking factors. Create comprehensive, well-researched content that demonstrates your expertise in your field.</p>
-      
-      <h3>Mobile-First Optimization</h3>
-      <p>With mobile traffic dominating web usage, ensure your website provides an exceptional mobile experience. This includes responsive design, fast loading times, and intuitive navigation.</p>
-      
-      <h3>Local SEO for Business Growth</h3>
-      <p>For businesses serving local markets, optimizing for local search is essential. Claim your Google Business Profile, gather reviews, and ensure consistent NAP (Name, Address, Phone) information across all platforms.</p>
-      
-      <p>Our SEO services at Technova combine these best practices with data-driven strategies to help your business achieve sustainable organic growth.</p>
-    `,
-    author: 'Steve Cascallen',
-    authorRole: 'Frontend Engineer',
-    authorImage: 'https://res.cloudinary.com/dqvsjtkqw/image/upload/v1752050555/WhatsApp_Image_2024-06-16_at_00.57.23_a2952eba_1_pokuj5.jpg',
-    publishDate: '2025-11-10',
-    readTime: '6 min read',
-    category: 'SEO',
-    tags: ['SEO', 'Core Web Vitals', 'Content Strategy', 'Local SEO', 'Mobile Optimization'],
-    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762522584/seo-website-development-data-network-concept_1_kopzoa.webp',
-    featured: false
-  },
-  {
-    id: 4,
-    title: 'Building Scalable Mobile Apps: React Native vs Native Development',
-    slug: 'react-native-vs-native-mobile-development',
-    excerpt: 'Compare React Native and native development approaches to make the best choice for your mobile app project.',
-    content: `
-      <p>Choosing the right development approach for your mobile app is crucial for long-term success. Both React Native and native development have their advantages, and the best choice depends on your specific requirements and goals.</p>
-      
-      <h3>React Native: Cross-Platform Efficiency</h3>
-      <p>React Native allows developers to write code once and deploy to both iOS and Android platforms. This approach offers significant time and cost savings while maintaining near-native performance.</p>
-      
-      <h3>Native Development: Maximum Performance</h3>
-      <p>Native development provides the highest performance and access to all platform-specific features. It's ideal for apps requiring intensive graphics, complex animations, or platform-specific functionality.</p>
-      
-      <h3>Making the Right Choice</h3>
-      <p>Consider factors such as budget, timeline, target audience, required features, and long-term maintenance when choosing your development approach. Our team can help you evaluate these factors and make the best decision for your project.</p>
-      
-      <p>Whether you choose React Native or native development, Technova has the expertise to deliver high-quality mobile applications that engage users and drive business growth.</p>
-    `,
-    author: 'Billy Josiah Illa',
-    authorRole: 'Backend Engineer',
-    authorImage: '/images/team/billy.jpg',
-    publishDate: '2025-11-14',
-    readTime: '7 min read',
-    category: 'Mobile Development',
-    tags: ['React Native', 'Native Development', 'Mobile Apps', 'Cross-Platform', 'Performance'],
-    image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762522162/representations-user-experience-interface-design_1_1_dxypj8.webp',
-    featured: false
-  },
-  {
-    id: 5,
-    title: 'System Modernization: When and How to Upgrade Legacy Systems',
-    slug: 'system-modernization-upgrade-legacy-systems',
-    excerpt: 'Learn the signs that indicate it\'s time to modernize your legacy systems and discover the best approaches for successful migration.',
-    content: `
-      <p>Legacy systems can become a significant bottleneck for business growth. Knowing when and how to modernize these systems is crucial for maintaining competitive advantage and operational efficiency.</p>
-      
-      <h3>Signs It's Time to Modernize</h3>
-      <ul>
-        <li>Frequent system downtime and maintenance issues</li>
-        <li>Difficulty integrating with modern tools and services</li>
-        <li>High maintenance costs and limited vendor support</li>
-        <li>Security vulnerabilities and compliance concerns</li>
-        <li>Poor user experience and productivity issues</li>
-      </ul>
-      
-      <h3>Modernization Strategies</h3>
-      <p>There are several approaches to system modernization, including rehosting, refactoring, rearchitecting, and rebuilding. The best approach depends on your specific situation, budget, and timeline.</p>
-      
-      <h3>Planning for Success</h3>
-      <p>Successful system modernization requires careful planning, stakeholder buy-in, and a phased approach to minimize business disruption. Our team specializes in smooth transitions that preserve data integrity while delivering modern functionality.</p>
-      
-      <p>Ready to modernize your systems? Contact Technova to discuss your modernization strategy and timeline.</p>
-    `,
-    author: 'Billy Josiah Illa',
-    authorRole: 'Backend Engineer',
-    authorImage: 'https://res.cloudinary.com/djksfayfu/image/upload/v1762518416/WhatsApp_Image_2025-11-06_at_15.55.38_cf32b20d_e0g7rj.jpg',
-    publishDate: '2025-11-18',
-    readTime: '5 min read',
-    category: 'System Modernization',
-    tags: ['Legacy Systems', 'Modernization', 'Migration', 'System Upgrade', 'Digital Transformation'],
-    image: '/images/TECHNOVA3.png',
-    featured: false
+function toUiPost(p: BlogPostApi): BlogPost {
+  return {
+    id: p.id,
+    title: p.title,
+    slug: p.slug,
+    excerpt: p.excerpt,
+    content: p.content,
+    author: p.author || 'Technova',
+    authorRole: p.author_role || 'Author',
+    authorImage: p.author_image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzk5OTk5OSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPgo8L3N2Zz4K',
+    publishDate: p.publish_date || new Date().toISOString().slice(0, 10),
+    readTime: p.read_time || '—',
+    category: p.category || 'General',
+    tags: Array.isArray(p.tags) ? p.tags : [],
+    image: p.image || 'https://res.cloudinary.com/djksfayfu/image/upload/v1750423764/blake-connally-B3l0g6HLxr8-unsplash_evasva.jpg',
+    featured: Boolean(p.featured),
   }
-]
-
-const categories = ['All', 'Web Development', 'Mobile Development', 'SEO', 'Fintech', 'System Modernization']
+}
 
 const Blog = () => {
   useDocumentTitle('Blog | Technova IT Solutions Insights & Tutorials')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
 
-  const filteredPosts = blogPosts.filter(post => {
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([])
+  const [recentPosts, setRecentPosts] = useState<BlogPost[]>([])
+  const [categories, setCategories] = useState<string[]>(['All'])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let cancelled = false
+    const run = async () => {
+      setLoading(true)
+      setError('')
+      try {
+        const [allPosts, featured, recent, cats] = await Promise.all([
+          listPosts(),
+          listFeaturedPosts(),
+          listRecentPosts(3),
+          listCategories(),
+        ])
+        if (cancelled) return
+        setPosts(allPosts.map(toUiPost))
+        setFeaturedPosts(featured.map(toUiPost))
+        setRecentPosts(recent.map(toUiPost))
+        const normalizedCats = Array.isArray(cats) ? cats.filter(Boolean) : []
+        setCategories(['All', ...normalizedCats])
+      } catch (e: any) {
+        if (cancelled) return
+        setError(e instanceof Error ? e.message : 'Failed to load blog posts')
+        setPosts([])
+        setFeaturedPosts([])
+        setRecentPosts([])
+        setCategories(['All'])
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+    run()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const filteredPosts = useMemo(() => posts.filter(post => {
     const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
     return matchesCategory && matchesSearch
-  })
-
-  const featuredPosts = blogPosts.filter(post => post.featured)
-  const recentPosts = blogPosts.slice(0, 3)
+  }), [posts, searchQuery, selectedCategory])
 
   return (
     <div className="min-h-screen bg-white text-neutral-900">
@@ -233,7 +131,7 @@ const Blog = () => {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                   </svg>
-                  <span>{blogPosts.length}+ Articles</span>
+                  <span>{posts.length}+ Articles</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -364,6 +262,17 @@ const Blog = () => {
       <section className="w-full py-12 bg-gradient-to-r from-neutral-50 via-white to-neutral-50">
         <div className="px-4 md:px-6 lg:px-16 max-w-7xl mx-auto">
           <div className="bg-white rounded-3xl shadow-lg border border-neutral-200/50 p-8">
+            {error && (
+              <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-700 text-sm">
+                {error}
+              </div>
+            )}
+            {loading && (
+              <div className="mb-6 inline-flex items-center gap-3 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-neutral-700 text-sm">
+                <span className="inline-block h-4 w-4 rounded-full border-2 border-neutral-300 border-t-neutral-700 animate-spin" />
+                Loading blog…
+              </div>
+            )}
             <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
               {/* Search */}
               <div className="relative flex-1 max-w-lg">
@@ -428,7 +337,7 @@ const Blog = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                   <span>
-                    Showing <span className="font-semibold text-neutral-900">{filteredPosts.length}</span> of <span className="font-semibold text-neutral-900">{blogPosts.length}</span> articles
+                    Showing <span className="font-semibold text-neutral-900">{filteredPosts.length}</span> of <span className="font-semibold text-neutral-900">{posts.length}</span> articles
                   </span>
                 </div>
                 {(searchQuery || selectedCategory !== 'All') && (
@@ -682,7 +591,7 @@ const Blog = () => {
                   </div>
                   <div className="space-y-3">
                     {categories.slice(1).map((category) => {
-                      const postCount = blogPosts.filter(post => post.category === category).length;
+                      const postCount = posts.filter(post => post.category === category).length;
                       return (
                         <button
                           key={category}
