@@ -69,7 +69,7 @@ function getAdminToken(): string | null {
     : authService.getToken()
 }
 
-export async function listTeamMembers({ all = false }: { all?: boolean } = {}) {
+export async function listTeamMembers() {
   const token = getAdminToken()
   if (!token) throw new Error('Access denied. Admin session required.')
   const url = `${API_BASE}/team/members/`
