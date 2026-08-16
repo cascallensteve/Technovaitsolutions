@@ -15,7 +15,27 @@ const Classes = () => {
       href: '/react-training',
       cta: 'Enroll Now',
       badge: 'Certified Training',
-      features: ['Hands-on Projects', 'Expert Instructors', 'Industry Certificate']
+      features: ['Hands-on Projects', 'Expert Instructors', 'Industry Certificate', 'KSh 4,000']
+    },
+    {
+      id: 2,
+      title: 'Git & GitHub Mastery Class',
+      description: 'Free Class! Master version control with Git and GitHub. Learn branching, merging, pull requests, and collaborative workflows.',
+      image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1786884182/magnific_modern-tech-poster-for-gi_gOyTLU0SXO_1_uokc6n.png',
+      href: '/git-github-mastery',
+      cta: 'Enroll Now',
+      badge: 'Certified Training',
+      features: ['Version Control', 'Collaborative Workflows', 'Industry Standard Tools', 'Free Class']
+    },
+    {
+      id: 3,
+      title: 'Python Backend Development with Django',
+      description: 'Build robust backend systems with Python and Django. 2 Months intensive training with guided project. Cost: KSh 6,000.',
+      image: 'https://res.cloudinary.com/djksfayfu/image/upload/v1786886129/Gemini_Generated_Image_31cu4k31cu4k31cu_kolvow.jpg',
+      href: '/python-django',
+      cta: 'Enroll Now',
+      badge: 'Certified Training',
+      features: ['Python & Django', '2 Months Training', 'Guided Project', 'KSh 6,000']
     }
   ]
 
@@ -66,13 +86,13 @@ const Classes = () => {
                 key={cls.id}
                 className="bg-white rounded-2xl shadow-sm border border-black/10 overflow-hidden flex flex-col"
               >
-                <div className="aspect-video w-full overflow-hidden">
+                <a href={cls.href} className="block w-full h-64 overflow-hidden bg-neutral-100">
                   <img
                     src={cls.image}
                     alt={cls.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
-                </div>
+                </a>
                 <div className="p-6 flex flex-col flex-1">
                   <div className="inline-flex items-center gap-2 bg-emerald-500 text-white px-3 py-1.5 rounded-full text-xs font-semibold mb-3 shadow w-fit">
                     {cls.badge}

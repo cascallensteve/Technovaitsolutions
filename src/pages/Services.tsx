@@ -111,6 +111,52 @@ const services = [
     ],
     image: '/images/TECHNOVA3.png',
     timeline: '2-8 weeks'
+  },
+  {
+    id: 8,
+    title: 'React Training',
+    description: 'Master React.js from basics to advanced. Get certified and boost your career with hands-on projects.',
+    features: [
+      'React fundamentals and hooks',
+      'State management with Redux/Context',
+      'Component-based architecture',
+      'Real-world projects',
+      'Industry-recognized certificate',
+      'Career guidance and placement support'
+    ],
+    image: '/images/TECHNOVA3.png',
+    timeline: '2 Months'
+  },
+  {
+    id: 9,
+    title: 'Git & GitHub Mastery',
+    description: 'Master version control with Git and GitHub. Learn branching, merging, pull requests, and collaborative workflows.',
+    features: [
+      'Git fundamentals and commands',
+      'Branching and merging strategies',
+      'Pull requests and code reviews',
+      'Collaborative workflows',
+      'Industry standard tools',
+      'Hands-on project with real repository'
+    ],
+    image: '/images/TECHNOVA3.png',
+    timeline: '2 Weeks'
+  },
+  {
+    id: 10,
+    title: 'Python Backend Development with Django',
+    description: 'Build robust backend systems with Python and Django. 2 Months training with guided project. Cost: KSh 6,000.',
+    features: [
+      'Python fundamentals and advanced concepts',
+      'Django MVC and REST frameworks',
+      'Database design and ORM',
+      'Authentication and authorization',
+      'API development and testing',
+      'Guided real-world project'
+    ],
+    image: '/images/TECHNOVA3.png',
+    timeline: '2 Months',
+    price: 'KSh 6,000'
   }
 ]
 

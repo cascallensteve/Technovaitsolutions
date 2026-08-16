@@ -31,18 +31,29 @@ const Footer = () => {
           </div>
 
           {/* Middle: Columns */}
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Services */}
-            <div>
-              <h4 className="font-semibold mb-4 text-sm tracking-wide text-neutral-200 uppercase">Services</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="/services/web-development" className="text-neutral-400 hover:text-white transition">Web Development</a></li>
-                <li><a href="/services/mobile-app-development" className="text-neutral-400 hover:text-white transition">Mobile Apps</a></li>
-                <li><a href="/services/system-revamp" className="text-neutral-400 hover:text-white transition">System Integration</a></li>
-                <li><a href="/services/mpesa-integration" className="text-neutral-400 hover:text-white transition">Payment Integration</a></li>
-                <li><a href="/services/it-solutions-support" className="text-neutral-400 hover:text-white transition">IT Consulting</a></li>
-              </ul>
-            </div>
+           <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+             {/* Services */}
+             <div>
+               <h4 className="font-semibold mb-4 text-sm tracking-wide text-neutral-200 uppercase">Services</h4>
+               <ul className="space-y-2 text-sm">
+                 <li><a href="/services/web-development" className="text-neutral-400 hover:text-white transition">Web Development</a></li>
+                 <li><a href="/services/mobile-app-development" className="text-neutral-400 hover:text-white transition">Mobile Apps</a></li>
+                 <li><a href="/services/system-revamp" className="text-neutral-400 hover:text-white transition">System Integration</a></li>
+                 <li><a href="/services/mpesa-integration" className="text-neutral-400 hover:text-white transition">Payment Integration</a></li>
+                 <li><a href="/services/it-solutions-support" className="text-neutral-400 hover:text-white transition">IT Consulting</a></li>
+               </ul>
+             </div>
+
+             {/* Trainings */}
+             <div>
+               <h4 className="font-semibold mb-4 text-sm tracking-wide text-neutral-200 uppercase">Trainings</h4>
+               <ul className="space-y-2 text-sm">
+                 <li><a href="/react-training" className="text-neutral-400 hover:text-white transition">React Training</a></li>
+                 <li><a href="/git-github-mastery" className="text-neutral-400 hover:text-white transition">Git & GitHub Mastery</a></li>
+                 <li><a href="/python-django" className="text-neutral-400 hover:text-white transition">Python Django Backend</a></li>
+                 <li><a href="/classes" className="text-neutral-400 hover:text-white transition">All Classes</a></li>
+               </ul>
+             </div>
 
             {/* Company */}
             <div>

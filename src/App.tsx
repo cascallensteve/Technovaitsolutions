@@ -29,6 +29,8 @@ import AdminAgreements from './admin/AdminAgreements'
 import AdminTeam from './admin/AdminTeam'
 import Support from './pages/Support'
 import ReactTrainingClass from './pages/ReactTrainingClass'
+import GitGitHubClass from './pages/GitGitHubClass'
+import PythonDjangoClass from './pages/PythonDjangoClass'
 import Classes from './pages/Classes'
 import Privacy from './pages/Privacy'
 import Terms from './pages/Terms'
@@ -55,6 +57,8 @@ function App() {
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/classes" element={<Classes />} />
         <Route path="/react-training" element={<ReactTrainingClass />} />
+        <Route path="/git-github-mastery" element={<GitGitHubClass />} />
+        <Route path="/python-django" element={<PythonDjangoClass />} />
         <Route path="/admin/signup" element={<AdminSignUp />} />
         <Route path="/admin/signin" element={<AdminSignIn />} />
         <Route path="/admin" element={<AdminLanding />} />
