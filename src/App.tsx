@@ -28,6 +28,7 @@ import AdminBlog from './admin/AdminBlog'
 import AdminAgreements from './admin/AdminAgreements'
 import AdminTeam from './admin/AdminTeam'
 import Support from './pages/Support'
+import ReactTrainingClass from './pages/ReactTrainingClass'
 import Privacy from './pages/Privacy'
 import Terms from './pages/Terms'
 import CaseStudies from './pages/CaseStudies'
@@ -51,6 +52,7 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/case-studies" element={<CaseStudies />} />
+        <Route path="/react-training" element={<ReactTrainingClass />} />
         <Route path="/admin/signup" element={<AdminSignUp />} />
         <Route path="/admin/signin" element={<AdminSignIn />} />
         <Route path="/admin" element={<AdminLanding />} />
