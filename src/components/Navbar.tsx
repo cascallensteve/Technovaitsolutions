@@ -199,6 +199,7 @@ const Navbar = () => {
           <div className={`${isMobileMenuOpen ? 'hidden' : 'hidden md:flex'} md:flex-none items-center justify-end gap-4 text-[16px] md:text-[17px] ml-12 md:ml-16 lg:ml-20 nav-font` }>
             <a href="/" className="px-3 py-2 rounded-full text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100/70 hover:ring-1 hover:ring-neutral-200 transition">Home</a>
             <a href="/services" className="px-3 py-2 rounded-full text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100/70 hover:ring-1 hover:ring-neutral-200 transition">Services</a>
+            <a href="/classes" className="px-3 py-2 rounded-full text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100/70 hover:ring-1 hover:ring-neutral-200 transition">Our Classes</a>
             <a href="/portfolio" className="px-3 py-2 rounded-full text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100/70 hover:ring-1 hover:ring-neutral-200 transition">Portfolio</a>
             <a href="/team" className="px-3 py-2 rounded-full text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100/70 hover:ring-1 hover:ring-neutral-200 transition">Team</a>
             <a href="/blog" className="px-3 py-2 rounded-full text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100/70 hover:ring-1 hover:ring-neutral-200 transition">Blog</a>
@@ -320,6 +321,13 @@ const Navbar = () => {
                 onClick={toggleMobileMenu}
               >
                 Services
+              </a>
+              <a 
+                href="/classes" 
+                className="block text-[clamp(1rem,2.8vw,1.25rem)] text-neutral-800 hover:text-[#007bff] py-3 rounded-lg hover:bg-neutral-100 px-2"
+                onClick={toggleMobileMenu}
+              >
+                Our Classes
               </a>
               <a 
                 href="/portfolio" 
