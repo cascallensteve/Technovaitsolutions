@@ -27,11 +27,13 @@ import AdminProfile from './admin/AdminProfile'
 import AdminBlog from './admin/AdminBlog'
 import AdminAgreements from './admin/AdminAgreements'
 import AdminTeam from './admin/AdminTeam'
+import AdminClasses from './admin/AdminClasses'
 import Support from './pages/Support'
 import ReactTrainingClass from './pages/ReactTrainingClass'
 import GitGitHubClass from './pages/GitGitHubClass'
 import PythonDjangoClass from './pages/PythonDjangoClass'
 import Classes from './pages/Classes'
+import ClassDetail from './pages/ClassDetail'
 import Privacy from './pages/Privacy'
 import Terms from './pages/Terms'
 import CaseStudies from './pages/CaseStudies'
@@ -56,6 +58,7 @@ function App() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/classes" element={<Classes />} />
+        <Route path="/classes/:slug" element={<ClassDetail />} />
         <Route path="/react-training" element={<ReactTrainingClass />} />
         <Route path="/git-github-mastery" element={<GitGitHubClass />} />
         <Route path="/python-django" element={<PythonDjangoClass />} />
@@ -65,6 +68,7 @@ function App() {
         <Route path="/admin/*" element={<AdminLayout />}>
           <Route path="dashboard" element={<AdminEntry />} />
           <Route path="team" element={<AdminTeam />} />
+          <Route path="classes" element={<AdminClasses />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="projects" element={<AdminProjects />} />
           <Route path="agreements" element={<AdminAgreements />} />

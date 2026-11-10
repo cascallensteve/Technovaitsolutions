@@ -3,13 +3,13 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { registerForClass } from '../services/classesService'
 
 const GitGitHubClass = () => {
   useDocumentTitle('Git & GitHub Mastery Class | Certified Training | Technova IT Solutions')
 
   const HERO_BG_URL = 'https://res.cloudinary.com/djksfayfu/image/upload/v1786870054/college-student-looks-copy-space-laptop-while-collecting-notes_rjkwk3.webp'
   const POSTER_URL = 'https://res.cloudinary.com/djksfayfu/image/upload/v1786884182/magnific_modern-tech-poster-for-gi_gOyTLU0SXO_1_uokc6n.png'
-  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwMBBXYzuaLlBkTxAqkDG1Ov5Vn5vU8D5GHoR84nv2NGVy2TBTfERdZyFWHyLhEKNE31Q/exec'
 
   const [formData, setFormData] = useState({
     name: '',
@@ -49,18 +49,12 @@ const GitGitHubClass = () => {
         return
       }
 
-      await fetch(SHEET_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          whatsapp: formData.whatsapp,
-          email: formData.email,
-          priorKnowledge: formData.priorKnowledge,
-        }),
+      await registerForClass('git-github-mastery', {
+        full_name: formData.name,
+        whatsapp: formData.whatsapp,
+        email: formData.email,
+        prior_knowledge: formData.priorKnowledge as 'yes' | 'no',
+        notes: '',
       })
 
       setSubmitSuccess('Registration successful! We will contact you shortly.')

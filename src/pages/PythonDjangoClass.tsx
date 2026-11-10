@@ -3,13 +3,13 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { registerForClass } from '../services/classesService'
 
 const PythonDjangoClass = () => {
   useDocumentTitle('Python Backend Development with Django | Certified Training | Technova IT Solutions')
 
   const HERO_BG_URL = 'https://res.cloudinary.com/djksfayfu/image/upload/v1786887264/html-css-collage-concept_1_1_iaxsnj.webp'
   const POSTER_URL = 'https://res.cloudinary.com/djksfayfu/image/upload/v1786886129/Gemini_Generated_Image_31cu4k31cu4k31cu_kolvow.jpg'
-  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwVv8wHlPL__sm_ya5hdSWCPsDOWQLsulozHvS1sOM88V9ViL41_tFnOzM0cX7lgQ68/exec'
 
   const [formData, setFormData] = useState({
     name: '',
@@ -49,18 +49,12 @@ const PythonDjangoClass = () => {
         return
       }
 
-      await fetch(SHEET_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          whatsapp: formData.whatsapp,
-          email: formData.email,
-          priorKnowledge: formData.priorKnowledge,
-        }),
+      await registerForClass('python-django', {
+        full_name: formData.name,
+        whatsapp: formData.whatsapp,
+        email: formData.email,
+        prior_knowledge: formData.priorKnowledge as 'yes' | 'no',
+        notes: '',
       })
 
       setSubmitSuccess('Registration successful! We will contact you shortly.')

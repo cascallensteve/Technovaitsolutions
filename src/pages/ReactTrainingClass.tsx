@@ -3,12 +3,12 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { registerForClass } from '../services/classesService'
 
 const ReactTrainingClass = () => {
   useDocumentTitle('React Training Class | Certified Training | Technova IT Solutions')
 
   const POSTER_URL = 'https://res.cloudinary.com/djksfayfu/image/upload/v1786868912/Blue_Gradient_React_Developer_Course_Facebook_Post_esjysp.png'
-  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzLsaHoxAuc946AVyI4J5SzyCkA11UQtvRCqS5ROkRgooeE2O_-xFt32ECSNWIxkwCN/exec'
 
   const [formData, setFormData] = useState({
     name: '',
@@ -48,18 +48,12 @@ const ReactTrainingClass = () => {
         return
       }
 
-      await fetch(SHEET_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          whatsapp: formData.whatsapp,
-          email: formData.email,
-          priorKnowledge: formData.priorKnowledge,
-        }),
+      await registerForClass('react-training', {
+        full_name: formData.name,
+        whatsapp: formData.whatsapp,
+        email: formData.email,
+        prior_knowledge: formData.priorKnowledge as 'yes' | 'no',
+        notes: '',
       })
 
       setSubmitSuccess('Registration successful! We will contact you shortly.')

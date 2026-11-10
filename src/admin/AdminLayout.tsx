@@ -89,6 +89,10 @@ const AdminLayout = () => {
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2m14-10a4 4 0 1 0-8 0 4 4 0 0 0 8 0zm6 10v-2a4 4 0 0 0-3-3.87"/></svg>
             <span>Team</span>
           </NavLink>
+          <NavLink to="/admin/classes" className={({ isActive }) => `group flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium border-l-2 ${isActive ? 'bg-green-50 text-green-700 border-green-600' : 'text-neutral-700 hover:bg-neutral-50 border-transparent'}`}>
+            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/></svg>
+            <span>Classes</span>
+          </NavLink>
           <NavLink to="/admin/agreements" className={({ isActive }) => `group flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium border-l-2 ${isActive ? 'bg-green-50 text-green-700 border-green-600' : 'text-neutral-700 hover:bg-neutral-50 border-transparent'}`}>
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h10M7 11h10M7 15h7M5 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10l4 3V7a2 2 0 0 0-2-2H5z"/></svg>
             <span>Agreements</span>
